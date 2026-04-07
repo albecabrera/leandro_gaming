@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html class="dark" lang="de">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>LEANDRO // NEON ARCHITECT</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-fixed": "#b8a3ff",
+            "tertiary-container": "#7c4dff",
+            "on-tertiary-fixed-variant": "#4000ad",
+            "surface-container-lowest": "#000000",
+            "on-error-container": "#ffa8a3",
+            "error-container": "#9f0519",
+            "surface-container-high": "#1a1f2c",
+            "primary-fixed-dim": "#00d4ec",
+            "tertiary": "#a68cff",
+            "primary": "#81ecff",
+            "surface-bright": "#262c3a",
+            "secondary-fixed-dim": "#babfff",
+            "on-primary-fixed": "#003840",
+            "on-tertiary": "#25006b",
+            "on-surface-variant": "#a7abb7",
+            "surface-tint": "#81ecff",
+            "surface-dim": "#0a0e17",
+            "secondary-dim": "#8d96f4",
+            "error-dim": "#d7383b",
+            "surface-variant": "#202633",
+            "primary-dim": "#00d4ec",
+            "outline-variant": "#444852",
+            "on-primary-fixed-variant": "#005762",
+            "tertiary-dim": "#7e51ff",
+            "background": "#0a0e17",
+            "inverse-on-surface": "#515560",
+            "surface-container-low": "#0f131d",
+            "on-secondary-fixed": "#1f2882",
+            "secondary": "#929bfa",
+            "on-surface": "#ebedfb",
+            "surface": "#0a0e17",
+            "error": "#ff716c",
+            "on-secondary-fixed-variant": "#3e47a0",
+            "on-primary-container": "#004d57",
+            "inverse-surface": "#faf9ff",
+            "secondary-fixed": "#cbceff",
+            "on-primary": "#005762",
+            "tertiary-fixed-dim": "#ab93ff",
+            "on-tertiary-container": "#ffffff",
+            "secondary-container": "#343d96",
+            "surface-container": "#151925",
+            "outline": "#727581",
+            "on-tertiary-fixed": "#1c0055",
+            "primary-container": "#00e3fd",
+            "primary-fixed": "#00e3fd",
+            "inverse-primary": "#006976",
+            "on-secondary-container": "#c9cdff",
+            "on-secondary": "#0b1574",
+            "on-error": "#490006",
+            "on-background": "#ebedfb",
+            "surface-container-highest": "#202633"
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+            lg: "2rem",
+            xl: "3rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Manrope"],
+            label: ["Space Grotesk"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Manrope', sans-serif; background-color: #0a0e17; color: #ebedfb; }
+    .font-space-grotesk { font-family: 'Space Grotesk', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .glass-panel { background: rgba(32, 38, 51, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .neon-glow { box-shadow: 0 0 20px rgba(129, 236, 255, 0.3); }
+    .neon-glow-strong { box-shadow: 0 0 30px rgba(129, 236, 255, 0.6); }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+    /* ================================================================
+       LIGHT MODE — full palette redesign
+       Primary accent : #1058a0  (deep ocean blue)
+       BG main        : #f7f9fe  (barely-blue white)
+       BG alt         : #edf1fb  (soft lavender-white)
+       Surface card   : #ffffff
+       Heading        : #0c1445  (dark navy)
+       Body           : #2d3a5a  (blue-slate)
+       Muted          : #5a6a8a
+       Footer stays dark for contrast anchor
+    ================================================================ */
+
+    /* --- CSS variables for light mode --- */
+    html:not(.dark) {
+      --lm-primary:    #1058a0;
+      --lm-primary-2:  #1271c4;
+      --lm-bg:         #f7f9fe;
+      --lm-bg-alt:     #edf1fb;
+      --lm-surface:    #ffffff;
+      --lm-surface-hi: #e4ecf8;
+      --lm-input:      #eaf0fa;
+      --lm-heading:    #0c1445;
+      --lm-body:       #2d3a5a;
+      --lm-muted:      #5a6a8a;
+      --lm-subtle:     #8494b0;
+      --lm-border:     rgba(16, 88, 160, 0.12);
+      --lm-shadow:     0 4px 24px rgba(16, 88, 160, 0.09), 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    /* --- Base --- */
+    html:not(.dark) body { background-color: var(--lm-bg); color: var(--lm-body); }
+
+    /* --- Text hierarchy --- */
+    html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3,
+    html:not(.dark) .font-headline                { color: var(--lm-heading); }
+    html:not(.dark) .text-on-surface              { color: var(--lm-body)    !important; }
+    html:not(.dark) .text-on-surface\/70          { color: var(--lm-muted)   !important; }
+    html:not(.dark) .text-on-surface\/80          { color: var(--lm-body)    !important; }
+    html:not(.dark) .text-on-surface-variant      { color: var(--lm-muted)   !important; }
+    html:not(.dark) .text-slate-300               { color: var(--lm-muted)   !important; }
+    html:not(.dark) .text-slate-400               { color: var(--lm-subtle)  !important; }
+    html:not(.dark) .text-slate-500               { color: var(--lm-subtle)  !important; }
+    html:not(.dark) .text-slate-600               { color: var(--lm-muted)   !important; }
+    html:not(.dark) .text-white                   { color: var(--lm-heading) !important; }
+
+    /* --- Primary accent color (neon cyan → deep ocean blue) --- */
+    html:not(.dark) .text-primary                 { color: var(--lm-primary) !important; }
+    html:not(.dark) .text-cyan-400                { color: var(--lm-primary) !important; }
+
+    /* --- Backgrounds --- */
+    html:not(.dark) .bg-background,
+    html:not(.dark) .bg-surface                   { background-color: var(--lm-bg)         !important; }
+    html:not(.dark) .bg-surface-container         { background-color: var(--lm-surface-hi) !important; }
+    html:not(.dark) .bg-surface-container-low\/50,
+    html:not(.dark) .bg-surface-container-low\/30 { background-color: var(--lm-bg-alt)     !important; }
+    html:not(.dark) .bg-surface-container-highest { background-color: var(--lm-input)      !important; }
+    html:not(.dark) .bg-primary\/10               { background-color: rgba(16,88,160,0.07) !important; }
+    html:not(.dark) .bg-primary\/30               { background-color: rgba(16,88,160,0.12) !important; }
+    html:not(.dark) .bg-primary\/5                { background-color: rgba(16,88,160,0.04) !important; }
+
+    /* --- Glass panels — clean card style --- */
+    html:not(.dark) .glass-panel {
+      background: rgba(255,255,255,0.90) !important;
+      backdrop-filter: blur(20px) !important;
+      box-shadow: var(--lm-shadow) !important;
+      border-color: var(--lm-border) !important;
+    }
+
+    /* --- Navbar --- */
+    html:not(.dark) nav#navbar {
+      background: rgba(247,249,254,0.94) !important;
+      box-shadow: 0 1px 0 rgba(16,88,160,0.10), 0 4px 24px rgba(16,88,160,0.07) !important;
+      border-bottom-color: rgba(16,88,160,0.10) !important;
+    }
+    html:not(.dark) #mobile-menu   { background: rgba(247,249,254,0.98) !important; }
+    html:not(.dark) .mobile-nav    { color: var(--lm-heading) !important; }
+    html:not(.dark) .mobile-nav:hover { color: var(--lm-primary) !important; }
+
+    /* --- Borders --- */
+    html:not(.dark) .border-primary\/5  { border-color: rgba(16,88,160,0.07)  !important; }
+    html:not(.dark) .border-primary\/10 { border-color: rgba(16,88,160,0.12)  !important; }
+    html:not(.dark) .border-primary\/20 { border-color: rgba(16,88,160,0.20)  !important; }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(16,88,160,0.28)  !important; }
+    html:not(.dark) .border-cyan-900\/20{ border-color: rgba(16,88,160,0.15)  !important; }
+
+    /* --- Primary-filled backgrounds (buttons, FAB, avatar badge) --- */
+    html:not(.dark) .bg-primary         { background-color: var(--lm-primary) !important; }
+    html:not(.dark) .bg-primary-container{ background-color: var(--lm-primary) !important; }
+    html:not(.dark) .text-on-primary-fixed { color: #ffffff !important; }
+
+    /* --- Gradient buttons (from-primary to-primary-container) --- */
+    html:not(.dark) .from-primary       { --tw-gradient-from: #0d4f96 !important; }
+    html:not(.dark) .to-primary-container{ --tw-gradient-to:  #1271c4 !important; }
+
+    /* --- Button shadows — replace neon with soft blue --- */
+    html:not(.dark) [class*="shadow-[0_0_15px_rgba(0,227"] { box-shadow: 0 4px 16px rgba(16,88,160,0.28) !important; }
+    html:not(.dark) [class*="shadow-[0_0_20px_rgba(0,227"] { box-shadow: 0 4px 20px rgba(16,88,160,0.22) !important; }
+    html:not(.dark) [class*="shadow-[0_0_30px_rgba(0,227"] { box-shadow: 0 6px 28px rgba(16,88,160,0.30) !important; }
+    html:not(.dark) [class*="shadow-[0_10px_30px_rgba(0,227"] { box-shadow: 0 8px 28px rgba(16,88,160,0.26) !important; }
+    html:not(.dark) [class*="shadow-[0_0_40px_-15px_rgba"] { box-shadow: 0 4px 32px rgba(16,88,160,0.10) !important; }
+
+    /* --- Neon glow effects OFF in light mode --- */
+    html:not(.dark) [class*="drop-shadow-[0_0_"] { filter: none !important; }
+    html:not(.dark) [class*="shadow-[0_0_10px_rgba(129"] { box-shadow: none !important; }
+    html:not(.dark) [class*="shadow-[0_0_6px_rgba(129"]  { box-shadow: none !important; }
+    html:not(.dark) [class*="shadow-[0_0_8px_rgba(129"]  { filter: none !important; }
+
+    /* --- Skill bars --- */
+    html:not(.dark) .skill-bar           { background-color: var(--lm-primary) !important; box-shadow: none !important; }
+    html:not(.dark) .h-1\.5.bg-surface-container { background-color: #dce6f5 !important; }
+
+    /* --- Language pill dots (language section) --- */
+    html:not(.dark) .w-8.h-1.bg-primary { background-color: var(--lm-primary) !important; }
+    html:not(.dark) .w-8.h-1.bg-surface-container { background-color: #d1ddf0 !important; }
+
+    /* --- Timeline vertical line & dots --- */
+    html:not(.dark) .before\:bg-gradient-to-b::before { opacity: 0.4; }
+
+    /* --- Tag/badge pills --- */
+    html:not(.dark) .border.border-primary\/20.text-primary {
+      background-color: rgba(16,88,160,0.07) !important;
+      border-color: rgba(16,88,160,0.20) !important;
+      color: var(--lm-primary) !important;
+    }
+
+    /* --- Hero grid background --- */
+    html:not(.dark) .grid-bg {
+      background-image:
+        linear-gradient(rgba(16,88,160,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16,88,160,0.045) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* --- Ambient hero blobs — subtle in light mode --- */
+    html:not(.dark) .bg-primary\/10.blur-\[120px\]   { background-color: rgba(16,88,160,0.07) !important; }
+    html:not(.dark) .bg-tertiary\/10.blur-\[120px\]  { background-color: rgba(99,102,241,0.06) !important; }
+    html:not(.dark) .bg-primary\/5.blur-\[150px\]    { background-color: rgba(16,88,160,0.04) !important; }
+
+    /* --- Footer stays dark for contrast (update accents) --- */
+    html:not(.dark) footer.bg-black   { background-color: #0f1929 !important; border-color: rgba(16,88,160,0.20) !important; }
+    html:not(.dark) footer .text-cyan-400  { color: #60b8e8 !important; }
+    html:not(.dark) footer .text-slate-500 { color: #6b82a8 !important; }
+    html:not(.dark) footer .text-slate-600 { color: #8099c0 !important; }
+    html:not(.dark) footer [class*="text-[9px]"] { color: #6b82a8 !important; }
+    html:not(.dark) footer a:hover    { color: #93c5fd !important; }
+
+    /* --- Selection --- */
+    html:not(.dark) ::selection { background-color: rgba(16,88,160,0.18); color: var(--lm-primary); }
+
+    /* Scroll-based active nav link */
+    html { scroll-behavior: smooth; }
+
+    /* Typing cursor animation */
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .cursor { animation: blink 1s step-end infinite; }
+
+    /* Animated grid background */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(129, 236, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(129, 236, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Skill bar animation */
+    @keyframes fillBar { from { width: 0; } }
+    .skill-bar { animation: fillBar 1.2s ease-out forwards; }
+
+    /* Fade-in on scroll */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Project card overlay */
+    .project-overlay { background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%); }
+  </style>
+</head>
+<body class="bg-background selection:bg-primary/30 selection:text-primary">
+
+  <!-- ============================================================ -->
+  <!-- TOP NAV -->
+  <!-- ============================================================ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-2xl border-b border-white/5 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 md:px-10 py-4">
+    <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent"></div>
+
+    <!-- Logo + Links -->
+    <div class="flex items-center gap-8">
+      <a href="#" class="flex flex-col leading-none select-none group">
+          <span class="text-2xl font-black tracking-tighter text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.8)] font-space-grotesk">LEANDRO</span>
+          <span class="text-[9px] font-bold tracking-[0.28em] text-on-surface-variant font-space-grotesk uppercase group-hover:text-primary transition-colors -mt-0.5">Let's&nbsp;play!</span>
+        </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#skills"     class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Skills</a>
+        <a href="#portfolio"  class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Portfolio</a>
+        <a href="#timeline"   class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Timeline</a>
+        <a href="#contact"    class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Kontakt</a>
+      </div>
+    </div>
+
+    <!-- Right side -->
+    <div class="flex items-center gap-4">
+      <div class="hidden lg:flex items-center gap-1 font-space-grotesk text-xs tracking-widest font-bold">
+        <button data-lang="de" class="lang-btn px-2 py-1 rounded text-primary"                                          aria-label="Deutsch">DE</button>
+        <span class="text-outline/40">/</span>
+        <button data-lang="en" class="lang-btn px-2 py-1 rounded text-slate-400 hover:text-white transition-colors"     aria-label="English">EN</button>
+        <span class="text-outline/40">/</span>
+        <button data-lang="es" class="lang-btn px-2 py-1 rounded text-slate-400 hover:text-white transition-colors"     aria-label="Español">ES</button>
+      </div>
+      <!-- Dark / Light toggle -->
+      <button id="theme-toggle" aria-label="Toggle theme"
+        class="p-2 text-cyan-400 hover:scale-110 active:scale-90 transition-transform rounded-full hover:bg-white/5">
+        <span id="theme-icon" class="material-symbols-outlined text-xl">light_mode</span>
+      </button>
+      <!-- Hamburger (mobile) -->
+      <button id="menu-btn" class="md:hidden p-2 text-cyan-400 hover:scale-105 transition-transform" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <a href="#contact" data-i18n="hireMe" class="bg-primary-container text-on-primary-fixed font-space-grotesk tracking-tight uppercase text-sm font-bold px-6 py-2 rounded-full hover:scale-105 transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(0,227,253,0.4)]">Hire&nbsp;Me</a>
+    </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center gap-10 bg-black/95 backdrop-blur-2xl hidden">
+    <button id="close-menu" class="absolute top-8 right-8 text-cyan-400 hover:scale-105 transition-transform">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+    <a href="#skills"    class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Skills</a>
+    <a href="#portfolio" class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Portfolio</a>
+    <a href="#timeline"  class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Timeline</a>
+    <a href="#contact"   class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Kontakt</a>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MAIN CONTENT -->
+  <!-- ============================================================ -->
+  <main>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden grid-bg">
+      <!-- Ambient blobs -->
+      <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-tertiary/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
+
+      <div class="relative z-10 text-center max-w-4xl mx-auto">
+        <!-- Avatar -->
+        <div class="relative mb-12 inline-block">
+          <div class="absolute inset-0 bg-primary/30 rounded-full blur-2xl transform scale-110"></div>
+          <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full border-2 border-primary/20 p-2 overflow-hidden bg-surface-container-low">
+            <img
+              alt="Leandro"
+              class="w-full h-full object-cover rounded-full"
+              src="img/leandro_profil.png"
+            />
+          </div>
+          <div class="absolute -bottom-2 -right-2 bg-primary text-on-primary-fixed p-3 rounded-full shadow-lg">
+            <span class="material-symbols-outlined text-2xl">code</span>
+          </div>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
+          Hi, I'm <span class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">Leandro</span>
+          <br/>
+          <span id="hero-sub" class="text-on-surface/80">Game Developer &amp; Designer</span>
+        </h1>
+
+        <!-- Tagline with typing effect -->
+        <p id="hero-copy" class="font-body text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          Crafting immersive digital worlds through the intersection of advanced engineering and cinematic storytelling. Specialized in high-performance UE5 systems.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#portfolio" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-fixed font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,227,253,0.4)] flex items-center gap-2">
+            <span id="hero-projects">Projekte ansehen</span> <span class="material-symbols-outlined">rocket_launch</span>
+          </a>
+          <a href="#contact" class="px-8 py-4 glass-panel border border-primary/20 text-primary font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 flex items-center gap-2">
+            <span id="hero-talk">Schreib mir</span> <span class="material-symbols-outlined">sensors</span>
+          </a>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="mt-20 flex flex-col items-center gap-2 text-on-surface-variant/40 animate-bounce">
+          <span class="material-symbols-outlined text-xl">keyboard_arrow_down</span>
+          <span class="text-[10px] font-space-grotesk tracking-[0.3em] uppercase">Scroll</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== STATS BAR ==================== -->
+    <div class="py-12 px-6 border-y border-primary/5 bg-surface-container-low/50 overflow-hidden">
+      <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="reveal">
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">4+</div>
+          <div id="stat-years" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Jahre Erfahrung</div>
+        </div>
+        <div class="reveal">
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">12</div>
+          <div id="stat-projects" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Projekte</div>
+        </div>
+        <div class="reveal">
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">3</div>
+          <div id="stat-awards" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Auszeichnungen</div>
+        </div>
+        <div class="reveal">
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">∞</div>
+          <div id="stat-coffee" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Kaffee verbraucht</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SKILLS ==================== -->
+    <section class="py-24 px-6 bg-surface-container-low/50 relative" id="skills">
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-16 reveal">
+          <span id="skills-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Technologisches Arsenal</span>
+          <h2 id="skills-title" class="font-headline text-4xl font-bold tracking-tight">Kernkompetenzen</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- Left column -->
+          <div class="space-y-8">
+            <!-- UE5 -->
+            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all group reveal">
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">auto_awesome</span>
+                  <span class="font-space-grotesk font-bold text-lg">Unreal Engine 5</span>
+                </div>
+                <span class="font-space-grotesk text-primary text-sm font-bold">95%</span>
+              </div>
+              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:95%"></div>
+              </div>
+              <p class="mt-4 text-sm text-on-surface-variant font-body">Blueprints, C++ API, Nanite/Lumen optimization, and custom shaders.</p>
+            </div>
+
+            <!-- C++ -->
+            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">terminal</span>
+                  <span class="font-space-grotesk font-bold text-lg">C++ Programming</span>
+                </div>
+                <span class="font-space-grotesk text-primary text-sm font-bold">90%</span>
+              </div>
+              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:90%"></div>
+              </div>
+              <p class="mt-4 text-sm text-on-surface-variant font-body">Object-oriented design patterns, memory management, and high-load systems.</p>
+            </div>
+
+            <!-- Python -->
+            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">psychology</span>
+                  <span class="font-space-grotesk font-bold text-lg">Python / Scripting</span>
+                </div>
+                <span class="font-space-grotesk text-primary text-sm font-bold">78%</span>
+              </div>
+              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:78%"></div>
+              </div>
+              <p class="mt-4 text-sm text-on-surface-variant font-body">Pipeline automation, tool development, and ML prototyping for game AI.</p>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div class="space-y-8">
+            <!-- 3D Modeling -->
+            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">view_in_ar</span>
+                  <span class="font-space-grotesk font-bold text-lg">3D Modeling (Blender)</span>
+                </div>
+                <span class="font-space-grotesk text-primary text-sm font-bold">85%</span>
+              </div>
+              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:85%"></div>
+              </div>
+              <p class="mt-4 text-sm text-on-surface-variant font-body">Hard-surface modeling, PBR texturing, and game-ready asset optimization.</p>
+            </div>
+
+            <!-- UI/UX -->
+            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">dashboard</span>
+                  <span class="font-space-grotesk font-bold text-lg">UI/UX Design</span>
+                </div>
+                <span class="font-space-grotesk text-primary text-sm font-bold">80%</span>
+              </div>
+              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:80%"></div>
+              </div>
+              <p class="mt-4 text-sm text-on-surface-variant font-body">Intuitive HUD design, menu systems, and dynamic interface animations.</p>
+            </div>
+
+            <!-- Shader Dev -->
+            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
+              <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">flare</span>
+                  <span class="font-space-grotesk font-bold text-lg">Shader Development</span>
+                </div>
+                <span class="font-space-grotesk text-primary text-sm font-bold">72%</span>
+              </div>
+              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:72%"></div>
+              </div>
+              <p class="mt-4 text-sm text-on-surface-variant font-body">HLSL, Material Editor, custom post-process effects, and VFX pipelines.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech tag cloud -->
+        <div class="mt-16 reveal">
+          <p class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-6">Also fluent in</p>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Git / Perforce</span>
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">HLSL</span>
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Niagara VFX</span>
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Substance Painter</span>
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Houdini</span>
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Figma</span>
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Jira / Confluence</span>
+            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Wwise / FMOD</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PORTFOLIO ==================== -->
+    <section class="py-24 px-6" id="portfolio">
+      <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 reveal">
+          <div>
+            <span id="portfolio-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Archiv der Realitäten</span>
+            <h2 id="portfolio-title" class="font-headline text-4xl font-bold tracking-tight">Projektportfolio</h2>
+          </div>
+          <div class="flex gap-4">
+            <button id="prev-btn" aria-label="Previous" class="w-12 h-12 rounded-full glass-panel border border-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary-fixed transition-all">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button id="next-btn" aria-label="Next" class="w-12 h-12 rounded-full glass-panel border border-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary-fixed transition-all">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="projects-grid">
+
+          <!-- Project 1 -->
+          <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
+            <div class="aspect-[4/5] overflow-hidden">
+              <img
+                alt="Neon Nexus Arena"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjeENaicnGjx1TOTdkaWEa32eC-qXoOYUoi5N8owXvz9HB2fSNs7FUav4z6My35dPt8ov8Gru3ORCWbk6wFfxHvwPe9Ca-cFQ7F7RBw-bjttxqSVg-Sdw5smUPI2WO9nAomQ99T8VIrp128k_Bo2eX4xrmGGC03eKpFGPsVYyjrPHTzpdKVSqlW8TSJA60KhR7szTHP8wkTjbOLXBxcw41D7HV94nKYjWNZXyReKkhr87l7037cPyvG9B-5R-ScA4SuQ381e3JBvg"
+              />
+            </div>
+            <div class="absolute inset-0 project-overlay"></div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <h3 class="font-headline text-2xl font-bold text-white mb-2">Neon Nexus: Arena</h3>
+              <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
+                Fast-paced cyberpunk combat arena developed in UE5 using Niagara particles and custom physics.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">UE5</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">C++</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Niagara</span>
+              </div>
+              <a href="#" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
+                View Project <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
+            <div class="aspect-[4/5] overflow-hidden">
+              <img
+                alt="Quantum Blade"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGa4Y45njdTiruDDpQ_bRwGp_C931-I-zMCR9kYvEuK1s_zZhX7mqr0AwtVJ9RuqU__0KLPfrhQAp1wFzrr-y59lqfxW983YnFqu_CZCzpfyPzD135oiIdn7k8EKxNl3BH8twfK-JIeU49CvpXQkDrbkSbcwKMaGX8XpmpUisqM_1P1e4dSleUJh7fU7UsbFkru1Co9ZBdZqgXk-t6ua21CQU_LC32cVEozJjti7DihUgVgWqZkaUvLOGrrzDm0ovtjCpJm_8vkIU"
+              />
+            </div>
+            <div class="absolute inset-0 project-overlay"></div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <h3 class="font-headline text-2xl font-bold text-white mb-2">Quantum Blade</h3>
+              <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
+                Souls-like action RPG focusing on intricate sword-play and dynamic AI behavior systems.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Design</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">AI</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">RPG</span>
+              </div>
+              <a href="#" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
+                View Project <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
+            <div class="aspect-[4/5] overflow-hidden">
+              <img
+                alt="Data Flow UI"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTLK3fWo9dWgVc034k8V8yhF-AcK3ecTQPLZmsbqqLQ1qRwksYiOYJC5Mx7ZxnxuVeCT6DhKiiVzX1qZKQQN2E-54L-_QwFNL1qIeqGGZyOw4IxVL6iGlGzMGIU5MNZE9AvWE8W_Pteh2-tmOyrZ9ZhQVQTBOCjuOXcTtc5JBjTlwD_Qt8kAoxS3Zpu-AZ7prpMGp-d6kNrOEDwX8KCEyH8E8uS8KANBR869hC8AydJhDV6EZrf26rua8RoB7ZihAL111DokzcpOs"
+              />
+            </div>
+            <div class="absolute inset-0 project-overlay"></div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <h3 class="font-headline text-2xl font-bold text-white mb-2">Data Flow UI</h3>
+              <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
+                A comprehensive UI framework for sci-fi titles with modular components and animations.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">UX/UI</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Figma</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Motion</span>
+              </div>
+              <a href="#" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
+                View Project <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- See More -->
+        <div class="mt-12 text-center reveal">
+          <a href="#" class="inline-flex items-center gap-2 px-8 py-4 glass-panel border border-primary/10 text-primary font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 uppercase tracking-wider text-sm">
+            <span id="portfolio-all">Alle Projekte</span> <span class="material-symbols-outlined">grid_view</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TIMELINE ==================== -->
+    <section class="py-24 px-6 bg-surface-container-low/30" id="timeline">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-20 reveal">
+          <span id="timeline-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Kognitive Ladung</span>
+          <h2 id="timeline-title" class="font-headline text-4xl font-bold tracking-tight">Ausbildung &amp; Weiterbildung</h2>
+        </div>
+
+        <div class="space-y-12">
+
+          <!-- Item 1 -->
+          <div class="relative pl-12 reveal
+                       before:content-[''] before:absolute before:left-0 before:top-2
+                       before:w-[2px] before:h-[calc(100%+48px)]
+                       before:bg-gradient-to-b before:from-primary before:to-transparent">
+            <div class="absolute left-[-5px] top-1.5 w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(129,236,255,1)]"></div>
+            <div class="glass-panel p-8 rounded-2xl border border-primary/5 hover:scale-[1.01] transition-transform">
+              <span class="font-label text-primary text-xs mb-2 block tracking-widest uppercase">2021 — 2023</span>
+              <h3 class="font-headline text-2xl font-bold mb-1">M.Sc. Interactive Entertainment</h3>
+              <p class="text-on-surface-variant font-body mb-4">Elite Gaming Academy, Berlin</p>
+              <p class="text-sm text-on-surface/70 leading-relaxed font-body">Specialized in Advanced Real-time Graphics and Procedural Generation. Graduated with honors (1.2 GPA). Thesis on <em>"Neural Radiance Fields in Real-time VR Environments."</em></p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="relative pl-12 reveal
+                       before:content-[''] before:absolute before:left-0 before:top-2
+                       before:w-[2px] before:h-[calc(100%+48px)]
+                       before:bg-gradient-to-b before:from-primary/50 before:to-transparent">
+            <div class="absolute left-[-5px] top-1.5 w-3 h-3 rounded-full bg-primary/60 shadow-[0_0_10px_rgba(129,236,255,0.6)]"></div>
+            <div class="glass-panel p-8 rounded-2xl border border-primary/5 hover:scale-[1.01] transition-transform">
+              <span class="font-label text-primary text-xs mb-2 block tracking-widest uppercase">2017 — 2021</span>
+              <h3 class="font-headline text-2xl font-bold mb-1">B.Sc. Computer Science</h3>
+              <p class="text-on-surface-variant font-body mb-4">Tech University of Munich</p>
+              <p class="text-sm text-on-surface/70 leading-relaxed font-body">Focused on Systems Engineering, Algorithms, and Discrete Mathematics. Developed a custom ray-tracing engine from scratch as a capstone project.</p>
+            </div>
+          </div>
+
+          <!-- Item 3 — Certifications -->
+          <div class="relative pl-12 reveal">
+            <div class="absolute left-[-5px] top-1.5 w-3 h-3 rounded-full bg-primary/30 shadow-[0_0_10px_rgba(129,236,255,0.3)]"></div>
+            <div class="glass-panel p-8 rounded-2xl border border-primary/5 hover:scale-[1.01] transition-transform">
+              <span class="font-label text-primary text-xs mb-2 block tracking-widest uppercase">Ongoing</span>
+              <h3 class="font-headline text-2xl font-bold mb-1">Industry Certifications</h3>
+              <p class="text-on-surface-variant font-body mb-4">Unreal Online Learning &amp; GDC Workshops</p>
+              <ul class="space-y-2 text-sm text-on-surface/70 font-body list-none">
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">verified</span> Unreal Authorized Instructor — Blueprints</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">verified</span> Advanced Lumen &amp; Nanite Architecture</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">verified</span> GDC Game AI Summit — 2023 Participant</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== LANGUAGES ==================== -->
+    <section class="py-24 px-6 overflow-hidden">
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-16 reveal">
+          <span id="lang-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Neuronale Links</span>
+          <h2 id="lang-title" class="font-headline text-4xl font-bold tracking-tight">Sprachprotokolle</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <!-- German -->
+          <div class="glass-panel p-10 rounded-3xl border border-primary/5 text-center group reveal hover:border-primary/20 transition-all">
+            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-3xl text-primary">translate</span>
+            </div>
+            <h3 class="font-headline text-xl font-bold mb-2">German</h3>
+            <p class="text-primary text-sm font-label uppercase tracking-widest mb-6">Native Protocol</p>
+            <div class="flex justify-center gap-1">
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_10px_rgba(129,236,255,0.8)]"></div>
+            </div>
+          </div>
+
+          <!-- English -->
+          <div class="glass-panel p-10 rounded-3xl border border-primary/5 text-center group reveal hover:border-primary/20 transition-all">
+            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-3xl text-primary">language</span>
+            </div>
+            <h3 class="font-headline text-xl font-bold mb-2">English</h3>
+            <p class="text-primary text-sm font-label uppercase tracking-widest mb-6">Proficient Protocol</p>
+            <div class="flex justify-center gap-1">
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-surface-container rounded-full"></div>
+            </div>
+          </div>
+
+          <!-- Spanish -->
+          <div class="glass-panel p-10 rounded-3xl border border-primary/5 text-center group reveal hover:border-primary/20 transition-all">
+            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-3xl text-primary">public</span>
+            </div>
+            <h3 class="font-headline text-xl font-bold mb-2">Spanish</h3>
+            <p class="text-primary text-sm font-label uppercase tracking-widest mb-6">Intermediate Protocol</p>
+            <div class="flex justify-center gap-1">
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
+              <div class="w-8 h-1 bg-surface-container rounded-full"></div>
+              <div class="w-8 h-1 bg-surface-container rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section class="py-24 px-6 bg-gradient-to-t from-black to-transparent" id="contact">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+          <!-- Left info -->
+          <div class="reveal">
+            <span id="contact-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Übertragungssignal</span>
+            <h2 class="font-headline text-5xl md:text-6xl font-black tracking-tighter mb-8 leading-tight">
+              <span id="contact-title-pre">Kontakt </span><span id="contact-title-key" class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">aufnehmen</span>
+            </h2>
+            <p id="contact-copy" class="font-body text-lg text-on-surface-variant mb-12 max-w-lg">
+              Bereit, die nächste Generation von Gaming-Erlebnissen zu erschaffen? Schreib mir oder verbinde dich über das neuronale Netzwerk.
+            </p>
+            <div class="space-y-6">
+              <div class="flex items-center gap-4 text-on-surface">
+                <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
+                  <span class="material-symbols-outlined text-primary">mail</span>
+                </div>
+                <span class="font-space-grotesk text-lg">leandro@neon-architect.com</span>
+              </div>
+              <div class="flex items-center gap-4 text-on-surface">
+                <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
+                  <span class="material-symbols-outlined text-primary">location_on</span>
+                </div>
+                <span class="font-space-grotesk text-lg">Berlin, DE // Remote Available</span>
+              </div>
+              <div class="flex items-center gap-4 text-on-surface">
+                <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
+                  <span class="material-symbols-outlined text-primary">schedule</span>
+                </div>
+                <span class="font-space-grotesk text-lg">Response within 24 hours</span>
+              </div>
+            </div>
+
+            <!-- Social links -->
+            <div class="flex gap-4 mt-10">
+              <a href="#" aria-label="GitHub" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
+                <span class="material-symbols-outlined">code</span>
+              </a>
+              <a href="#" aria-label="ArtStation" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
+                <span class="material-symbols-outlined">palette</span>
+              </a>
+              <a href="#" aria-label="LinkedIn" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
+                <span class="material-symbols-outlined">work</span>
+              </a>
+              <a href="#" aria-label="Discord" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
+                <span class="material-symbols-outlined">forum</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] border border-primary/10 shadow-2xl relative reveal">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-primary/10 blur-3xl pointer-events-none"></div>
+
+            <form id="contact-form" class="space-y-6" novalidate>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Subject Name</label>
+                  <input
+                    id="f-name" name="name" type="text" required
+                    class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40"
+                    placeholder="Your Name"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Return Address</label>
+                  <input
+                    id="f-email" name="email" type="email" required
+                    class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40"
+                    placeholder="email@address.com"
+                  />
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Data Packet</label>
+                <textarea
+                  id="f-message" name="message" required rows="5"
+                  class="w-full bg-surface-container-highest border border-transparent rounded-[2rem] px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40 resize-none"
+                  placeholder="Your Message..."
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary-fixed font-space-grotesk font-black uppercase tracking-widest rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_10px_30px_rgba(0,227,253,0.3)] flex items-center justify-center gap-3"
+              >
+                <span id="contact-send">Übertragung senden</span> <span class="material-symbols-outlined">send</span>
+              </button>
+
+              <!-- Success feedback (hidden by default) -->
+              <p id="form-success" class="hidden text-center text-primary font-space-grotesk text-sm tracking-wide">
+                <span class="material-symbols-outlined align-middle text-sm">check_circle</span>
+                <span id="form-ok-text">Übertragung empfangen. Bis bald!</span>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================================ -->
+  <footer class="bg-black w-full py-12 px-8 border-t border-cyan-900/20">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-7xl mx-auto">
+      <div class="flex flex-col items-center md:items-start gap-0.5">
+        <div class="flex flex-col leading-none">
+          <span class="text-2xl font-black tracking-tighter text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] font-space-grotesk uppercase">LEANDRO</span>
+          <span class="text-[9px] font-bold tracking-[0.28em] text-slate-500 font-space-grotesk uppercase -mt-0.5">Let's&nbsp;play!</span>
+        </div>
+        <span class="text-slate-600 font-space-grotesk text-[10px] tracking-widest uppercase mt-1">© 2026 Neon Architect</span>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="#" aria-label="ArtStation"
+           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 17.723l2.027 3.505h.001a2.424 2.424 0 0 0 2.164 1.333h13.457l-2.792-4.838H0zm24 .025c0-.484-.143-.935-.388-1.314L15.728 2.728a2.424 2.424 0 0 0-2.142-1.289H9.419L21.598 22.54l1.92-3.325c.378-.637.482-.919.482-1.467zm-11.129-3.462L7.428 4.858l-5.444 9.428h10.887z"/>
+          </svg>
+          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">ArtStation</span>
+        </a>
+        <a href="#" aria-label="GitHub"
+           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">GitHub</span>
+        </a>
+        <a href="#" aria-label="LinkedIn"
+           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">LinkedIn</span>
+        </a>
+        <a href="#" aria-label="Discord"
+           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+          </svg>
+          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">Discord</span>
+        </a>
+      </div>
+      <div class="text-slate-500 font-space-grotesk text-[10px] tracking-[0.3em] uppercase">
+        <span id="footer-built">Mit UE5 &amp; Leidenschaft gebaut</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FAB (mobile only) -->
+  <a href="#contact" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-primary-container text-on-primary-fixed shadow-[0_0_30px_rgba(0,227,253,0.5)] flex items-center justify-center hover:scale-110 active:scale-90 transition-transform z-40 lg:hidden" aria-label="Contact">
+    <span class="material-symbols-outlined text-3xl">chat_bubble</span>
+  </a>
+
+  <!-- ============================================================ -->
+  <!-- SCRIPTS -->
+  <!-- ============================================================ -->
+  <script>
+    /* ---- Language switcher ---- */
+    const translations = {
+      de: {
+        navSkills: "Skills", navPortfolio: "Portfolio", navTimeline: "Timeline", navContact: "Kontakt",
+        hireMe: "Hire Me",
+        heroSub: "Game Developer & Designer",
+        heroCopy: "Immersive digitale Welten erschaffen – an der Schnittstelle von fortgeschrittenem Engineering und cinematischem Storytelling. Spezialisiert auf hochperformante UE5-Systeme.",
+        heroProjects: "Projekte ansehen", heroTalk: "Schreib mir",
+        statsYears: "Jahre Erfahrung", statsProjects: "Projekte", statsAwards: "Auszeichnungen", statsCoffee: "Kaffee verbraucht",
+        skillsLabel: "Technologisches Arsenal", skillsTitle: "Kernkompetenzen",
+        portfolioLabel: "Archiv der Realitäten", portfolioTitle: "Projektportfolio", portfolioAll: "Alle Projekte",
+        timelineLabel: "Kognitive Ladung", timelineTitle: "Ausbildung & Weiterbildung",
+        langLabel: "Neuronale Links", langTitle: "Sprachprotokolle",
+        contactLabel: "Übertragungssignal", contactTitlePre: "Kontakt ", contactTitleKey: "aufnehmen",
+        contactCopy: "Bereit, die nächste Generation von Gaming-Erlebnissen zu erschaffen? Schreib mir oder verbinde dich über das neuronale Netzwerk.",
+        contactName: "Name", contactEmail: "E-Mail", contactMsg: "Nachricht", contactSend: "Übertragung senden",
+        formOk: "Übertragung empfangen. Bis bald!",
+        footerBuilt: "Mit UE5 & Leidenschaft gebaut",
+      },
+      en: {
+        navSkills: "Skills", navPortfolio: "Portfolio", navTimeline: "Timeline", navContact: "Contact",
+        hireMe: "Hire Me",
+        heroSub: "Game Developer & Designer",
+        heroCopy: "Crafting immersive digital worlds through the intersection of advanced engineering and cinematic storytelling. Specialized in high-performance UE5 systems.",
+        heroProjects: "View Projects", heroTalk: "Let's Talk",
+        statsYears: "Years Experience", statsProjects: "Projects Shipped", statsAwards: "Awards Won", statsCoffee: "Coffee Consumed",
+        skillsLabel: "Technological Arsenal", skillsTitle: "Core Expertise",
+        portfolioLabel: "Archive of Realities", portfolioTitle: "Project Portfolio", portfolioAll: "View All Projects",
+        timelineLabel: "Cognitive Loading", timelineTitle: "Education & Training",
+        langLabel: "Neural Links", langTitle: "Language Protocols",
+        contactLabel: "Transmission Signal", contactTitlePre: "Initialize ", contactTitleKey: "Contact",
+        contactCopy: "Ready to architect the next generation of gaming experiences? Send an encrypted message or connect via the neural network.",
+        contactName: "Your Name", contactEmail: "email@address.com", contactMsg: "Your Message...", contactSend: "Send Transmission",
+        formOk: "Transmission received. Talk soon!",
+        footerBuilt: "Built with UE5 & Passion",
+      },
+      es: {
+        navSkills: "Habilidades", navPortfolio: "Portafolio", navTimeline: "Trayectoria", navContact: "Contacto",
+        hireMe: "Contrátame",
+        heroSub: "Desarrollador & Diseñador de Videojuegos",
+        heroCopy: "Creando mundos digitales inmersivos en la intersección de la ingeniería avanzada y la narrativa cinematográfica. Especializado en sistemas UE5 de alto rendimiento.",
+        heroProjects: "Ver Proyectos", heroTalk: "Hablemos",
+        statsYears: "Años de Experiencia", statsProjects: "Proyectos", statsAwards: "Premios", statsCoffee: "Café Consumido",
+        skillsLabel: "Arsenal Tecnológico", skillsTitle: "Competencias Principales",
+        portfolioLabel: "Archivo de Realidades", portfolioTitle: "Portafolio de Proyectos", portfolioAll: "Ver Todos los Proyectos",
+        timelineLabel: "Carga Cognitiva", timelineTitle: "Educación y Formación",
+        langLabel: "Vínculos Neuronales", langTitle: "Protocolos de Idioma",
+        contactLabel: "Señal de Transmisión", contactTitlePre: "Iniciar ", contactTitleKey: "Contacto",
+        contactCopy: "¿Listo para construir la próxima generación de experiencias de juego? Envía un mensaje o conéctate a través de la red neuronal.",
+        contactName: "Tu Nombre", contactEmail: "correo@ejemplo.com", contactMsg: "Tu Mensaje...", contactSend: "Enviar Transmisión",
+        formOk: "¡Transmisión recibida! Hablamos pronto.",
+        footerBuilt: "Construido con UE5 y Pasión",
+      }
+    };
+
+    let currentLang = 'de';
+
+    function applyLang(lang) {
+      const t = translations[lang];
+      document.documentElement.lang = lang;
+      currentLang = lang;
+
+      // Nav links
+      const navLinkEls = document.querySelectorAll('.nav-link');
+      const keys = ['navSkills','navPortfolio','navTimeline','navContact'];
+      navLinkEls.forEach((el, i) => { if (keys[i]) el.textContent = t[keys[i]]; });
+
+      // Mobile nav
+      const mobileNavEls = document.querySelectorAll('.mobile-nav');
+      mobileNavEls.forEach((el, i) => { if (keys[i]) el.textContent = t[keys[i]]; });
+
+      // Hire Me button
+      const hireBtns = document.querySelectorAll('[data-i18n="hireMe"]');
+      hireBtns.forEach(el => el.textContent = t.hireMe);
+
+      // Hero
+      setI18n('hero-sub',     t.heroSub);
+      setI18n('hero-copy',    t.heroCopy);
+      setI18n('hero-projects',t.heroProjects);
+      setI18n('hero-talk',    t.heroTalk);
+
+      // Stats
+      setI18n('stat-years',   t.statsYears);
+      setI18n('stat-projects',t.statsProjects);
+      setI18n('stat-awards',  t.statsAwards);
+      setI18n('stat-coffee',  t.statsCoffee);
+
+      // Skills
+      setI18n('skills-label', t.skillsLabel);
+      setI18n('skills-title', t.skillsTitle);
+
+      // Portfolio
+      setI18n('portfolio-label', t.portfolioLabel);
+      setI18n('portfolio-title', t.portfolioTitle);
+      setI18n('portfolio-all',   t.portfolioAll);
+
+      // Timeline
+      setI18n('timeline-label', t.timelineLabel);
+      setI18n('timeline-title', t.timelineTitle);
+
+      // Languages
+      setI18n('lang-label', t.langLabel);
+      setI18n('lang-title', t.langTitle);
+
+      // Contact
+      setI18n('contact-label',     t.contactLabel);
+      setI18n('contact-title-pre', t.contactTitlePre);
+      setI18n('contact-title-key', t.contactTitleKey);
+      setI18n('contact-copy',      t.contactCopy);
+      setI18n('contact-send',  t.contactSend);
+      setI18n('form-ok-text',  t.formOk);
+
+      // Placeholders
+      const fName = document.getElementById('f-name');
+      const fEmail = document.getElementById('f-email');
+      const fMsg  = document.getElementById('f-message');
+      if (fName)  fName.placeholder  = t.contactName;
+      if (fEmail) fEmail.placeholder = t.contactEmail;
+      if (fMsg)   fMsg.placeholder   = t.contactMsg;
+
+      // Footer
+      setI18n('footer-built', t.footerBuilt);
+
+      // Update button styles
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        const isActive = btn.dataset.lang === lang;
+        btn.classList.toggle('text-primary', isActive);
+        btn.classList.toggle('text-slate-400', !isActive);
+        btn.classList.toggle('hover:text-white', !isActive);
+      });
+    }
+
+    function setI18n(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+
+    // Apply default language on load
+    applyLang('de');
+
+    /* ---- Navbar scroll shrink ---- */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.classList.add('py-2', 'shadow-lg');
+        navbar.classList.remove('border-b');
+        navbar.style.borderBottom = '1px solid rgba(129,236,255,0.08)';
+      } else {
+        navbar.classList.remove('py-2', 'shadow-lg');
+        navbar.classList.add('border-b');
+        navbar.style.borderBottom = '';
+      }
+    }, { passive: true });
+
+    /* ---- Dark / Light mode toggle ---- */
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon   = document.getElementById('theme-icon');
+    const htmlEl      = document.documentElement;
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        htmlEl.classList.add('dark');
+        themeIcon.textContent = 'light_mode';
+        themeToggle.setAttribute('aria-label', 'Zum Hellmodus wechseln');
+      } else {
+        htmlEl.classList.remove('dark');
+        themeIcon.textContent = 'dark_mode';
+        themeToggle.setAttribute('aria-label', 'Zum Dunkelmodus wechseln');
+      }
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // Init: respect saved preference, default = dark
+    const savedTheme = localStorage.getItem('theme');
+    applyTheme(savedTheme !== 'light');
+
+    themeToggle.addEventListener('click', () => {
+      applyTheme(!htmlEl.classList.contains('dark'));
+    });
+
+    /* ---- Mobile menu ---- */
+    const menuBtn   = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeBtn  = document.getElementById('close-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-nav');
+
+    menuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
+    closeBtn.addEventListener('click', closeMobileMenu);
+    mobileLinks.forEach(l => l.addEventListener('click', closeMobileMenu));
+    function closeMobileMenu() { mobileMenu.classList.add('hidden'); }
+
+    /* ---- Scroll reveal ---- */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ---- Active nav highlight ---- */
+    const sections  = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-link');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => {
+            l.classList.toggle('text-primary', l.getAttribute('href') === '#' + e.target.id);
+            l.classList.toggle('text-slate-400', l.getAttribute('href') !== '#' + e.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => navObserver.observe(s));
+
+    /* ---- Portfolio prev/next (placeholder) ---- */
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      document.getElementById('projects-grid').scrollBy({ left: -320, behavior: 'smooth' });
+    });
+    document.getElementById('next-btn').addEventListener('click', () => {
+      document.getElementById('projects-grid').scrollBy({ left: 320, behavior: 'smooth' });
+    });
+
+    /* ---- Contact form feedback ---- */
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const success = document.getElementById('form-success');
+      success.classList.remove('hidden');
+      this.reset();
+      setTimeout(() => success.classList.add('hidden'), 5000);
+    });
+  </script>
+</body>
+</html>
