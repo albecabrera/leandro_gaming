@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>LEANDRO // NEON ARCHITECT</title>
+  <title>A&amp;A WebArt // Fullstack &amp; WordPress Developers</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -263,6 +263,10 @@
 
     /* Project card overlay */
     .project-overlay { background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%); }
+
+    /* Service card hover */
+    .service-card:hover { transform: translateY(-4px); }
+    .service-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
   </style>
 </head>
 <body class="bg-background selection:bg-primary/30 selection:text-primary">
@@ -277,13 +281,12 @@
     <!-- Logo + Links -->
     <div class="flex items-center gap-8">
       <a href="#" class="flex flex-col leading-none select-none group">
-          <span class="text-2xl font-black tracking-tighter text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.8)] font-space-grotesk">LEANDRO</span>
-          <span class="text-[9px] font-bold tracking-[0.28em] text-on-surface-variant font-space-grotesk uppercase group-hover:text-primary transition-colors -mt-0.5">Let's&nbsp;play!</span>
+          <span class="text-xl font-black tracking-tight text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.8)] font-space-grotesk">A<span class="text-white/70">&amp;</span>A&nbsp;WebArt</span>
+          <span class="text-[9px] font-bold tracking-[0.28em] text-on-surface-variant font-space-grotesk uppercase group-hover:text-primary transition-colors -mt-0.5">Let's&nbsp;build!</span>
         </a>
       <div class="hidden md:flex items-center gap-6">
-        <a href="#skills"     class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Skills</a>
+        <a href="#services"   class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Leistungen</a>
         <a href="#portfolio"  class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Portfolio</a>
-        <a href="#timeline"   class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Timeline</a>
         <a href="#contact"    class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Kontakt</a>
       </div>
     </div>
@@ -306,7 +309,7 @@
       <button id="menu-btn" class="md:hidden p-2 text-cyan-400 hover:scale-105 transition-transform" aria-label="Open menu">
         <span class="material-symbols-outlined">menu</span>
       </button>
-      <a href="#contact" data-i18n="hireMe" class="bg-primary-container text-on-primary-fixed font-space-grotesk tracking-tight uppercase text-sm font-bold px-6 py-2 rounded-full hover:scale-105 transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(0,227,253,0.4)]">Hire&nbsp;Me</a>
+      <a href="#contact" data-i18n="hireMe" class="bg-primary-container text-on-primary-fixed font-space-grotesk tracking-tight uppercase text-sm font-bold px-6 py-2 rounded-full hover:scale-105 transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(0,227,253,0.4)]">Anfrage&nbsp;stellen</a>
     </div>
     </div>
   </nav>
@@ -316,9 +319,8 @@
     <button id="close-menu" class="absolute top-8 right-8 text-cyan-400 hover:scale-105 transition-transform">
       <span class="material-symbols-outlined text-3xl">close</span>
     </button>
-    <a href="#skills"    class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Skills</a>
+    <a href="#services"  class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Leistungen</a>
     <a href="#portfolio" class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Portfolio</a>
-    <a href="#timeline"  class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Timeline</a>
     <a href="#contact"   class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Kontakt</a>
   </div>
 
@@ -335,40 +337,57 @@
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
 
       <div class="relative z-10 text-center max-w-4xl mx-auto">
-        <!-- Avatar -->
-        <div class="relative mb-12 inline-block">
-          <div class="absolute inset-0 bg-primary/30 rounded-full blur-2xl transform scale-110"></div>
-          <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full border-2 border-primary/20 p-2 overflow-hidden bg-surface-container-low">
-            <img
-              alt="Leandro"
-              class="w-full h-full object-cover rounded-full"
-              src="img/leandro_profil.png"
-            />
+        <!-- Avatars -->
+        <div class="relative mb-12 flex items-end justify-center">
+          <!-- Mandy (links, vorne) -->
+          <div class="relative -mr-4 md:-mr-6 z-20">
+            <div class="absolute inset-0 bg-tertiary/25 rounded-full blur-2xl transform scale-110 pointer-events-none"></div>
+            <div class="relative w-40 h-40 md:w-56 md:h-56 rounded-full border-2 border-tertiary/30 p-1.5 overflow-hidden bg-surface-container-low shadow-[0_0_30px_rgba(166,140,255,0.2)]">
+              <img
+                alt="Mandy"
+                class="w-full h-full object-cover rounded-full"
+                src="img/mandy_perfil.jpeg"
+              />
+            </div>
+            <div class="absolute -bottom-2 -left-2 bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full shadow-lg text-[10px] font-space-grotesk font-black uppercase tracking-widest">
+              Dev
+            </div>
           </div>
-          <div class="absolute -bottom-2 -right-2 bg-primary text-on-primary-fixed p-3 rounded-full shadow-lg">
-            <span class="material-symbols-outlined text-2xl">code</span>
+          <!-- Albe (rechts, hinten) -->
+          <div class="relative z-10">
+            <div class="absolute inset-0 bg-primary/25 rounded-full blur-2xl transform scale-110 pointer-events-none"></div>
+            <div class="relative w-40 h-40 md:w-56 md:h-56 rounded-full border-2 border-primary/30 p-1.5 overflow-hidden bg-surface-container-low shadow-[0_0_30px_rgba(129,236,255,0.2)]">
+              <img
+                alt="Albe"
+                class="w-full h-full object-cover rounded-full"
+                src="img/albe_perfil.jpeg"
+              />
+            </div>
+            <div class="absolute -bottom-2 -right-2 bg-primary text-on-primary-fixed px-3 py-1 rounded-full shadow-lg text-[10px] font-space-grotesk font-black uppercase tracking-widest">
+              Design
+            </div>
           </div>
         </div>
 
         <!-- Headline -->
-        <h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
-          Hi, I'm <span class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">Leandro</span>
+        <h1 class="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight">
+          Hallo, wir sind <span class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">Armando&nbsp;&amp;&nbsp;Alberto</span>
           <br/>
-          <span id="hero-sub" class="text-on-surface/80">Game Developer &amp; Designer</span>
+          <span id="hero-sub" class="text-on-surface/80">Fullstack Developer &amp; WordPress-Experte</span>
         </h1>
 
-        <!-- Tagline with typing effect -->
+        <!-- Tagline -->
         <p id="hero-copy" class="font-body text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-          Crafting immersive digital worlds through the intersection of advanced engineering and cinematic storytelling. Specialized in high-performance UE5 systems.
+          Ich baue schnelle, moderne Websites und Online-Shops – maßgeschneidert für dein Unternehmen. Von der Idee bis zum Launch, inklusive Support &amp; Wartung.
         </p>
 
         <!-- CTA Buttons -->
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="#portfolio" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-fixed font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,227,253,0.4)] flex items-center gap-2">
-            <span id="hero-projects">Projekte ansehen</span> <span class="material-symbols-outlined">rocket_launch</span>
+          <a href="#services" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-fixed font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,227,253,0.4)] flex items-center gap-2">
+            <span id="hero-projects">Leistungen ansehen</span> <span class="material-symbols-outlined">rocket_launch</span>
           </a>
           <a href="#contact" class="px-8 py-4 glass-panel border border-primary/20 text-primary font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 flex items-center gap-2">
-            <span id="hero-talk">Schreib mir</span> <span class="material-symbols-outlined">sensors</span>
+            <span id="hero-talk">Projekt anfragen</span> <span class="material-symbols-outlined">chat_bubble</span>
           </a>
         </div>
 
@@ -384,142 +403,91 @@
     <div class="py-12 px-6 border-y border-primary/5 bg-surface-container-low/50 overflow-hidden">
       <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">4+</div>
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">6+</div>
           <div id="stat-years" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Jahre Erfahrung</div>
         </div>
         <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">12</div>
-          <div id="stat-projects" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Projekte</div>
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">50+</div>
+          <div id="stat-projects" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Websites gebaut</div>
         </div>
         <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">3</div>
-          <div id="stat-awards" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Auszeichnungen</div>
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">30+</div>
+          <div id="stat-awards" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Zufriedene Kunden</div>
         </div>
         <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">∞</div>
-          <div id="stat-coffee" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Kaffee verbraucht</div>
+          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">24/7</div>
+          <div id="stat-coffee" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Support verfügbar</div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== SKILLS ==================== -->
-    <section class="py-24 px-6 bg-surface-container-low/50 relative" id="skills">
+    <!-- ==================== SERVICES ==================== -->
+    <section class="py-24 px-6 bg-surface-container-low/30 relative" id="services">
       <div class="max-w-7xl mx-auto">
-        <div class="mb-16 reveal">
-          <span id="skills-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Technologisches Arsenal</span>
-          <h2 id="skills-title" class="font-headline text-4xl font-bold tracking-tight">Kernkompetenzen</h2>
+        <div class="text-center mb-16 reveal">
+          <span id="services-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Was ich anbiete</span>
+          <h2 id="services-title" class="font-headline text-4xl font-bold tracking-tight mb-4">Meine Leistungen</h2>
+          <p id="services-copy" class="text-on-surface-variant font-body max-w-2xl mx-auto">Von der ersten Idee bis zum fertigen Produkt – ich begleite dich durch den gesamten Prozess und sorge dafür, dass deine Website genau das tut, was du brauchst.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <!-- Left column -->
-          <div class="space-y-8">
-            <!-- UE5 -->
-            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all group reveal">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-3">
-                  <span class="material-symbols-outlined text-primary">auto_awesome</span>
-                  <span class="font-space-grotesk font-bold text-lg">Unreal Engine 5</span>
-                </div>
-                <span class="font-space-grotesk text-primary text-sm font-bold">95%</span>
-              </div>
-              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:95%"></div>
-              </div>
-              <p class="mt-4 text-sm text-on-surface-variant font-body">Blueprints, C++ API, Nanite/Lumen optimization, and custom shaders.</p>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-            <!-- C++ -->
-            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-3">
-                  <span class="material-symbols-outlined text-primary">terminal</span>
-                  <span class="font-space-grotesk font-bold text-lg">C++ Programming</span>
-                </div>
-                <span class="font-space-grotesk text-primary text-sm font-bold">90%</span>
-              </div>
-              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:90%"></div>
-              </div>
-              <p class="mt-4 text-sm text-on-surface-variant font-body">Object-oriented design patterns, memory management, and high-load systems.</p>
+          <!-- Service 1: Website Erstellen -->
+          <div class="service-card glass-panel p-10 rounded-[2rem] border border-primary/10 hover:border-primary/30 hover:shadow-[0_0_40px_-15px_rgba(129,236,255,0.4)] reveal">
+            <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-3xl text-primary">web</span>
             </div>
-
-            <!-- Python -->
-            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-3">
-                  <span class="material-symbols-outlined text-primary">psychology</span>
-                  <span class="font-space-grotesk font-bold text-lg">Python / Scripting</span>
-                </div>
-                <span class="font-space-grotesk text-primary text-sm font-bold">78%</span>
-              </div>
-              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:78%"></div>
-              </div>
-              <p class="mt-4 text-sm text-on-surface-variant font-body">Pipeline automation, tool development, and ML prototyping for game AI.</p>
-            </div>
+            <h3 id="s1-title" class="font-headline text-2xl font-bold mb-3">Website Erstellen</h3>
+            <p id="s1-copy" class="text-on-surface-variant font-body text-sm leading-relaxed mb-6">Professionelle Unternehmenswebsites, Landing Pages und Web-Apps – responsive, SEO-optimiert und blitzschnell. Modernes Design, das Besucher in Kunden verwandelt.</p>
+            <ul class="space-y-2 mb-8">
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f1">Individuelles Design</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f2">SEO & Performance</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f3">Mobile First</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f4">SSL & Hosting-Setup</span></li>
+            </ul>
+            <a href="#contact" class="inline-flex items-center gap-2 text-primary font-space-grotesk font-bold text-sm uppercase tracking-widest hover:gap-3 transition-all">
+              <span id="s1-cta">Angebot anfragen</span> <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
           </div>
 
-          <!-- Right column -->
-          <div class="space-y-8">
-            <!-- 3D Modeling -->
-            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-3">
-                  <span class="material-symbols-outlined text-primary">view_in_ar</span>
-                  <span class="font-space-grotesk font-bold text-lg">3D Modeling (Blender)</span>
-                </div>
-                <span class="font-space-grotesk text-primary text-sm font-bold">85%</span>
-              </div>
-              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:85%"></div>
-              </div>
-              <p class="mt-4 text-sm text-on-surface-variant font-body">Hard-surface modeling, PBR texturing, and game-ready asset optimization.</p>
+          <!-- Service 2: WordPress / WooCommerce -->
+          <div class="service-card glass-panel p-10 rounded-[2rem] border border-primary/30 hover:border-primary/50 hover:shadow-[0_0_40px_-15px_rgba(129,236,255,0.5)] reveal relative overflow-hidden">
+            <!-- Popular badge -->
+            <div class="absolute top-6 right-6 bg-primary text-on-primary-fixed text-[9px] font-black font-space-grotesk uppercase tracking-widest px-3 py-1 rounded-full">
+              <span id="popular-badge">Beliebt</span>
             </div>
-
-            <!-- UI/UX -->
-            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-3">
-                  <span class="material-symbols-outlined text-primary">dashboard</span>
-                  <span class="font-space-grotesk font-bold text-lg">UI/UX Design</span>
-                </div>
-                <span class="font-space-grotesk text-primary text-sm font-bold">80%</span>
-              </div>
-              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:80%"></div>
-              </div>
-              <p class="mt-4 text-sm text-on-surface-variant font-body">Intuitive HUD design, menu systems, and dynamic interface animations.</p>
+            <div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-3xl text-primary">shopping_cart</span>
             </div>
-
-            <!-- Shader Dev -->
-            <div class="glass-panel p-8 rounded-xl border border-primary/5 hover:border-primary/20 transition-all reveal">
-              <div class="flex justify-between items-end mb-4">
-                <div class="flex items-center gap-3">
-                  <span class="material-symbols-outlined text-primary">flare</span>
-                  <span class="font-space-grotesk font-bold text-lg">Shader Development</span>
-                </div>
-                <span class="font-space-grotesk text-primary text-sm font-bold">72%</span>
-              </div>
-              <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                <div class="h-full bg-primary skill-bar shadow-[0_0_10px_rgba(129,236,255,0.8)]" style="width:72%"></div>
-              </div>
-              <p class="mt-4 text-sm text-on-surface-variant font-body">HLSL, Material Editor, custom post-process effects, and VFX pipelines.</p>
-            </div>
+            <h3 id="s2-title" class="font-headline text-2xl font-bold mb-3">WordPress &amp; WooCommerce</h3>
+            <p id="s2-copy" class="text-on-surface-variant font-body text-sm leading-relaxed mb-6">Maßgeschneiderte WordPress-Themes, Plugin-Entwicklung und vollständige WooCommerce-Shops. Einfach zu verwalten – auch ohne technische Kenntnisse.</p>
+            <ul class="space-y-2 mb-8">
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f1">Custom Theme-Entwicklung</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f2">WooCommerce-Shops</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f3">Plugin-Entwicklung</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f4">Zahlungsintegration</span></li>
+            </ul>
+            <a href="#contact" class="inline-flex items-center gap-2 text-primary font-space-grotesk font-bold text-sm uppercase tracking-widest hover:gap-3 transition-all">
+              <span id="s2-cta">Angebot anfragen</span> <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
           </div>
-        </div>
 
-        <!-- Tech tag cloud -->
-        <div class="mt-16 reveal">
-          <p class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-6">Also fluent in</p>
-          <div class="flex flex-wrap gap-3">
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Git / Perforce</span>
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">HLSL</span>
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Niagara VFX</span>
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Substance Painter</span>
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Houdini</span>
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Figma</span>
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Jira / Confluence</span>
-            <span class="px-4 py-2 glass-panel border border-primary/10 text-primary text-xs font-bold rounded-full font-space-grotesk uppercase tracking-wider">Wwise / FMOD</span>
+          <!-- Service 3: Support & Wartung -->
+          <div class="service-card glass-panel p-10 rounded-[2rem] border border-primary/10 hover:border-primary/30 hover:shadow-[0_0_40px_-15px_rgba(129,236,255,0.4)] reveal">
+            <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-3xl text-primary">support_agent</span>
+            </div>
+            <h3 id="s3-title" class="font-headline text-2xl font-bold mb-3">Support &amp; Wartung</h3>
+            <p id="s3-copy" class="text-on-surface-variant font-body text-sm leading-relaxed mb-6">Monatliche Wartungspakete: Updates, Backups, Sicherheits-Scans und direkter Ansprechpartner. Deine Website läuft – immer.</p>
+            <ul class="space-y-2 mb-8">
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f1">Regelmäßige Updates</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f2">Tägliche Backups</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f3">Sicherheits-Monitoring</span></li>
+              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f4">Priority-Support</span></li>
+            </ul>
+            <a href="#contact" class="inline-flex items-center gap-2 text-primary font-space-grotesk font-bold text-sm uppercase tracking-widest hover:gap-3 transition-all">
+              <span id="s3-cta">Paket anfragen</span> <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
           </div>
         </div>
       </div>
@@ -531,8 +499,8 @@
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 reveal">
           <div>
-            <span id="portfolio-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Archiv der Realitäten</span>
-            <h2 id="portfolio-title" class="font-headline text-4xl font-bold tracking-tight">Projektportfolio</h2>
+            <span id="portfolio-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Referenzen</span>
+            <h2 id="portfolio-title" class="font-headline text-4xl font-bold tracking-tight">Ausgewählte Projekte</h2>
           </div>
           <div class="flex gap-4">
             <button id="prev-btn" aria-label="Previous" class="w-12 h-12 rounded-full glass-panel border border-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary-fixed transition-all">
@@ -547,80 +515,119 @@
         <!-- Project Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="projects-grid">
 
-          <!-- Project 1 -->
+          <!-- Project 1: Corporate Website -->
           <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
-            <div class="aspect-[4/5] overflow-hidden">
-              <img
-                alt="Neon Nexus Arena"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjeENaicnGjx1TOTdkaWEa32eC-qXoOYUoi5N8owXvz9HB2fSNs7FUav4z6My35dPt8ov8Gru3ORCWbk6wFfxHvwPe9Ca-cFQ7F7RBw-bjttxqSVg-Sdw5smUPI2WO9nAomQ99T8VIrp128k_Bo2eX4xrmGGC03eKpFGPsVYyjrPHTzpdKVSqlW8TSJA60KhR7szTHP8wkTjbOLXBxcw41D7HV94nKYjWNZXyReKkhr87l7037cPyvG9B-5R-ScA4SuQ381e3JBvg"
-              />
+            <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
+              <div class="text-center p-8">
+                <span class="material-symbols-outlined text-6xl text-primary mb-4 block">business</span>
+                <div class="space-y-2">
+                  <div class="h-3 bg-primary/20 rounded-full w-48 mx-auto"></div>
+                  <div class="h-2 bg-primary/10 rounded-full w-36 mx-auto"></div>
+                  <div class="h-2 bg-primary/10 rounded-full w-40 mx-auto"></div>
+                </div>
+                <div class="mt-6 grid grid-cols-3 gap-2">
+                  <div class="h-16 bg-primary/10 rounded-lg"></div>
+                  <div class="h-16 bg-primary/15 rounded-lg"></div>
+                  <div class="h-16 bg-primary/10 rounded-lg"></div>
+                </div>
+              </div>
             </div>
             <div class="absolute inset-0 project-overlay"></div>
             <div class="absolute bottom-0 left-0 p-8 w-full">
-              <h3 class="font-headline text-2xl font-bold text-white mb-2">Neon Nexus: Arena</h3>
+              <h3 class="font-headline text-2xl font-bold text-white mb-2">Unternehmenswebsite</h3>
               <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
-                Fast-paced cyberpunk combat arena developed in UE5 using Niagara particles and custom physics.
+                Vollständige Corporate Website für ein mittelständisches Unternehmen. WordPress mit Custom Theme, Mehrsprachigkeit und Performance-Optimierung.
               </p>
               <div class="flex flex-wrap gap-2">
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">UE5</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">C++</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Niagara</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">WordPress</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">PHP</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">SEO</span>
               </div>
-              <a href="#" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
-                View Project <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              <a href="#contact" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
+                Ähnliches Projekt <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </a>
             </div>
           </article>
 
-          <!-- Project 2 -->
+          <!-- Project 2: WooCommerce Shop -->
           <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
-            <div class="aspect-[4/5] overflow-hidden">
-              <img
-                alt="Quantum Blade"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGa4Y45njdTiruDDpQ_bRwGp_C931-I-zMCR9kYvEuK1s_zZhX7mqr0AwtVJ9RuqU__0KLPfrhQAp1wFzrr-y59lqfxW983YnFqu_CZCzpfyPzD135oiIdn7k8EKxNl3BH8twfK-JIeU49CvpXQkDrbkSbcwKMaGX8XpmpUisqM_1P1e4dSleUJh7fU7UsbFkru1Co9ZBdZqgXk-t6ua21CQU_LC32cVEozJjti7DihUgVgWqZkaUvLOGrrzDm0ovtjCpJm_8vkIU"
-              />
+            <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
+              <div class="text-center p-8 w-full">
+                <span class="material-symbols-outlined text-6xl text-primary mb-4 block">shopping_cart</span>
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                  <div class="bg-primary/10 rounded-xl p-3">
+                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
+                    <div class="h-2 bg-primary/15 rounded w-full"></div>
+                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
+                  </div>
+                  <div class="bg-primary/10 rounded-xl p-3">
+                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
+                    <div class="h-2 bg-primary/15 rounded w-full"></div>
+                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
+                  </div>
+                  <div class="bg-primary/10 rounded-xl p-3">
+                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
+                    <div class="h-2 bg-primary/15 rounded w-full"></div>
+                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
+                  </div>
+                  <div class="bg-primary/10 rounded-xl p-3">
+                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
+                    <div class="h-2 bg-primary/15 rounded w-full"></div>
+                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="absolute inset-0 project-overlay"></div>
             <div class="absolute bottom-0 left-0 p-8 w-full">
-              <h3 class="font-headline text-2xl font-bold text-white mb-2">Quantum Blade</h3>
+              <h3 class="font-headline text-2xl font-bold text-white mb-2">WooCommerce-Shop</h3>
               <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
-                Souls-like action RPG focusing on intricate sword-play and dynamic AI behavior systems.
+                Vollständiger Online-Shop mit WooCommerce, Stripe-Integration, automatischem Lagerbestand und individuellem Checkout-Flow.
               </p>
               <div class="flex flex-wrap gap-2">
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Design</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">AI</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">RPG</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">WooCommerce</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Stripe</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">PHP</span>
               </div>
-              <a href="#" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
-                View Project <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              <a href="#contact" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
+                Ähnliches Projekt <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </a>
             </div>
           </article>
 
-          <!-- Project 3 -->
+          <!-- Project 3: Custom Web App -->
           <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
-            <div class="aspect-[4/5] overflow-hidden">
-              <img
-                alt="Data Flow UI"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTLK3fWo9dWgVc034k8V8yhF-AcK3ecTQPLZmsbqqLQ1qRwksYiOYJC5Mx7ZxnxuVeCT6DhKiiVzX1qZKQQN2E-54L-_QwFNL1qIeqGGZyOw4IxVL6iGlGzMGIU5MNZE9AvWE8W_Pteh2-tmOyrZ9ZhQVQTBOCjuOXcTtc5JBjTlwD_Qt8kAoxS3Zpu-AZ7prpMGp-d6kNrOEDwX8KCEyH8E8uS8KANBR869hC8AydJhDV6EZrf26rua8RoB7ZihAL111DokzcpOs"
-              />
+            <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
+              <div class="text-center p-8 w-full">
+                <span class="material-symbols-outlined text-6xl text-primary mb-4 block">dashboard_customize</span>
+                <div class="bg-primary/10 rounded-xl p-4 mt-2">
+                  <div class="flex gap-2 mb-3">
+                    <div class="h-6 bg-primary/30 rounded w-1/3"></div>
+                    <div class="h-6 bg-primary/20 rounded w-1/4"></div>
+                    <div class="h-6 bg-primary/15 rounded w-1/4"></div>
+                  </div>
+                  <div class="h-24 bg-primary/10 rounded-lg mb-3"></div>
+                  <div class="grid grid-cols-3 gap-2">
+                    <div class="h-8 bg-primary/20 rounded"></div>
+                    <div class="h-8 bg-primary/15 rounded"></div>
+                    <div class="h-8 bg-primary/10 rounded"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="absolute inset-0 project-overlay"></div>
             <div class="absolute bottom-0 left-0 p-8 w-full">
-              <h3 class="font-headline text-2xl font-bold text-white mb-2">Data Flow UI</h3>
+              <h3 class="font-headline text-2xl font-bold text-white mb-2">Custom Web-App</h3>
               <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
-                A comprehensive UI framework for sci-fi titles with modular components and animations.
+                Maßgeschneiderte Web-Applikation mit React-Frontend, Laravel-Backend und REST-API für ein Buchungssystem.
               </p>
               <div class="flex flex-wrap gap-2">
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">UX/UI</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Figma</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Motion</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">React</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Laravel</span>
+                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">API</span>
               </div>
-              <a href="#" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
-                View Project <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              <a href="#contact" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
+                Ähnliches Projekt <span class="material-symbols-outlined text-sm">arrow_forward</span>
               </a>
             </div>
           </article>
@@ -628,126 +635,9 @@
 
         <!-- See More -->
         <div class="mt-12 text-center reveal">
-          <a href="#" class="inline-flex items-center gap-2 px-8 py-4 glass-panel border border-primary/10 text-primary font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 uppercase tracking-wider text-sm">
-            <span id="portfolio-all">Alle Projekte</span> <span class="material-symbols-outlined">grid_view</span>
+          <a href="#contact" class="inline-flex items-center gap-2 px-8 py-4 glass-panel border border-primary/10 text-primary font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 uppercase tracking-wider text-sm">
+            <span id="portfolio-all">Projekt besprechen</span> <span class="material-symbols-outlined">send</span>
           </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== TIMELINE ==================== -->
-    <section class="py-24 px-6 bg-surface-container-low/30" id="timeline">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-20 reveal">
-          <span id="timeline-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Kognitive Ladung</span>
-          <h2 id="timeline-title" class="font-headline text-4xl font-bold tracking-tight">Ausbildung &amp; Weiterbildung</h2>
-        </div>
-
-        <div class="space-y-12">
-
-          <!-- Item 1 -->
-          <div class="relative pl-12 reveal
-                       before:content-[''] before:absolute before:left-0 before:top-2
-                       before:w-[2px] before:h-[calc(100%+48px)]
-                       before:bg-gradient-to-b before:from-primary before:to-transparent">
-            <div class="absolute left-[-5px] top-1.5 w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(129,236,255,1)]"></div>
-            <div class="glass-panel p-8 rounded-2xl border border-primary/5 hover:scale-[1.01] transition-transform">
-              <span class="font-label text-primary text-xs mb-2 block tracking-widest uppercase">2021 — 2023</span>
-              <h3 class="font-headline text-2xl font-bold mb-1">M.Sc. Interactive Entertainment</h3>
-              <p class="text-on-surface-variant font-body mb-4">Elite Gaming Academy, Berlin</p>
-              <p class="text-sm text-on-surface/70 leading-relaxed font-body">Specialized in Advanced Real-time Graphics and Procedural Generation. Graduated with honors (1.2 GPA). Thesis on <em>"Neural Radiance Fields in Real-time VR Environments."</em></p>
-            </div>
-          </div>
-
-          <!-- Item 2 -->
-          <div class="relative pl-12 reveal
-                       before:content-[''] before:absolute before:left-0 before:top-2
-                       before:w-[2px] before:h-[calc(100%+48px)]
-                       before:bg-gradient-to-b before:from-primary/50 before:to-transparent">
-            <div class="absolute left-[-5px] top-1.5 w-3 h-3 rounded-full bg-primary/60 shadow-[0_0_10px_rgba(129,236,255,0.6)]"></div>
-            <div class="glass-panel p-8 rounded-2xl border border-primary/5 hover:scale-[1.01] transition-transform">
-              <span class="font-label text-primary text-xs mb-2 block tracking-widest uppercase">2017 — 2021</span>
-              <h3 class="font-headline text-2xl font-bold mb-1">B.Sc. Computer Science</h3>
-              <p class="text-on-surface-variant font-body mb-4">Tech University of Munich</p>
-              <p class="text-sm text-on-surface/70 leading-relaxed font-body">Focused on Systems Engineering, Algorithms, and Discrete Mathematics. Developed a custom ray-tracing engine from scratch as a capstone project.</p>
-            </div>
-          </div>
-
-          <!-- Item 3 — Certifications -->
-          <div class="relative pl-12 reveal">
-            <div class="absolute left-[-5px] top-1.5 w-3 h-3 rounded-full bg-primary/30 shadow-[0_0_10px_rgba(129,236,255,0.3)]"></div>
-            <div class="glass-panel p-8 rounded-2xl border border-primary/5 hover:scale-[1.01] transition-transform">
-              <span class="font-label text-primary text-xs mb-2 block tracking-widest uppercase">Ongoing</span>
-              <h3 class="font-headline text-2xl font-bold mb-1">Industry Certifications</h3>
-              <p class="text-on-surface-variant font-body mb-4">Unreal Online Learning &amp; GDC Workshops</p>
-              <ul class="space-y-2 text-sm text-on-surface/70 font-body list-none">
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">verified</span> Unreal Authorized Instructor — Blueprints</li>
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">verified</span> Advanced Lumen &amp; Nanite Architecture</li>
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">verified</span> GDC Game AI Summit — 2023 Participant</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== LANGUAGES ==================== -->
-    <section class="py-24 px-6 overflow-hidden">
-      <div class="max-w-7xl mx-auto">
-        <div class="mb-16 reveal">
-          <span id="lang-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Neuronale Links</span>
-          <h2 id="lang-title" class="font-headline text-4xl font-bold tracking-tight">Sprachprotokolle</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-          <!-- German -->
-          <div class="glass-panel p-10 rounded-3xl border border-primary/5 text-center group reveal hover:border-primary/20 transition-all">
-            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-              <span class="material-symbols-outlined text-3xl text-primary">translate</span>
-            </div>
-            <h3 class="font-headline text-xl font-bold mb-2">German</h3>
-            <p class="text-primary text-sm font-label uppercase tracking-widest mb-6">Native Protocol</p>
-            <div class="flex justify-center gap-1">
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_10px_rgba(129,236,255,0.8)]"></div>
-            </div>
-          </div>
-
-          <!-- English -->
-          <div class="glass-panel p-10 rounded-3xl border border-primary/5 text-center group reveal hover:border-primary/20 transition-all">
-            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-              <span class="material-symbols-outlined text-3xl text-primary">language</span>
-            </div>
-            <h3 class="font-headline text-xl font-bold mb-2">English</h3>
-            <p class="text-primary text-sm font-label uppercase tracking-widest mb-6">Proficient Protocol</p>
-            <div class="flex justify-center gap-1">
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-surface-container rounded-full"></div>
-            </div>
-          </div>
-
-          <!-- Spanish -->
-          <div class="glass-panel p-10 rounded-3xl border border-primary/5 text-center group reveal hover:border-primary/20 transition-all">
-            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-              <span class="material-symbols-outlined text-3xl text-primary">public</span>
-            </div>
-            <h3 class="font-headline text-xl font-bold mb-2">Spanish</h3>
-            <p class="text-primary text-sm font-label uppercase tracking-widest mb-6">Intermediate Protocol</p>
-            <div class="flex justify-center gap-1">
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-primary rounded-full shadow-[0_0_6px_rgba(129,236,255,0.6)]"></div>
-              <div class="w-8 h-1 bg-surface-container rounded-full"></div>
-              <div class="w-8 h-1 bg-surface-container rounded-full"></div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -759,31 +649,31 @@
 
           <!-- Left info -->
           <div class="reveal">
-            <span id="contact-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Übertragungssignal</span>
+            <span id="contact-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Projekt starten</span>
             <h2 class="font-headline text-5xl md:text-6xl font-black tracking-tighter mb-8 leading-tight">
-              <span id="contact-title-pre">Kontakt </span><span id="contact-title-key" class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">aufnehmen</span>
+              <span id="contact-title-pre">Lass uns </span><span id="contact-title-key" class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">zusammenarbeiten</span>
             </h2>
             <p id="contact-copy" class="font-body text-lg text-on-surface-variant mb-12 max-w-lg">
-              Bereit, die nächste Generation von Gaming-Erlebnissen zu erschaffen? Schreib mir oder verbinde dich über das neuronale Netzwerk.
+              Du hast ein Projekt im Kopf oder brauchst Unterstützung für deine bestehende Website? Schreib uns – wir antworten innerhalb von 24 Stunden mit einem konkreten Angebot.
             </p>
             <div class="space-y-6">
               <div class="flex items-center gap-4 text-on-surface">
                 <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
                   <span class="material-symbols-outlined text-primary">mail</span>
                 </div>
-                <span class="font-space-grotesk text-lg">leandro@neon-architect.com</span>
+                <span class="font-space-grotesk text-lg">info@aa-webart.de</span>
               </div>
               <div class="flex items-center gap-4 text-on-surface">
                 <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
                   <span class="material-symbols-outlined text-primary">location_on</span>
                 </div>
-                <span class="font-space-grotesk text-lg">Berlin, DE // Remote Available</span>
+                <span class="font-space-grotesk text-lg">Berlin, DE // Remote worldwide</span>
               </div>
               <div class="flex items-center gap-4 text-on-surface">
                 <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
                   <span class="material-symbols-outlined text-primary">schedule</span>
                 </div>
-                <span class="font-space-grotesk text-lg">Response within 24 hours</span>
+                <span class="font-space-grotesk text-lg">Antwort innerhalb von 24 Stunden</span>
               </div>
             </div>
 
@@ -792,14 +682,14 @@
               <a href="#" aria-label="GitHub" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
                 <span class="material-symbols-outlined">code</span>
               </a>
-              <a href="#" aria-label="ArtStation" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
-                <span class="material-symbols-outlined">palette</span>
-              </a>
               <a href="#" aria-label="LinkedIn" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
                 <span class="material-symbols-outlined">work</span>
               </a>
-              <a href="#" aria-label="Discord" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
-                <span class="material-symbols-outlined">forum</span>
+              <a href="#" aria-label="Xing" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
+                <span class="material-symbols-outlined">person_search</span>
+              </a>
+              <a href="#" aria-label="WhatsApp" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
+                <span class="material-symbols-outlined">chat</span>
               </a>
             </div>
           </div>
@@ -811,41 +701,54 @@
             <form id="contact-form" class="space-y-6" novalidate>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Subject Name</label>
+                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Dein Name</label>
                   <input
                     id="f-name" name="name" type="text" required
                     class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40"
-                    placeholder="Your Name"
+                    placeholder="Max Mustermann"
                   />
                 </div>
                 <div class="space-y-2">
-                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Return Address</label>
+                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">E-Mail</label>
                   <input
                     id="f-email" name="email" type="email" required
                     class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40"
-                    placeholder="email@address.com"
+                    placeholder="max@example.de"
                   />
                 </div>
               </div>
               <div class="space-y-2">
-                <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Data Packet</label>
+                <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Leistung</label>
+                <select
+                  id="f-service" name="service"
+                  class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface appearance-none"
+                >
+                  <option value="">Bitte wählen...</option>
+                  <option value="website">Website erstellen</option>
+                  <option value="wordpress">WordPress / WooCommerce</option>
+                  <option value="support">Support &amp; Wartung</option>
+                  <option value="other">Sonstiges</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Deine Nachricht</label>
                 <textarea
                   id="f-message" name="message" required rows="5"
                   class="w-full bg-surface-container-highest border border-transparent rounded-[2rem] px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40 resize-none"
-                  placeholder="Your Message..."
+                  placeholder="Beschreib dein Projekt kurz..."
                 ></textarea>
               </div>
               <button
                 type="submit"
                 class="w-full py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary-fixed font-space-grotesk font-black uppercase tracking-widest rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_10px_30px_rgba(0,227,253,0.3)] flex items-center justify-center gap-3"
               >
-                <span id="contact-send">Übertragung senden</span> <span class="material-symbols-outlined">send</span>
+                <span id="contact-send">Anfrage senden</span> <span class="material-symbols-outlined">send</span>
               </button>
 
               <!-- Success feedback (hidden by default) -->
               <p id="form-success" class="hidden text-center text-primary font-space-grotesk text-sm tracking-wide">
                 <span class="material-symbols-outlined align-middle text-sm">check_circle</span>
-                <span id="form-ok-text">Übertragung empfangen. Bis bald!</span>
+                <span id="form-ok-text">Danke! Ich melde mich innerhalb von 24 Stunden.</span>
               </p>
             </form>
           </div>
@@ -862,19 +765,17 @@
     <div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-7xl mx-auto">
       <div class="flex flex-col items-center md:items-start gap-0.5">
         <div class="flex flex-col leading-none">
-          <span class="text-2xl font-black tracking-tighter text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] font-space-grotesk uppercase">LEANDRO</span>
-          <span class="text-[9px] font-bold tracking-[0.28em] text-slate-500 font-space-grotesk uppercase -mt-0.5">Let's&nbsp;play!</span>
+          <span class="text-xl font-black tracking-tight text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] font-space-grotesk">A<span class="text-slate-400">&amp;</span>A&nbsp;WebArt</span>
+          <span class="text-[9px] font-bold tracking-[0.28em] text-slate-500 font-space-grotesk uppercase -mt-0.5">Let's&nbsp;build!</span>
         </div>
-        <span class="text-slate-600 font-space-grotesk text-[10px] tracking-widest uppercase mt-1">© 2026 Neon Architect</span>
+        <span class="text-slate-600 font-space-grotesk text-[10px] tracking-widest uppercase mt-1">© 2026 A&amp;A WebArt</span>
+      </div>
+      <div class="flex items-center gap-8 text-slate-500 font-space-grotesk text-[10px] tracking-widest uppercase">
+        <a href="#services" class="hover:text-cyan-400 transition-colors">Leistungen</a>
+        <a href="#portfolio" class="hover:text-cyan-400 transition-colors">Portfolio</a>
+        <a href="#contact" class="hover:text-cyan-400 transition-colors">Kontakt</a>
       </div>
       <div class="flex items-center gap-5">
-        <a href="#" aria-label="ArtStation"
-           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 17.723l2.027 3.505h.001a2.424 2.424 0 0 0 2.164 1.333h13.457l-2.792-4.838H0zm24 .025c0-.484-.143-.935-.388-1.314L15.728 2.728a2.424 2.424 0 0 0-2.142-1.289H9.419L21.598 22.54l1.92-3.325c.378-.637.482-.919.482-1.467zm-11.129-3.462L7.428 4.858l-5.444 9.428h10.887z"/>
-          </svg>
-          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">ArtStation</span>
-        </a>
         <a href="#" aria-label="GitHub"
            class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
           <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -889,22 +790,22 @@
           </svg>
           <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">LinkedIn</span>
         </a>
-        <a href="#" aria-label="Discord"
+        <a href="#" aria-label="Xing"
            class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
           <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            <path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.097.471-.264.089-.173.089-.384-.009-.573l-4.917-8.99c-.001 0 7.717-13.703 7.717-13.703.091-.189.091-.398 0-.571C21.988.097 21.823 0 21.612 0h-3.424zM3.648 4.74c-.211 0-.385.097-.473.263-.089.176-.084.39.009.568l2.621 3.576-3.689 6.512c-.091.186-.091.396 0 .569.09.173.264.265.474.265h3.427c.518 0 .741-.314.927-.66l3.002-5.295-2.52-3.576z"/>
           </svg>
-          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">Discord</span>
+          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">Xing</span>
         </a>
       </div>
       <div class="text-slate-500 font-space-grotesk text-[10px] tracking-[0.3em] uppercase">
-        <span id="footer-built">Mit UE5 &amp; Leidenschaft gebaut</span>
+        <span id="footer-built">Mit WordPress &amp; Leidenschaft gebaut</span>
       </div>
     </div>
   </footer>
 
   <!-- FAB (mobile only) -->
-  <a href="#contact" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-primary-container text-on-primary-fixed shadow-[0_0_30px_rgba(0,227,253,0.5)] flex items-center justify-center hover:scale-110 active:scale-90 transition-transform z-40 lg:hidden" aria-label="Contact">
+  <a href="#contact" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-primary-container text-on-primary-fixed shadow-[0_0_30px_rgba(0,227,253,0.5)] flex items-center justify-center hover:scale-110 active:scale-90 transition-transform z-40 lg:hidden" aria-label="Kontakt">
     <span class="material-symbols-outlined text-3xl">chat_bubble</span>
   </a>
 
@@ -915,55 +816,88 @@
     /* ---- Language switcher ---- */
     const translations = {
       de: {
-        navSkills: "Skills", navPortfolio: "Portfolio", navTimeline: "Timeline", navContact: "Kontakt",
-        hireMe: "Hire Me",
-        heroSub: "Game Developer & Designer",
-        heroCopy: "Immersive digitale Welten erschaffen – an der Schnittstelle von fortgeschrittenem Engineering und cinematischem Storytelling. Spezialisiert auf hochperformante UE5-Systeme.",
-        heroProjects: "Projekte ansehen", heroTalk: "Schreib mir",
-        statsYears: "Jahre Erfahrung", statsProjects: "Projekte", statsAwards: "Auszeichnungen", statsCoffee: "Kaffee verbraucht",
-        skillsLabel: "Technologisches Arsenal", skillsTitle: "Kernkompetenzen",
-        portfolioLabel: "Archiv der Realitäten", portfolioTitle: "Projektportfolio", portfolioAll: "Alle Projekte",
-        timelineLabel: "Kognitive Ladung", timelineTitle: "Ausbildung & Weiterbildung",
-        langLabel: "Neuronale Links", langTitle: "Sprachprotokolle",
-        contactLabel: "Übertragungssignal", contactTitlePre: "Kontakt ", contactTitleKey: "aufnehmen",
-        contactCopy: "Bereit, die nächste Generation von Gaming-Erlebnissen zu erschaffen? Schreib mir oder verbinde dich über das neuronale Netzwerk.",
-        contactName: "Name", contactEmail: "E-Mail", contactMsg: "Nachricht", contactSend: "Übertragung senden",
-        formOk: "Übertragung empfangen. Bis bald!",
-        footerBuilt: "Mit UE5 & Leidenschaft gebaut",
+        navServices: "Leistungen", navPortfolio: "Portfolio", navContact: "Kontakt",
+        hireMe: "Anfrage stellen",
+        heroSub: "Fullstack Developer & WordPress-Experte",
+        heroCopy: "Wir bauen schnelle, moderne Websites und Online-Shops – maßgeschneidert für dein Unternehmen. Von der Idee bis zum Launch, inklusive Support & Wartung.",
+        heroProjects: "Leistungen ansehen", heroTalk: "Projekt anfragen",
+        statsYears: "Jahre Erfahrung", statsProjects: "Websites gebaut", statsAwards: "Zufriedene Kunden", statsCoffee: "Support verfügbar",
+        servicesLabel: "Was ich anbiete", servicesTitle: "Meine Leistungen",
+        servicesCopy: "Von der ersten Idee bis zum fertigen Produkt – wir begleiten dich durch den gesamten Prozess und sorgen dafür, dass deine Website genau das tut, was du brauchst.",
+        s1Title: "Website Erstellen", s1Copy: "Professionelle Unternehmenswebsites, Landing Pages und Web-Apps – responsive, SEO-optimiert und blitzschnell.",
+        s1F1: "Individuelles Design", s1F2: "SEO & Performance", s1F3: "Mobile First", s1F4: "SSL & Hosting-Setup",
+        s1Cta: "Angebot anfragen",
+        s2Title: "WordPress & WooCommerce", s2Copy: "Maßgeschneiderte WordPress-Themes, Plugin-Entwicklung und vollständige WooCommerce-Shops.",
+        s2F1: "Custom Theme-Entwicklung", s2F2: "WooCommerce-Shops", s2F3: "Plugin-Entwicklung", s2F4: "Zahlungsintegration",
+        s2Cta: "Angebot anfragen", popularBadge: "Beliebt",
+        s3Title: "Support & Wartung", s3Copy: "Monatliche Wartungspakete: Updates, Backups, Sicherheits-Scans und direkter Ansprechpartner.",
+        s3F1: "Regelmäßige Updates", s3F2: "Tägliche Backups", s3F3: "Sicherheits-Monitoring", s3F4: "Priority-Support",
+        s3Cta: "Paket anfragen",
+        skillsLabel: "Tech-Stack", skillsTitle: "Kernkompetenzen",
+        portfolioLabel: "Referenzen", portfolioTitle: "Ausgewählte Projekte", portfolioAll: "Projekt besprechen",
+        timelineLabel: "Werdegang", timelineTitle: "Erfahrung & Ausbildung",
+        langLabel: "Kommunikation", langTitle: "Sprachkenntnisse",
+        contactLabel: "Projekt starten", contactTitlePre: "Lass uns ", contactTitleKey: "zusammenarbeiten",
+        contactCopy: "Du hast ein Projekt im Kopf oder brauchst Unterstützung für deine bestehende Website? Schreib uns – wir antworten innerhalb von 24 Stunden mit einem konkreten Angebot.",
+        contactName: "Max Mustermann", contactEmail: "max@example.de", contactMsg: "Beschreib dein Projekt kurz...", contactSend: "Anfrage senden",
+        formOk: "Danke! Wir melden uns innerhalb von 24 Stunden.",
+        footerBuilt: "Mit WordPress &amp; Leidenschaft gebaut",
       },
       en: {
-        navSkills: "Skills", navPortfolio: "Portfolio", navTimeline: "Timeline", navContact: "Contact",
-        hireMe: "Hire Me",
-        heroSub: "Game Developer & Designer",
-        heroCopy: "Crafting immersive digital worlds through the intersection of advanced engineering and cinematic storytelling. Specialized in high-performance UE5 systems.",
-        heroProjects: "View Projects", heroTalk: "Let's Talk",
-        statsYears: "Years Experience", statsProjects: "Projects Shipped", statsAwards: "Awards Won", statsCoffee: "Coffee Consumed",
-        skillsLabel: "Technological Arsenal", skillsTitle: "Core Expertise",
-        portfolioLabel: "Archive of Realities", portfolioTitle: "Project Portfolio", portfolioAll: "View All Projects",
-        timelineLabel: "Cognitive Loading", timelineTitle: "Education & Training",
-        langLabel: "Neural Links", langTitle: "Language Protocols",
-        contactLabel: "Transmission Signal", contactTitlePre: "Initialize ", contactTitleKey: "Contact",
-        contactCopy: "Ready to architect the next generation of gaming experiences? Send an encrypted message or connect via the neural network.",
-        contactName: "Your Name", contactEmail: "email@address.com", contactMsg: "Your Message...", contactSend: "Send Transmission",
-        formOk: "Transmission received. Talk soon!",
-        footerBuilt: "Built with UE5 & Passion",
+        navServices: "Services", navPortfolio: "Portfolio", navContact: "Contact",
+        hireMe: "Get a Quote",
+        heroSub: "Fullstack Developer & WordPress Expert",
+        heroCopy: "We build fast, modern websites and online shops – tailored to your business. From idea to launch, including support & maintenance.",
+        heroProjects: "View Services", heroTalk: "Start a Project",
+        statsYears: "Years Experience", statsProjects: "Websites Built", statsAwards: "Happy Clients", statsCoffee: "Support Available",
+        servicesLabel: "What I offer", servicesTitle: "My Services",
+        servicesCopy: "From the first idea to the finished product – we guide you through the entire process and make sure your website does exactly what you need.",
+        s1Title: "Website Development", s1Copy: "Professional business websites, landing pages and web apps – responsive, SEO-optimized and lightning-fast.",
+        s1F1: "Custom Design", s1F2: "SEO & Performance", s1F3: "Mobile First", s1F4: "SSL & Hosting Setup",
+        s1Cta: "Request a Quote",
+        s2Title: "WordPress & WooCommerce", s2Copy: "Custom WordPress themes, plugin development and complete WooCommerce shops. Easy to manage – even without technical knowledge.",
+        s2F1: "Custom Theme Development", s2F2: "WooCommerce Shops", s2F3: "Plugin Development", s2F4: "Payment Integration",
+        s2Cta: "Request a Quote", popularBadge: "Popular",
+        s3Title: "Support & Maintenance", s3Copy: "Monthly maintenance packages: updates, backups, security scans and a direct point of contact. Your website runs – always.",
+        s3F1: "Regular Updates", s3F2: "Daily Backups", s3F3: "Security Monitoring", s3F4: "Priority Support",
+        s3Cta: "Get a Package",
+        skillsLabel: "Tech Stack", skillsTitle: "Core Expertise",
+        portfolioLabel: "References", portfolioTitle: "Selected Projects", portfolioAll: "Discuss a Project",
+        timelineLabel: "Career", timelineTitle: "Experience & Education",
+        langLabel: "Communication", langTitle: "Languages",
+        contactLabel: "Start a Project", contactTitlePre: "Let's ", contactTitleKey: "work together",
+        contactCopy: "Got a project in mind or need support for your existing website? Write to us – we'll reply within 24 hours with a concrete proposal.",
+        contactName: "John Doe", contactEmail: "john@example.com", contactMsg: "Briefly describe your project...", contactSend: "Send Request",
+        formOk: "Thanks! We'll get back to you within 24 hours.",
+        footerBuilt: "Built with WordPress & Passion",
       },
       es: {
-        navSkills: "Habilidades", navPortfolio: "Portafolio", navTimeline: "Trayectoria", navContact: "Contacto",
-        hireMe: "Contrátame",
-        heroSub: "Desarrollador & Diseñador de Videojuegos",
-        heroCopy: "Creando mundos digitales inmersivos en la intersección de la ingeniería avanzada y la narrativa cinematográfica. Especializado en sistemas UE5 de alto rendimiento.",
-        heroProjects: "Ver Proyectos", heroTalk: "Hablemos",
-        statsYears: "Años de Experiencia", statsProjects: "Proyectos", statsAwards: "Premios", statsCoffee: "Café Consumido",
-        skillsLabel: "Arsenal Tecnológico", skillsTitle: "Competencias Principales",
-        portfolioLabel: "Archivo de Realidades", portfolioTitle: "Portafolio de Proyectos", portfolioAll: "Ver Todos los Proyectos",
-        timelineLabel: "Carga Cognitiva", timelineTitle: "Educación y Formación",
-        langLabel: "Vínculos Neuronales", langTitle: "Protocolos de Idioma",
-        contactLabel: "Señal de Transmisión", contactTitlePre: "Iniciar ", contactTitleKey: "Contacto",
-        contactCopy: "¿Listo para construir la próxima generación de experiencias de juego? Envía un mensaje o conéctate a través de la red neuronal.",
-        contactName: "Tu Nombre", contactEmail: "correo@ejemplo.com", contactMsg: "Tu Mensaje...", contactSend: "Enviar Transmisión",
-        formOk: "¡Transmisión recibida! Hablamos pronto.",
-        footerBuilt: "Construido con UE5 y Pasión",
+        navServices: "Servicios", navPortfolio: "Portafolio", navContact: "Contacto",
+        hireMe: "Solicitar Presupuesto",
+        heroSub: "Desarrollador Fullstack & Experto en WordPress",
+        heroCopy: "Creamos sitios web modernos y tiendas online – a medida para tu empresa. Desde la idea hasta el lanzamiento, con soporte y mantenimiento incluido.",
+        heroProjects: "Ver Servicios", heroTalk: "Iniciar Proyecto",
+        statsYears: "Años de Experiencia", statsProjects: "Sitios Web Creados", statsAwards: "Clientes Satisfechos", statsCoffee: "Soporte Disponible",
+        servicesLabel: "Lo que ofrezco", servicesTitle: "Mis Servicios",
+        servicesCopy: "Desde la primera idea hasta el producto terminado – te acompañamos en todo el proceso y nos aseguramos de que tu sitio web haga exactamente lo que necesitas.",
+        s1Title: "Creación de Sitios Web", s1Copy: "Sitios web corporativos profesionales, landing pages y aplicaciones web – responsive, optimizadas para SEO y ultrarrápidas.",
+        s1F1: "Diseño Personalizado", s1F2: "SEO & Rendimiento", s1F3: "Mobile First", s1F4: "SSL & Configuración de Hosting",
+        s1Cta: "Solicitar Presupuesto",
+        s2Title: "WordPress & WooCommerce", s2Copy: "Temas WordPress a medida, desarrollo de plugins y tiendas WooCommerce completas. Fácil de gestionar.",
+        s2F1: "Desarrollo de Temas", s2F2: "Tiendas WooCommerce", s2F3: "Desarrollo de Plugins", s2F4: "Integración de Pagos",
+        s2Cta: "Solicitar Presupuesto", popularBadge: "Popular",
+        s3Title: "Soporte & Mantenimiento", s3Copy: "Paquetes mensuales de mantenimiento: actualizaciones, copias de seguridad, análisis de seguridad y contacto directo.",
+        s3F1: "Actualizaciones Regulares", s3F2: "Copias de Seguridad", s3F3: "Monitoreo de Seguridad", s3F4: "Soporte Prioritario",
+        s3Cta: "Contratar Paquete",
+        skillsLabel: "Stack Tecnológico", skillsTitle: "Competencias Principales",
+        portfolioLabel: "Referencias", portfolioTitle: "Proyectos Seleccionados", portfolioAll: "Hablar de un Proyecto",
+        timelineLabel: "Trayectoria", timelineTitle: "Experiencia y Formación",
+        langLabel: "Comunicación", langTitle: "Idiomas",
+        contactLabel: "Iniciar Proyecto", contactTitlePre: "Trabajemos ", contactTitleKey: "juntos",
+        contactCopy: "¿Tienes un proyecto en mente o necesitas apoyo para tu sitio web? Escríbenos – te respondemos en 24 horas con una propuesta concreta.",
+        contactName: "Juan García", contactEmail: "juan@ejemplo.es", contactMsg: "Describe brevemente tu proyecto...", contactSend: "Enviar Solicitud",
+        formOk: "¡Gracias! Nos pondremos en contacto contigo en menos de 24 horas.",
+        footerBuilt: "Construido con WordPress y Pasión",
       }
     };
 
@@ -976,7 +910,7 @@
 
       // Nav links
       const navLinkEls = document.querySelectorAll('.nav-link');
-      const keys = ['navSkills','navPortfolio','navTimeline','navContact'];
+      const keys = ['navServices','navPortfolio','navContact'];
       navLinkEls.forEach((el, i) => { if (keys[i]) el.textContent = t[keys[i]]; });
 
       // Mobile nav
@@ -999,22 +933,28 @@
       setI18n('stat-awards',  t.statsAwards);
       setI18n('stat-coffee',  t.statsCoffee);
 
+      // Services
+      setI18n('services-label', t.servicesLabel);
+      setI18n('services-title', t.servicesTitle);
+      setI18n('services-copy',  t.servicesCopy);
+      setI18n('s1-title', t.s1Title); setI18n('s1-copy', t.s1Copy);
+      setI18n('s1-f1', t.s1F1); setI18n('s1-f2', t.s1F2); setI18n('s1-f3', t.s1F3); setI18n('s1-f4', t.s1F4);
+      setI18n('s1-cta', t.s1Cta);
+      setI18n('s2-title', t.s2Title); setI18n('s2-copy', t.s2Copy);
+      setI18n('s2-f1', t.s2F1); setI18n('s2-f2', t.s2F2); setI18n('s2-f3', t.s2F3); setI18n('s2-f4', t.s2F4);
+      setI18n('s2-cta', t.s2Cta); setI18n('popular-badge', t.popularBadge);
+      setI18n('s3-title', t.s3Title); setI18n('s3-copy', t.s3Copy);
+      setI18n('s3-f1', t.s3F1); setI18n('s3-f2', t.s3F2); setI18n('s3-f3', t.s3F3); setI18n('s3-f4', t.s3F4);
+      setI18n('s3-cta', t.s3Cta);
+
       // Skills
-      setI18n('skills-label', t.skillsLabel);
-      setI18n('skills-title', t.skillsTitle);
 
       // Portfolio
       setI18n('portfolio-label', t.portfolioLabel);
       setI18n('portfolio-title', t.portfolioTitle);
       setI18n('portfolio-all',   t.portfolioAll);
 
-      // Timeline
-      setI18n('timeline-label', t.timelineLabel);
-      setI18n('timeline-title', t.timelineTitle);
 
-      // Languages
-      setI18n('lang-label', t.langLabel);
-      setI18n('lang-title', t.langTitle);
 
       // Contact
       setI18n('contact-label',     t.contactLabel);
@@ -1097,9 +1037,9 @@
     });
 
     /* ---- Mobile menu ---- */
-    const menuBtn   = document.getElementById('menu-btn');
+    const menuBtn    = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    const closeBtn  = document.getElementById('close-menu');
+    const closeBtn   = document.getElementById('close-menu');
     const mobileLinks = document.querySelectorAll('.mobile-nav');
 
     menuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
@@ -1129,7 +1069,7 @@
     }, { rootMargin: '-40% 0px -55% 0px' });
     sections.forEach(s => navObserver.observe(s));
 
-    /* ---- Portfolio prev/next (placeholder) ---- */
+    /* ---- Portfolio prev/next ---- */
     document.getElementById('prev-btn').addEventListener('click', () => {
       document.getElementById('projects-grid').scrollBy({ left: -320, behavior: 'smooth' });
     });
