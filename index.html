@@ -1,1089 +1,1398 @@
 <!DOCTYPE html>
-<html class="dark" lang="de">
+<html lang="de">
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>A&amp;A WebArt // Fullstack &amp; WordPress Developers</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "tertiary-fixed": "#b8a3ff",
-            "tertiary-container": "#7c4dff",
-            "on-tertiary-fixed-variant": "#4000ad",
-            "surface-container-lowest": "#000000",
-            "on-error-container": "#ffa8a3",
-            "error-container": "#9f0519",
-            "surface-container-high": "#1a1f2c",
-            "primary-fixed-dim": "#00d4ec",
-            "tertiary": "#a68cff",
-            "primary": "#81ecff",
-            "surface-bright": "#262c3a",
-            "secondary-fixed-dim": "#babfff",
-            "on-primary-fixed": "#003840",
-            "on-tertiary": "#25006b",
-            "on-surface-variant": "#a7abb7",
-            "surface-tint": "#81ecff",
-            "surface-dim": "#0a0e17",
-            "secondary-dim": "#8d96f4",
-            "error-dim": "#d7383b",
-            "surface-variant": "#202633",
-            "primary-dim": "#00d4ec",
-            "outline-variant": "#444852",
-            "on-primary-fixed-variant": "#005762",
-            "tertiary-dim": "#7e51ff",
-            "background": "#0a0e17",
-            "inverse-on-surface": "#515560",
-            "surface-container-low": "#0f131d",
-            "on-secondary-fixed": "#1f2882",
-            "secondary": "#929bfa",
-            "on-surface": "#ebedfb",
-            "surface": "#0a0e17",
-            "error": "#ff716c",
-            "on-secondary-fixed-variant": "#3e47a0",
-            "on-primary-container": "#004d57",
-            "inverse-surface": "#faf9ff",
-            "secondary-fixed": "#cbceff",
-            "on-primary": "#005762",
-            "tertiary-fixed-dim": "#ab93ff",
-            "on-tertiary-container": "#ffffff",
-            "secondary-container": "#343d96",
-            "surface-container": "#151925",
-            "outline": "#727581",
-            "on-tertiary-fixed": "#1c0055",
-            "primary-container": "#00e3fd",
-            "primary-fixed": "#00e3fd",
-            "inverse-primary": "#006976",
-            "on-secondary-container": "#c9cdff",
-            "on-secondary": "#0b1574",
-            "on-error": "#490006",
-            "on-background": "#ebedfb",
-            "surface-container-highest": "#202633"
-          },
-          borderRadius: {
-            DEFAULT: "1rem",
-            lg: "2rem",
-            xl: "3rem",
-            full: "9999px"
-          },
-          fontFamily: {
-            headline: ["Space Grotesk"],
-            body: ["Manrope"],
-            label: ["Space Grotesk"]
-          }
-        }
-      }
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet"/>
   <style>
-    body { font-family: 'Manrope', sans-serif; background-color: #0a0e17; color: #ebedfb; }
-    .font-space-grotesk { font-family: 'Space Grotesk', sans-serif; }
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    .glass-panel { background: rgba(32, 38, 51, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    .neon-glow { box-shadow: 0 0 20px rgba(129, 236, 255, 0.3); }
-    .neon-glow-strong { box-shadow: 0 0 30px rgba(129, 236, 255, 0.6); }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    /* ================================================================
+       NEUMORPHISMUS DESIGN SYSTEM — A&A WebArt
+       ================================================================
+       Schatten-Logik:
+         Hell oben-links  →  heller Reflex (Lichtquelle simulieren)
+         Dunkel unten-rechts → Schatten (Tiefe erzeugen)
+         Formel: box-shadow: NXpx NYpx BLURpx DARK, -NXpx -NYpx BLURpx LIGHT
+       ================================================================ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── CSS-Variablen: Licht-Modus (Standard) ── */
+    :root {
+      /* Basis-Hintergrund — das A in Neumorphismus */
+      --nm-bg:            #e0e5ec;
+      --nm-bg-deeper:     #d6dce8;
+
+      /* Schattenfarben — präzise auf --nm-bg abgestimmt */
+      --nm-shadow-dark:   #a3b1c6;   /* ~18% dunkler als bg */
+      --nm-shadow-light:  #ffffff;   /* reines Weiß als Licht-Highlight */
+
+      /* Oberflächen */
+      --nm-surface:       #e0e5ec;
+      --nm-surface-up:    #e8ecf4;   /* leicht heller für Hover */
+
+      /* Akzentfarbe (einzige "echte" Farbe in Neumorphismus) */
+      --nm-accent:        #4a7fc1;
+      --nm-accent-dark:   #3a6aa8;
+      --nm-accent-light:  #6b9de0;
+      --nm-accent-rgb:    74,127,193;
+
+      /* Sekundärakzent (Services-Highlight) */
+      --nm-accent2:       #7b68d4;
+      --nm-accent2-dark:  #6455b8;
+
+      /* Typografie */
+      --nm-text:          #374161;   /* dunkles Blau-Grau — guter Kontrast */
+      --nm-text-muted:    #6b7a99;
+      --nm-text-faint:    #9aa5be;
+      --nm-text-on-accent:#ffffff;
+
+      /* Schatten-Intensitäten */
+      --sh-xs:  3px  3px  6px var(--nm-shadow-dark), -3px -3px  6px var(--nm-shadow-light);
+      --sh-sm:  5px  5px 10px var(--nm-shadow-dark), -5px -5px 10px var(--nm-shadow-light);
+      --sh-md:  8px  8px 16px var(--nm-shadow-dark), -8px -8px 16px var(--nm-shadow-light);
+      --sh-lg: 12px 12px 24px var(--nm-shadow-dark),-12px-12px 24px var(--nm-shadow-light);
+      --sh-xl: 18px 18px 36px var(--nm-shadow-dark),-18px-18px 36px var(--nm-shadow-light);
+
+      /* Eingedrückt (Pressed / Inset) */
+      --sh-inset-sm: inset  4px  4px  8px var(--nm-shadow-dark), inset -4px -4px  8px var(--nm-shadow-light);
+      --sh-inset-md: inset  6px  6px 12px var(--nm-shadow-dark), inset -6px -6px 12px var(--nm-shadow-light);
+      --sh-inset-lg: inset  8px  8px 16px var(--nm-shadow-dark), inset -8px -8px 16px var(--nm-shadow-light);
+
+      /* Radien */
+      --r-sm:   10px;
+      --r-md:   16px;
+      --r-lg:   24px;
+      --r-xl:   32px;
+      --r-pill: 9999px;
+
+      /* Übergänge */
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ── CSS-Variablen: Dunkel-Modus ── */
+    .dark {
+      --nm-bg:            #1e2235;
+      --nm-bg-deeper:     #191d2e;
+      --nm-shadow-dark:   #14182a;
+      --nm-shadow-light:  #282f4a;
+      --nm-surface:       #1e2235;
+      --nm-surface-up:    #232840;
+      --nm-accent:        #6b9de0;
+      --nm-accent-dark:   #5080c0;
+      --nm-accent-light:  #8db8f0;
+      --nm-accent2:       #9b8bef;
+      --nm-accent2-dark:  #7a68d0;
+      --nm-text:          #c8d0e7;
+      --nm-text-muted:    #8b96b4;
+      --nm-text-faint:    #5a6480;
+    }
+
+    /* ── Base ── */
+    html   { scroll-behavior: smooth; font-size: 16px; }
+    body   {
+      font-family: 'Manrope', sans-serif;
+      background-color: var(--nm-bg);
+      color: var(--nm-text);
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+    img { max-width: 100%; display: block; }
+    ::selection { background: rgba(74,127,193,0.2); color: var(--nm-accent); }
+
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; line-height: 1; }
 
     /* ================================================================
-       LIGHT MODE — full palette redesign
-       Primary accent : #1058a0  (deep ocean blue)
-       BG main        : #f7f9fe  (barely-blue white)
-       BG alt         : #edf1fb  (soft lavender-white)
-       Surface card   : #ffffff
-       Heading        : #0c1445  (dark navy)
-       Body           : #2d3a5a  (blue-slate)
-       Muted          : #5a6a8a
-       Footer stays dark for contrast anchor
+       NEUMORPHISCHE KERN-KLASSEN
     ================================================================ */
 
-    /* --- CSS variables for light mode --- */
-    html:not(.dark) {
-      --lm-primary:    #1058a0;
-      --lm-primary-2:  #1271c4;
-      --lm-bg:         #f7f9fe;
-      --lm-bg-alt:     #edf1fb;
-      --lm-surface:    #ffffff;
-      --lm-surface-hi: #e4ecf8;
-      --lm-input:      #eaf0fa;
-      --lm-heading:    #0c1445;
-      --lm-body:       #2d3a5a;
-      --lm-muted:      #5a6a8a;
-      --lm-subtle:     #8494b0;
-      --lm-border:     rgba(16, 88, 160, 0.12);
-      --lm-shadow:     0 4px 24px rgba(16, 88, 160, 0.09), 0 1px 4px rgba(0,0,0,0.05);
+    /* Erhobene Fläche — erscheint aus dem Hintergrund heraus */
+    .nm-raised {
+      background: var(--nm-surface);
+      box-shadow: var(--sh-md);
+      transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+    }
+    .nm-raised:hover {
+      box-shadow: var(--sh-lg);
+      transform: translateY(-2px);
+    }
+    .nm-raised-lg {
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xl);
     }
 
-    /* --- Base --- */
-    html:not(.dark) body { background-color: var(--lm-bg); color: var(--lm-body); }
-
-    /* --- Text hierarchy --- */
-    html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3,
-    html:not(.dark) .font-headline                { color: var(--lm-heading); }
-    html:not(.dark) .text-on-surface              { color: var(--lm-body)    !important; }
-    html:not(.dark) .text-on-surface\/70          { color: var(--lm-muted)   !important; }
-    html:not(.dark) .text-on-surface\/80          { color: var(--lm-body)    !important; }
-    html:not(.dark) .text-on-surface-variant      { color: var(--lm-muted)   !important; }
-    html:not(.dark) .text-slate-300               { color: var(--lm-muted)   !important; }
-    html:not(.dark) .text-slate-400               { color: var(--lm-subtle)  !important; }
-    html:not(.dark) .text-slate-500               { color: var(--lm-subtle)  !important; }
-    html:not(.dark) .text-slate-600               { color: var(--lm-muted)   !important; }
-    html:not(.dark) .text-white                   { color: var(--lm-heading) !important; }
-
-    /* --- Primary accent color (neon cyan → deep ocean blue) --- */
-    html:not(.dark) .text-primary                 { color: var(--lm-primary) !important; }
-    html:not(.dark) .text-cyan-400                { color: var(--lm-primary) !important; }
-
-    /* --- Backgrounds --- */
-    html:not(.dark) .bg-background,
-    html:not(.dark) .bg-surface                   { background-color: var(--lm-bg)         !important; }
-    html:not(.dark) .bg-surface-container         { background-color: var(--lm-surface-hi) !important; }
-    html:not(.dark) .bg-surface-container-low\/50,
-    html:not(.dark) .bg-surface-container-low\/30 { background-color: var(--lm-bg-alt)     !important; }
-    html:not(.dark) .bg-surface-container-highest { background-color: var(--lm-input)      !important; }
-    html:not(.dark) .bg-primary\/10               { background-color: rgba(16,88,160,0.07) !important; }
-    html:not(.dark) .bg-primary\/30               { background-color: rgba(16,88,160,0.12) !important; }
-    html:not(.dark) .bg-primary\/5                { background-color: rgba(16,88,160,0.04) !important; }
-
-    /* --- Glass panels — clean card style --- */
-    html:not(.dark) .glass-panel {
-      background: rgba(255,255,255,0.90) !important;
-      backdrop-filter: blur(20px) !important;
-      box-shadow: var(--lm-shadow) !important;
-      border-color: var(--lm-border) !important;
+    /* Eingedrückte Fläche — vertieft im Hintergrund */
+    .nm-inset {
+      background: var(--nm-bg-deeper);
+      box-shadow: var(--sh-inset-md);
+    }
+    .nm-inset-sm {
+      background: var(--nm-bg-deeper);
+      box-shadow: var(--sh-inset-sm);
     }
 
-    /* --- Navbar --- */
-    html:not(.dark) nav#navbar {
-      background: rgba(247,249,254,0.94) !important;
-      box-shadow: 0 1px 0 rgba(16,88,160,0.10), 0 4px 24px rgba(16,88,160,0.07) !important;
-      border-bottom-color: rgba(16,88,160,0.10) !important;
+    /* Button — Standard */
+    .nm-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 28px;
+      background: var(--nm-surface);
+      border: none; cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--nm-text);
+      border-radius: var(--r-pill);
+      box-shadow: var(--sh-sm);
+      transition: box-shadow 0.2s var(--ease), transform 0.15s var(--ease), color 0.2s;
+      text-decoration: none; white-space: nowrap; user-select: none;
     }
-    html:not(.dark) #mobile-menu   { background: rgba(247,249,254,0.98) !important; }
-    html:not(.dark) .mobile-nav    { color: var(--lm-heading) !important; }
-    html:not(.dark) .mobile-nav:hover { color: var(--lm-primary) !important; }
+    .nm-btn:hover  { box-shadow: var(--sh-md); color: var(--nm-accent); transform: translateY(-1px); }
+    .nm-btn:active { box-shadow: var(--sh-inset-sm); transform: scale(0.97); }
+    .nm-btn:focus-visible { outline: 2px solid var(--nm-accent); outline-offset: 3px; }
 
-    /* --- Borders --- */
-    html:not(.dark) .border-primary\/5  { border-color: rgba(16,88,160,0.07)  !important; }
-    html:not(.dark) .border-primary\/10 { border-color: rgba(16,88,160,0.12)  !important; }
-    html:not(.dark) .border-primary\/20 { border-color: rgba(16,88,160,0.20)  !important; }
-    html:not(.dark) .border-primary\/30 { border-color: rgba(16,88,160,0.28)  !important; }
-    html:not(.dark) .border-cyan-900\/20{ border-color: rgba(16,88,160,0.15)  !important; }
-
-    /* --- Primary-filled backgrounds (buttons, FAB, avatar badge) --- */
-    html:not(.dark) .bg-primary         { background-color: var(--lm-primary) !important; }
-    html:not(.dark) .bg-primary-container{ background-color: var(--lm-primary) !important; }
-    html:not(.dark) .text-on-primary-fixed { color: #ffffff !important; }
-
-    /* --- Gradient buttons (from-primary to-primary-container) --- */
-    html:not(.dark) .from-primary       { --tw-gradient-from: #0d4f96 !important; }
-    html:not(.dark) .to-primary-container{ --tw-gradient-to:  #1271c4 !important; }
-
-    /* --- Button shadows — replace neon with soft blue --- */
-    html:not(.dark) [class*="shadow-[0_0_15px_rgba(0,227"] { box-shadow: 0 4px 16px rgba(16,88,160,0.28) !important; }
-    html:not(.dark) [class*="shadow-[0_0_20px_rgba(0,227"] { box-shadow: 0 4px 20px rgba(16,88,160,0.22) !important; }
-    html:not(.dark) [class*="shadow-[0_0_30px_rgba(0,227"] { box-shadow: 0 6px 28px rgba(16,88,160,0.30) !important; }
-    html:not(.dark) [class*="shadow-[0_10px_30px_rgba(0,227"] { box-shadow: 0 8px 28px rgba(16,88,160,0.26) !important; }
-    html:not(.dark) [class*="shadow-[0_0_40px_-15px_rgba"] { box-shadow: 0 4px 32px rgba(16,88,160,0.10) !important; }
-
-    /* --- Neon glow effects OFF in light mode --- */
-    html:not(.dark) [class*="drop-shadow-[0_0_"] { filter: none !important; }
-    html:not(.dark) [class*="shadow-[0_0_10px_rgba(129"] { box-shadow: none !important; }
-    html:not(.dark) [class*="shadow-[0_0_6px_rgba(129"]  { box-shadow: none !important; }
-    html:not(.dark) [class*="shadow-[0_0_8px_rgba(129"]  { filter: none !important; }
-
-    /* --- Skill bars --- */
-    html:not(.dark) .skill-bar           { background-color: var(--lm-primary) !important; box-shadow: none !important; }
-    html:not(.dark) .h-1\.5.bg-surface-container { background-color: #dce6f5 !important; }
-
-    /* --- Language pill dots (language section) --- */
-    html:not(.dark) .w-8.h-1.bg-primary { background-color: var(--lm-primary) !important; }
-    html:not(.dark) .w-8.h-1.bg-surface-container { background-color: #d1ddf0 !important; }
-
-    /* --- Timeline vertical line & dots --- */
-    html:not(.dark) .before\:bg-gradient-to-b::before { opacity: 0.4; }
-
-    /* --- Tag/badge pills --- */
-    html:not(.dark) .border.border-primary\/20.text-primary {
-      background-color: rgba(16,88,160,0.07) !important;
-      border-color: rgba(16,88,160,0.20) !important;
-      color: var(--lm-primary) !important;
+    /* Button — Akzent (primäre Aktion) */
+    .nm-btn-accent {
+      background: linear-gradient(135deg, var(--nm-accent), var(--nm-accent-dark));
+      color: var(--nm-text-on-accent) !important;
+      box-shadow: 6px 6px 14px rgba(var(--nm-accent-rgb),0.40),
+                 -4px -4px 10px var(--nm-shadow-light);
+    }
+    .nm-btn-accent:hover {
+      box-shadow: 8px 8px 20px rgba(var(--nm-accent-rgb),0.50),
+                 -4px -4px 12px var(--nm-shadow-light);
+      transform: translateY(-2px);
+      color: var(--nm-text-on-accent) !important;
+    }
+    .nm-btn-accent:active {
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.25),
+                  inset -2px -2px 6px rgba(255,255,255,0.1);
+      transform: scale(0.97);
     }
 
-    /* --- Hero grid background --- */
-    html:not(.dark) .grid-bg {
-      background-image:
-        linear-gradient(rgba(16,88,160,0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16,88,160,0.045) 1px, transparent 1px);
-      background-size: 60px 60px;
+    /* Eingabefelder — eingedrückt (Inset-Logik) */
+    .nm-input {
+      width: 100%;
+      background: var(--nm-bg-deeper);
+      border: none;
+      border-radius: var(--r-md);
+      padding: 14px 20px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.95rem;
+      color: var(--nm-text);
+      box-shadow: var(--sh-inset-sm);
+      transition: box-shadow 0.25s var(--ease), outline 0.2s;
+      outline: 2px solid transparent;
+    }
+    .nm-input::placeholder { color: var(--nm-text-faint); }
+    .nm-input:focus {
+      outline: 2px solid var(--nm-accent);
+      outline-offset: -2px;
+      box-shadow: var(--sh-inset-md);
+    }
+    .nm-input option { background: var(--nm-bg); }
+
+    /* Icon-Box */
+    .nm-icon-box {
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-md);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-sm);
+      color: var(--nm-accent);
+      flex-shrink: 0;
+      transition: box-shadow 0.25s var(--ease);
+    }
+    .nm-icon-box.sm { width: 40px; height: 40px; border-radius: var(--r-sm); }
+    .nm-icon-box:hover { box-shadow: var(--sh-md); }
+
+    /* Pill / Tag */
+    .nm-pill {
+      display: inline-flex; align-items: center;
+      padding: 5px 14px;
+      border-radius: var(--r-pill);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xs);
+      font-size: 0.7rem; font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--nm-accent);
+      transition: box-shadow 0.2s var(--ease);
+    }
+    .nm-pill:hover { box-shadow: var(--sh-sm); }
+
+    /* ================================================================
+       ANIMATIONEN
+    ================================================================ */
+    @keyframes floatA  { 0%,100%{transform:translateY(0) rotate(-1.5deg)} 50%{transform:translateY(-10px) rotate(1.5deg)} }
+    @keyframes floatB  { 0%,100%{transform:translateY(0) rotate(1.5deg)}  50%{transform:translateY(-12px) rotate(-1.5deg)} }
+    @keyframes fadeUp  { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+    @keyframes press   { 0%,100%{transform:scale(1)} 50%{transform:scale(0.96)} }
+    @keyframes blink   { 0%,100%{opacity:1} 50%{opacity:0} }
+    @keyframes pulseAccent { 0%,100%{box-shadow:0 0 0 0 rgba(var(--nm-accent-rgb),0.3)} 50%{box-shadow:0 0 0 12px rgba(var(--nm-accent-rgb),0)} }
+
+    .float-a { animation: floatA 5s ease-in-out infinite; }
+    .float-b { animation: floatB 5s ease-in-out infinite 0.9s; }
+
+    .hero-in    { animation: fadeUp 0.8s var(--ease) both; }
+    .hero-in-d1 { animation: fadeUp 0.8s var(--ease) 0.15s both; }
+    .hero-in-d2 { animation: fadeUp 0.8s var(--ease) 0.30s both; }
+    .hero-in-d3 { animation: fadeUp 0.8s var(--ease) 0.45s both; }
+    .hero-in-d4 { animation: fadeUp 0.8s var(--ease) 0.60s both; }
+
+    /* Scroll-Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.from-left  { transform: translateX(-28px); }
+    .reveal.from-right { transform: translateX(28px); }
+    .reveal.zoom-in    { transform: scale(0.93); }
+    .reveal.visible    { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: 0.10s; }
+    .reveal.d2 { transition-delay: 0.20s; }
+    .reveal.d3 { transition-delay: 0.30s; }
+    .reveal.d4 { transition-delay: 0.40s; }
+
+    /* ================================================================
+       NAVIGATION
+    ================================================================ */
+    .nm-navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 0;
+      background: var(--nm-bg);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.5);
+      transition: background 0.4s var(--ease), box-shadow 0.3s;
+    }
+    .dark .nm-navbar {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .nm-navbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .nm-logo-mark {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800; font-size: 1.15rem;
+      color: var(--nm-accent);
+      text-decoration: none; line-height: 1;
+      display: flex; flex-direction: column;
+    }
+    .nm-logo-mark span { font-size: 0.55rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--nm-text-muted); font-weight: 600; margin-top: 1px; }
+    .nm-nav-links { display: flex; gap: 6px; }
+    .nm-nav-link {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 0.78rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--nm-text-muted);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: var(--r-pill);
+      background: transparent;
+      transition: all 0.2s var(--ease);
+      white-space: nowrap;
+    }
+    .nm-nav-link:hover, .nm-nav-link.active {
+      color: var(--nm-accent);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xs);
+    }
+    .nm-nav-controls { display: flex; align-items: center; gap: 8px; }
+    .nm-icon-btn {
+      width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-pill);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xs);
+      border: none; cursor: pointer;
+      color: var(--nm-text-muted);
+      font-size: 1.1rem;
+      transition: box-shadow 0.2s var(--ease), color 0.2s;
+    }
+    .nm-icon-btn:hover { box-shadow: var(--sh-sm); color: var(--nm-accent); }
+    .nm-icon-btn:active { box-shadow: var(--sh-inset-sm); }
+    .lang-switcher { display: flex; align-items: center; background: var(--nm-surface); border-radius: var(--r-pill); box-shadow: var(--sh-inset-sm); padding: 3px; gap: 2px; }
+    .lang-btn {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 0.7rem; letter-spacing: 0.06em;
+      padding: 5px 10px; border-radius: var(--r-pill);
+      border: none; cursor: pointer; background: transparent;
+      color: var(--nm-text-muted);
+      transition: all 0.2s var(--ease);
+    }
+    .lang-btn.active {
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xs);
+      color: var(--nm-accent);
     }
 
-    /* --- Ambient hero blobs — subtle in light mode --- */
-    html:not(.dark) .bg-primary\/10.blur-\[120px\]   { background-color: rgba(16,88,160,0.07) !important; }
-    html:not(.dark) .bg-tertiary\/10.blur-\[120px\]  { background-color: rgba(99,102,241,0.06) !important; }
-    html:not(.dark) .bg-primary\/5.blur-\[150px\]    { background-color: rgba(16,88,160,0.04) !important; }
+    /* Mobile menu */
+    .nm-mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 90;
+      background: var(--nm-bg);
+      flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+    }
+    .nm-mobile-menu.open { display: flex; }
+    .nm-mobile-link {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800; font-size: 2.2rem; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--nm-text); text-decoration: none;
+      padding: 12px 40px;
+      border-radius: var(--r-xl);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-md);
+      transition: all 0.2s var(--ease);
+    }
+    .nm-mobile-link:hover { color: var(--nm-accent); box-shadow: var(--sh-lg); transform: translateY(-2px); }
+    .nm-mobile-link:active { box-shadow: var(--sh-inset-sm); }
+    .nm-close-btn {
+      position: absolute; top: 20px; right: 20px;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-pill);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-sm);
+      border: none; cursor: pointer;
+      color: var(--nm-text-muted);
+      font-size: 1.4rem;
+      transition: all 0.2s;
+    }
+    .nm-close-btn:hover { color: var(--nm-accent); }
+    .nm-close-btn:active { box-shadow: var(--sh-inset-sm); }
 
-    /* --- Footer stays dark for contrast (update accents) --- */
-    html:not(.dark) footer.bg-black   { background-color: #0f1929 !important; border-color: rgba(16,88,160,0.20) !important; }
-    html:not(.dark) footer .text-cyan-400  { color: #60b8e8 !important; }
-    html:not(.dark) footer .text-slate-500 { color: #6b82a8 !important; }
-    html:not(.dark) footer .text-slate-600 { color: #8099c0 !important; }
-    html:not(.dark) footer [class*="text-[9px]"] { color: #6b82a8 !important; }
-    html:not(.dark) footer a:hover    { color: #93c5fd !important; }
+    /* ================================================================
+       LAYOUT UTILITIES
+    ================================================================ */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .section    { padding: 80px 0; }
+    .section-sm { padding: 48px 0; }
+    @media (max-width: 768px) { .section { padding: 56px 0; } .section-sm { padding: 32px 0; } }
 
-    /* --- Selection --- */
-    html:not(.dark) ::selection { background-color: rgba(16,88,160,0.18); color: var(--lm-primary); }
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--nm-accent); margin-bottom: 10px; display: block;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800; line-height: 1.15;
+      color: var(--nm-text); margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--nm-text-muted);
+      max-width: 560px; line-height: 1.7;
+    }
+    .text-accent { color: var(--nm-accent); }
 
-    /* Scroll-based active nav link */
-    html { scroll-behavior: smooth; }
+    /* ================================================================
+       HERO
+    ================================================================ */
+    .hero-section {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 20px 80px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    /* Dezenter Hintergrund-Kreis */
+    .hero-section::before {
+      content: ''; position: absolute;
+      width: min(600px, 90vw); height: min(600px, 90vw);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,127,193,0.06) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
 
-    /* Typing cursor animation */
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    .cursor { animation: blink 1s step-end infinite; }
+    /* Avatar-Paar */
+    .avatars-wrap { display: flex; align-items: flex-end; justify-content: center; margin-bottom: 40px; }
+    .avatar-item  { position: relative; }
+    .avatar-item.left  { z-index: 2; margin-right: -18px; }
+    .avatar-item.right { z-index: 1; }
+    .avatar-ring {
+      border-radius: 50%; padding: 5px;
+      background: var(--nm-surface);
+      box-shadow: var(--sh-lg);
+      transition: box-shadow 0.3s var(--ease);
+      position: relative;
+    }
+    .avatar-ring:hover { box-shadow: var(--sh-xl); }
+    .avatar-ring img {
+      width: clamp(108px, 22vw, 180px);
+      height: clamp(108px, 22vw, 180px);
+      border-radius: 50%; object-fit: cover; object-position: top;
+      display: block;
+    }
+    .avatar-badge {
+      position: absolute; bottom: -4px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: var(--r-pill);
+      color: var(--nm-text-on-accent);
+      box-shadow: var(--sh-xs);
+      white-space: nowrap;
+    }
+    .avatar-badge.left-badge  { left: 0;  background: linear-gradient(135deg,var(--nm-accent2),var(--nm-accent2-dark)); }
+    .avatar-badge.right-badge { right: 0; background: linear-gradient(135deg,var(--nm-accent),var(--nm-accent-dark)); }
 
-    /* Animated grid background */
-    .grid-bg {
-      background-image:
-        linear-gradient(rgba(129, 236, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(129, 236, 255, 0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
+    /* Hero-Typografie */
+    .hero-greeting {
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      color: var(--nm-text-muted); font-weight: 500; margin-bottom: 6px;
+    }
+    .hero-names {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 800; color: var(--nm-accent);
+      line-height: 1.1; margin-bottom: 8px;
+      /* Weicher Neumorphismus-Texteffekt */
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.08), -1px -1px 2px rgba(255,255,255,0.5);
+    }
+    .dark .hero-names { text-shadow: 2px 2px 6px rgba(0,0,0,0.4), -1px -1px 3px rgba(255,255,255,0.04); }
+    .hero-sub {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-weight: 700; color: var(--nm-text);
+      margin-bottom: 20px; opacity: 0.85;
+    }
+    .hero-copy {
+      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+      color: var(--nm-text-muted); line-height: 1.75;
+      max-width: 540px; margin: 0 auto 36px;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+    /* ================================================================
+       STATS BAR
+    ================================================================ */
+    .stats-bar {
+      background: var(--nm-surface);
+      box-shadow: var(--sh-md);
+      padding: 36px 20px;
+      margin: 0;
+    }
+    .stats-grid {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    }
+    @media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(4,1fr); } }
+    .stat-card {
+      text-align: center; padding: 20px 12px;
+      border-radius: var(--r-lg);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-sm);
+      transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+    }
+    .stat-card:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800; color: var(--nm-accent);
+      /* Eingeprägter Text-Effekt — Neumorphismus-Typografie */
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.10), -1px -1px 2px rgba(255,255,255,0.6);
+      line-height: 1;
+    }
+    .dark .stat-num { text-shadow: 1px 1px 3px rgba(0,0,0,0.5), -1px -1px 2px rgba(255,255,255,0.05); }
+    .stat-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--nm-text-muted); margin-top: 8px;
     }
 
-    /* Skill bar animation */
-    @keyframes fillBar { from { width: 0; } }
-    .skill-bar { animation: fillBar 1.2s ease-out forwards; }
+    /* ================================================================
+       SERVICES
+    ================================================================ */
+    .services-grid {
+      display: grid; gap: 24px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 900px) { .services-grid { grid-template-columns: repeat(3,1fr); } }
 
-    /* Fade-in on scroll */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .service-card {
+      padding: 36px 32px;
+      border-radius: var(--r-xl);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-md);
+      position: relative; overflow: hidden;
+      transition: box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
+      display: flex; flex-direction: column;
+    }
+    .service-card:hover { box-shadow: var(--sh-xl); transform: translateY(-4px); }
+    @media (max-width: 900px) { .service-card { padding: 28px 24px; } }
 
-    /* Project card overlay */
-    .project-overlay { background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%); }
+    /* Dezente Akzent-Linie oben */
+    .service-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 32px; right: 32px; height: 3px;
+      border-radius: 0 0 4px 4px;
+      background: linear-gradient(90deg, var(--nm-accent), var(--nm-accent2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-card.featured::before { opacity: 1; }
 
-    /* Service card hover */
-    .service-card:hover { transform: translateY(-4px); }
-    .service-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .service-icon-wrap {
+      width: 60px; height: 60px;
+      border-radius: var(--r-md);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; color: var(--nm-accent);
+      margin-bottom: 24px;
+      transition: box-shadow 0.2s var(--ease);
+    }
+    .service-card:hover .service-icon-wrap { box-shadow: var(--sh-md); }
+
+    .service-title   { font-size: 1.25rem; font-weight: 800; color: var(--nm-text); margin-bottom: 12px; }
+    .service-desc    { font-size: 0.9rem; color: var(--nm-text-muted); line-height: 1.7; margin-bottom: 20px; }
+    .service-features { list-style: none; margin-bottom: 24px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+    .service-features li {
+      font-size: 0.88rem; color: var(--nm-text);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .service-features li::before {
+      content: ''; display: block; flex-shrink: 0;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--nm-accent), var(--nm-accent2));
+      box-shadow: 0 0 6px rgba(var(--nm-accent-rgb),0.4);
+    }
+
+    .popular-badge {
+      position: absolute; top: 18px; right: 20px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: var(--r-pill);
+      background: linear-gradient(135deg, var(--nm-accent), var(--nm-accent2));
+      color: white;
+      box-shadow: 3px 3px 8px rgba(var(--nm-accent-rgb),0.35), -2px -2px 5px var(--nm-shadow-light);
+    }
+
+    /* ================================================================
+       PORTFOLIO
+    ================================================================ */
+    .portfolio-grid {
+      display: grid; gap: 24px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 600px)  { .portfolio-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (min-width: 1000px) { .portfolio-grid { grid-template-columns: repeat(3,1fr); } }
+
+    .project-card {
+      border-radius: var(--r-xl); overflow: hidden;
+      background: var(--nm-surface);
+      box-shadow: var(--sh-md);
+      transition: box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
+      position: relative;
+    }
+    .project-card:hover { box-shadow: var(--sh-xl); transform: translateY(-5px); }
+
+    .project-preview {
+      height: 180px;
+      background: var(--nm-bg-deeper);
+      box-shadow: var(--sh-inset-md);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--nm-text-faint); font-size: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .project-preview-content {
+      display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 20px;
+      width: 100%;
+    }
+    .project-preview-bar {
+      height: 8px; border-radius: var(--r-pill);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xs);
+    }
+    .project-preview-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; width: 100%;
+    }
+    .project-preview-block {
+      border-radius: var(--r-sm);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xs);
+    }
+
+    .project-body   { padding: 20px 22px; }
+    .project-title  { font-size: 1.05rem; font-weight: 800; color: var(--nm-text); margin-bottom: 8px; }
+    .project-desc   { font-size: 0.83rem; color: var(--nm-text-muted); line-height: 1.6; margin-bottom: 14px; }
+    .project-tags   { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .project-link   {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--nm-accent); text-decoration: none;
+      transition: gap 0.2s var(--ease);
+    }
+    .project-link:hover { gap: 10px; }
+
+    /* ================================================================
+       KONTAKT
+    ================================================================ */
+    .contact-grid {
+      display: grid; gap: 40px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1.2fr; align-items: start; } }
+
+    .contact-info-panel {
+      padding: 36px 32px;
+      border-radius: var(--r-xl);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-md);
+    }
+    @media (max-width: 900px) { .contact-info-panel { padding: 28px 24px; } }
+
+    .contact-title {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800; color: var(--nm-text); line-height: 1.2; margin-bottom: 12px;
+    }
+    .contact-subtitle { font-size: 0.95rem; color: var(--nm-text-muted); line-height: 1.7; margin-bottom: 28px; }
+    .contact-items { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
+    .contact-item  { display: flex; align-items: center; gap: 14px; }
+    .contact-item-text { font-size: 0.9rem; color: var(--nm-text); font-weight: 500; }
+
+    .social-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .social-btn {
+      width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-pill);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-sm);
+      color: var(--nm-text-muted); text-decoration: none;
+      font-size: 1rem;
+      transition: box-shadow 0.2s var(--ease), color 0.2s, transform 0.2s var(--ease);
+    }
+    .social-btn:hover  { box-shadow: var(--sh-md); color: var(--nm-accent); transform: translateY(-2px); }
+    .social-btn:active { box-shadow: var(--sh-inset-sm); transform: scale(0.95); }
+
+    .contact-form-panel {
+      padding: 36px 32px;
+      border-radius: var(--r-xl);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-lg);
+    }
+    @media (max-width: 900px) { .contact-form-panel { padding: 28px 24px; } }
+
+    .form-label {
+      display: block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--nm-accent); margin-bottom: 8px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { margin-bottom: 18px; }
+    .form-success {
+      display: none; text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      color: var(--nm-accent); padding: 12px;
+      border-radius: var(--r-md);
+      background: var(--nm-bg);
+      box-shadow: var(--sh-inset-sm);
+      margin-top: 12px;
+    }
+    .form-success.show { display: block; }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .nm-footer {
+      background: var(--nm-bg-deeper);
+      box-shadow: inset 0 4px 16px rgba(0,0,0,0.06);
+      padding: 40px 20px;
+    }
+    .nm-footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 20px; text-align: center;
+    }
+    @media (min-width: 768px) {
+      .nm-footer-inner { flex-direction: row; justify-content: space-between; text-align: left; }
+    }
+    .nm-footer-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .nm-footer-link {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--nm-text-muted); text-decoration: none;
+      padding: 7px 14px; border-radius: var(--r-pill);
+      background: var(--nm-surface);
+      box-shadow: var(--sh-xs);
+      transition: all 0.2s var(--ease);
+    }
+    .nm-footer-link:hover { color: var(--nm-accent); box-shadow: var(--sh-sm); }
+    .nm-footer-copy { font-size: 0.75rem; color: var(--nm-text-faint); font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* FAB */
+    .nm-fab {
+      position: fixed; bottom: 24px; right: 24px; z-index: 50;
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-pill);
+      background: linear-gradient(135deg, var(--nm-accent), var(--nm-accent-dark));
+      color: white;
+      box-shadow: 6px 6px 16px rgba(var(--nm-accent-rgb),0.45), -4px -4px 10px var(--nm-shadow-light);
+      text-decoration: none; font-size: 1.4rem;
+      transition: all 0.25s var(--ease);
+      animation: pulseAccent 3s ease-in-out infinite;
+    }
+    .nm-fab:hover  { transform: translateY(-3px) scale(1.06); }
+    .nm-fab:active { transform: scale(0.94); }
+    @media (min-width: 1024px) { .nm-fab { display: none; } }
+
+    /* Barrierefreiheit: Deutlicher Fokus-Ring */
+    :focus-visible {
+      outline: 2px solid var(--nm-accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--nm-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--nm-shadow-dark); border-radius: 3px; }
   </style>
 </head>
-<body class="bg-background selection:bg-primary/30 selection:text-primary">
+<body>
 
   <!-- ============================================================ -->
-  <!-- TOP NAV -->
+  <!-- NAVIGATION -->
   <!-- ============================================================ -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-2xl border-b border-white/5 transition-all duration-300">
-    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 md:px-10 py-4">
-    <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent"></div>
+  <nav class="nm-navbar" id="navbar">
+    <div class="nm-navbar-inner">
 
-    <!-- Logo + Links -->
-    <div class="flex items-center gap-8">
-      <a href="#" class="flex flex-col leading-none select-none group">
-          <span class="text-xl font-black tracking-tight text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.8)] font-space-grotesk">A<span class="text-white/70">&amp;</span>A&nbsp;WebArt</span>
-          <span class="text-[9px] font-bold tracking-[0.28em] text-on-surface-variant font-space-grotesk uppercase group-hover:text-primary transition-colors -mt-0.5">Let's&nbsp;build!</span>
+      <!-- Logo -->
+      <a href="#" class="nm-logo-mark">
+        A<span style="color:var(--nm-text-faint)">&amp;</span>A WebArt
+        <span>Let's build!</span>
+      </a>
+
+      <!-- Desktop-Links -->
+      <div class="nm-nav-links" style="display:none" id="desktop-nav">
+        <a href="#services"  class="nm-nav-link nav-link">Leistungen</a>
+        <a href="#portfolio" class="nm-nav-link nav-link">Portfolio</a>
+        <a href="#contact"   class="nm-nav-link nav-link">Kontakt</a>
+      </div>
+      <div id="desktop-nav-placeholder" style="flex:1"></div>
+
+      <!-- Controls -->
+      <div class="nm-nav-controls">
+        <!-- Sprachumschalter -->
+        <div class="lang-switcher" style="display:none" id="lang-switcher-desktop">
+          <button class="lang-btn active" data-lang="de">DE</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+        </div>
+        <!-- Theme-Toggle -->
+        <button class="nm-icon-btn" id="theme-toggle" aria-label="Theme wechseln">
+          <span class="material-symbols-outlined" id="theme-icon" style="font-size:1.1rem">dark_mode</span>
+        </button>
+        <!-- Hamburger -->
+        <button class="nm-icon-btn" id="menu-btn" aria-label="Menü öffnen" style="display:none" id="hamburger">
+          <span class="material-symbols-outlined" style="font-size:1.1rem">menu</span>
+        </button>
+        <!-- CTA -->
+        <a href="#contact" data-i18n="hireMe" class="nm-btn nm-btn-accent" style="padding:10px 18px;font-size:0.75rem;display:none" id="nav-cta">
+          Anfrage stellen
         </a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="#services"   class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Leistungen</a>
-        <a href="#portfolio"  class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Portfolio</a>
-        <a href="#contact"    class="nav-link text-slate-400 hover:text-white font-space-grotesk tracking-tight uppercase text-sm font-bold hover:scale-105 transition-all duration-300">Kontakt</a>
       </div>
-    </div>
-
-    <!-- Right side -->
-    <div class="flex items-center gap-4">
-      <div class="hidden lg:flex items-center gap-1 font-space-grotesk text-xs tracking-widest font-bold">
-        <button data-lang="de" class="lang-btn px-2 py-1 rounded text-primary"                                          aria-label="Deutsch">DE</button>
-        <span class="text-outline/40">/</span>
-        <button data-lang="en" class="lang-btn px-2 py-1 rounded text-slate-400 hover:text-white transition-colors"     aria-label="English">EN</button>
-        <span class="text-outline/40">/</span>
-        <button data-lang="es" class="lang-btn px-2 py-1 rounded text-slate-400 hover:text-white transition-colors"     aria-label="Español">ES</button>
-      </div>
-      <!-- Dark / Light toggle -->
-      <button id="theme-toggle" aria-label="Toggle theme"
-        class="p-2 text-cyan-400 hover:scale-110 active:scale-90 transition-transform rounded-full hover:bg-white/5">
-        <span id="theme-icon" class="material-symbols-outlined text-xl">light_mode</span>
-      </button>
-      <!-- Hamburger (mobile) -->
-      <button id="menu-btn" class="md:hidden p-2 text-cyan-400 hover:scale-105 transition-transform" aria-label="Open menu">
-        <span class="material-symbols-outlined">menu</span>
-      </button>
-      <a href="#contact" data-i18n="hireMe" class="bg-primary-container text-on-primary-fixed font-space-grotesk tracking-tight uppercase text-sm font-bold px-6 py-2 rounded-full hover:scale-105 transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(0,227,253,0.4)]">Anfrage&nbsp;stellen</a>
-    </div>
     </div>
   </nav>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center gap-10 bg-black/95 backdrop-blur-2xl hidden">
-    <button id="close-menu" class="absolute top-8 right-8 text-cyan-400 hover:scale-105 transition-transform">
-      <span class="material-symbols-outlined text-3xl">close</span>
+  <div class="nm-mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation">
+    <button class="nm-close-btn" id="close-menu" aria-label="Menü schließen">
+      <span class="material-symbols-outlined" style="font-size:1.2rem">close</span>
     </button>
-    <a href="#services"  class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Leistungen</a>
-    <a href="#portfolio" class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Portfolio</a>
-    <a href="#contact"   class="mobile-nav text-4xl font-black font-space-grotesk text-white uppercase tracking-widest hover:text-cyan-400 transition-colors">Kontakt</a>
+    <a href="#services"  class="nm-mobile-link" data-mobile-nav>Leistungen</a>
+    <a href="#portfolio" class="nm-mobile-link" data-mobile-nav>Portfolio</a>
+    <a href="#contact"   class="nm-mobile-link" data-mobile-nav>Kontakt</a>
+    <!-- Mobile Lang Switcher -->
+    <div class="lang-switcher" style="margin-top:8px">
+      <button class="lang-btn active" data-lang="de">DE</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
   </div>
 
   <!-- ============================================================ -->
-  <!-- MAIN CONTENT -->
+  <!-- HERO -->
   <!-- ============================================================ -->
-  <main>
+  <section class="hero-section" id="hero">
+    <div class="hero-inner">
 
-    <!-- ==================== HERO ==================== -->
-    <section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden grid-bg">
-      <!-- Ambient blobs -->
-      <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-tertiary/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
-
-      <div class="relative z-10 text-center max-w-4xl mx-auto">
-        <!-- Avatars -->
-        <div class="relative mb-12 flex items-end justify-center">
-          <!-- Mandy (links, vorne) -->
-          <div class="relative -mr-4 md:-mr-6 z-20">
-            <div class="absolute inset-0 bg-tertiary/25 rounded-full blur-2xl transform scale-110 pointer-events-none"></div>
-            <div class="relative w-40 h-40 md:w-56 md:h-56 rounded-full border-2 border-tertiary/30 p-1.5 overflow-hidden bg-surface-container-low shadow-[0_0_30px_rgba(166,140,255,0.2)]">
-              <img
-                alt="Mandy"
-                class="w-full h-full object-cover rounded-full"
-                src="img/mandy_perfil.jpeg"
-              />
-            </div>
-            <div class="absolute -bottom-2 -left-2 bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full shadow-lg text-[10px] font-space-grotesk font-black uppercase tracking-widest">
-              Dev
-            </div>
+      <!-- Avatare -->
+      <div class="avatars-wrap hero-in">
+        <!-- Mandy (links) -->
+        <div class="avatar-item left float-a">
+          <div class="avatar-ring">
+            <img src="img/mandy_perfil.jpeg" alt="Mandy — Developer"/>
           </div>
-          <!-- Albe (rechts, hinten) -->
-          <div class="relative z-10">
-            <div class="absolute inset-0 bg-primary/25 rounded-full blur-2xl transform scale-110 pointer-events-none"></div>
-            <div class="relative w-40 h-40 md:w-56 md:h-56 rounded-full border-2 border-primary/30 p-1.5 overflow-hidden bg-surface-container-low shadow-[0_0_30px_rgba(129,236,255,0.2)]">
-              <img
-                alt="Albe"
-                class="w-full h-full object-cover rounded-full"
-                src="img/albe_perfil.jpeg"
-              />
-            </div>
-            <div class="absolute -bottom-2 -right-2 bg-primary text-on-primary-fixed px-3 py-1 rounded-full shadow-lg text-[10px] font-space-grotesk font-black uppercase tracking-widest">
-              Design
-            </div>
+          <span class="avatar-badge left-badge">Dev</span>
+        </div>
+        <!-- Albe (rechts) -->
+        <div class="avatar-item right float-b">
+          <div class="avatar-ring">
+            <img src="img/albe_perfil.jpeg" alt="Albe — Designer"/>
           </div>
-        </div>
-
-        <!-- Headline -->
-        <h1 class="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight">
-          Hallo, wir sind <span class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">Armando&nbsp;&amp;&nbsp;Alberto</span>
-          <br/>
-          <span id="hero-sub" class="text-on-surface/80">Fullstack Developer &amp; WordPress-Experte</span>
-        </h1>
-
-        <!-- Tagline -->
-        <p id="hero-copy" class="font-body text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-          Ich baue schnelle, moderne Websites und Online-Shops – maßgeschneidert für dein Unternehmen. Von der Idee bis zum Launch, inklusive Support &amp; Wartung.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="#services" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-fixed font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,227,253,0.4)] flex items-center gap-2">
-            <span id="hero-projects">Leistungen ansehen</span> <span class="material-symbols-outlined">rocket_launch</span>
-          </a>
-          <a href="#contact" class="px-8 py-4 glass-panel border border-primary/20 text-primary font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 flex items-center gap-2">
-            <span id="hero-talk">Projekt anfragen</span> <span class="material-symbols-outlined">chat_bubble</span>
-          </a>
-        </div>
-
-        <!-- Scroll indicator -->
-        <div class="mt-20 flex flex-col items-center gap-2 text-on-surface-variant/40 animate-bounce">
-          <span class="material-symbols-outlined text-xl">keyboard_arrow_down</span>
-          <span class="text-[10px] font-space-grotesk tracking-[0.3em] uppercase">Scroll</span>
+          <span class="avatar-badge right-badge">Design</span>
         </div>
       </div>
-    </section>
 
-    <!-- ==================== STATS BAR ==================== -->
-    <div class="py-12 px-6 border-y border-primary/5 bg-surface-container-low/50 overflow-hidden">
-      <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">6+</div>
-          <div id="stat-years" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Jahre Erfahrung</div>
+      <!-- Headline -->
+      <p class="hero-greeting hero-in-d1">Hallo, wir sind</p>
+      <h1 class="hero-names hero-in-d1">Armando &amp; Alberto</h1>
+      <p class="hero-sub hero-in-d2" id="hero-sub">Fullstack Developer &amp; WordPress-Experte</p>
+      <p class="hero-copy hero-in-d2" id="hero-copy">
+        Wir bauen schnelle, moderne Websites und Online-Shops – maßgeschneidert für dein Unternehmen. Von der Idee bis zum Launch, inklusive Support &amp; Wartung.
+      </p>
+
+      <!-- CTAs -->
+      <div class="hero-ctas hero-in-d3">
+        <a href="#services" class="nm-btn nm-btn-accent" style="padding:14px 30px">
+          <span id="hero-projects">Leistungen ansehen</span>
+          <span class="material-symbols-outlined" style="font-size:1.1rem">rocket_launch</span>
+        </a>
+        <a href="#contact" class="nm-btn" style="padding:14px 30px">
+          <span id="hero-talk">Projekt anfragen</span>
+          <span class="material-symbols-outlined" style="font-size:1.1rem">chat_bubble</span>
+        </a>
+      </div>
+
+      <!-- Scroll -->
+      <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.35" class="hero-in-d4">
+        <span class="material-symbols-outlined" style="font-size:1.2rem;animation:press 2s ease-in-out infinite">keyboard_arrow_down</span>
+        <span style="font-size:0.6rem;font-family:'Space Grotesk',sans-serif;letter-spacing:0.28em;text-transform:uppercase">Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- STATS -->
+  <!-- ============================================================ -->
+  <div class="stats-bar" id="stats">
+    <div class="stats-grid">
+      <div class="stat-card reveal d1 zoom-in">
+        <div class="stat-num">6+</div>
+        <div class="stat-label" id="stat-years">Jahre Erfahrung</div>
+      </div>
+      <div class="stat-card reveal d2 zoom-in">
+        <div class="stat-num">50+</div>
+        <div class="stat-label" id="stat-projects">Websites gebaut</div>
+      </div>
+      <div class="stat-card reveal d3 zoom-in">
+        <div class="stat-num">30+</div>
+        <div class="stat-label" id="stat-awards">Zufriedene Kunden</div>
+      </div>
+      <div class="stat-card reveal d4 zoom-in">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label" id="stat-coffee">Support verfügbar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SERVICES -->
+  <!-- ============================================================ -->
+  <section class="section" id="services">
+    <div class="container">
+      <div style="text-align:center;max-width:600px;margin:0 auto 48px" class="reveal">
+        <span class="section-label" id="services-label">Was wir anbieten</span>
+        <h2 class="section-title" id="services-title">Unsere Leistungen</h2>
+        <p class="section-sub" style="margin:0 auto" id="services-copy">Von der ersten Idee bis zum fertigen Produkt – wir begleiten dich durch den gesamten Prozess und sorgen dafür, dass deine Website genau das tut, was du brauchst.</p>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- Service 1 -->
+        <div class="service-card reveal d1 from-left">
+          <div class="service-icon-wrap">
+            <span class="material-symbols-outlined">web</span>
+          </div>
+          <h3 class="service-title" id="s1-title">Website Erstellen</h3>
+          <p class="service-desc" id="s1-copy">Professionelle Unternehmenswebsites, Landing Pages und Web-Apps – responsive, SEO-optimiert und blitzschnell. Modernes Design, das Besucher in Kunden verwandelt.</p>
+          <ul class="service-features">
+            <li><span id="s1-f1">Individuelles Design</span></li>
+            <li><span id="s1-f2">SEO &amp; Performance</span></li>
+            <li><span id="s1-f3">Mobile First</span></li>
+            <li><span id="s1-f4">SSL &amp; Hosting-Setup</span></li>
+          </ul>
+          <a href="#contact" class="nm-btn" style="align-self:flex-start;padding:10px 22px">
+            <span id="s1-cta">Angebot anfragen</span>
+            <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span>
+          </a>
         </div>
-        <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">50+</div>
-          <div id="stat-projects" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Websites gebaut</div>
+
+        <!-- Service 2 (Featured) -->
+        <div class="service-card featured reveal d2 zoom-in">
+          <span class="popular-badge" id="popular-badge">Beliebt</span>
+          <div class="service-icon-wrap" style="color:var(--nm-accent2)">
+            <span class="material-symbols-outlined">shopping_cart</span>
+          </div>
+          <h3 class="service-title" id="s2-title">WordPress &amp; WooCommerce</h3>
+          <p class="service-desc" id="s2-copy">Maßgeschneiderte WordPress-Themes, Plugin-Entwicklung und vollständige WooCommerce-Shops. Einfach zu verwalten – auch ohne technische Kenntnisse.</p>
+          <ul class="service-features">
+            <li><span id="s2-f1">Custom Theme-Entwicklung</span></li>
+            <li><span id="s2-f2">WooCommerce-Shops</span></li>
+            <li><span id="s2-f3">Plugin-Entwicklung</span></li>
+            <li><span id="s2-f4">Zahlungsintegration</span></li>
+          </ul>
+          <a href="#contact" class="nm-btn nm-btn-accent" style="align-self:flex-start;padding:10px 22px">
+            <span id="s2-cta">Angebot anfragen</span>
+            <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span>
+          </a>
         </div>
-        <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">30+</div>
-          <div id="stat-awards" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Zufriedene Kunden</div>
-        </div>
-        <div class="reveal">
-          <div class="font-headline text-4xl font-black text-primary drop-shadow-[0_0_8px_rgba(129,236,255,0.5)]">24/7</div>
-          <div id="stat-coffee" class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">Support verfügbar</div>
+
+        <!-- Service 3 -->
+        <div class="service-card reveal d3 from-right">
+          <div class="service-icon-wrap">
+            <span class="material-symbols-outlined">support_agent</span>
+          </div>
+          <h3 class="service-title" id="s3-title">Support &amp; Wartung</h3>
+          <p class="service-desc" id="s3-copy">Monatliche Wartungspakete: Updates, Backups, Sicherheits-Scans und direkter Ansprechpartner. Deine Website läuft – immer.</p>
+          <ul class="service-features">
+            <li><span id="s3-f1">Regelmäßige Updates</span></li>
+            <li><span id="s3-f2">Tägliche Backups</span></li>
+            <li><span id="s3-f3">Sicherheits-Monitoring</span></li>
+            <li><span id="s3-f4">Priority-Support</span></li>
+          </ul>
+          <a href="#contact" class="nm-btn" style="align-self:flex-start;padding:10px 22px">
+            <span id="s3-cta">Paket anfragen</span>
+            <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span>
+          </a>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ==================== SERVICES ==================== -->
-    <section class="py-24 px-6 bg-surface-container-low/30 relative" id="services">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-16 reveal">
-          <span id="services-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Was ich anbiete</span>
-          <h2 id="services-title" class="font-headline text-4xl font-bold tracking-tight mb-4">Meine Leistungen</h2>
-          <p id="services-copy" class="text-on-surface-variant font-body max-w-2xl mx-auto">Von der ersten Idee bis zum fertigen Produkt – ich begleite dich durch den gesamten Prozess und sorge dafür, dass deine Website genau das tut, was du brauchst.</p>
+  <!-- ============================================================ -->
+  <!-- PORTFOLIO -->
+  <!-- ============================================================ -->
+  <section class="section" id="portfolio" style="background:var(--nm-bg-deeper);box-shadow:inset 0 4px 20px rgba(0,0,0,0.05)">
+    <div class="container">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:40px" class="reveal">
+        <div>
+          <span class="section-label" id="portfolio-label">Referenzen</span>
+          <h2 class="section-title" style="margin-bottom:0" id="portfolio-title">Ausgewählte Projekte</h2>
+        </div>
+        <a href="#contact" class="nm-btn" style="padding:10px 22px">
+          <span id="portfolio-all">Projekt besprechen</span>
+          <span class="material-symbols-outlined" style="font-size:1rem">send</span>
+        </a>
+      </div>
+
+      <div class="portfolio-grid">
+
+        <!-- Projekt 1 -->
+        <div class="project-card reveal d1">
+          <div class="project-preview">
+            <div class="project-preview-content">
+              <span class="material-symbols-outlined" style="font-size:2.2rem;color:var(--nm-accent);margin-bottom:4px">business</span>
+              <div class="project-preview-bar" style="width:70%"></div>
+              <div class="project-preview-bar" style="width:50%"></div>
+              <div class="project-preview-grid" style="margin-top:4px">
+                <div class="project-preview-block" style="height:36px"></div>
+                <div class="project-preview-block" style="height:36px"></div>
+                <div class="project-preview-block" style="height:36px"></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Unternehmenswebsite</h3>
+            <p class="project-desc">Corporate Website mit Custom WordPress-Theme, Mehrsprachigkeit und Performance-Optimierung für ein mittelständisches Unternehmen.</p>
+            <div class="project-tags">
+              <span class="nm-pill">WordPress</span>
+              <span class="nm-pill">PHP</span>
+              <span class="nm-pill">SEO</span>
+            </div>
+            <a href="#contact" class="project-link">
+              Ähnliches Projekt
+              <span class="material-symbols-outlined" style="font-size:0.9rem">arrow_forward</span>
+            </a>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-          <!-- Service 1: Website Erstellen -->
-          <div class="service-card glass-panel p-10 rounded-[2rem] border border-primary/10 hover:border-primary/30 hover:shadow-[0_0_40px_-15px_rgba(129,236,255,0.4)] reveal">
-            <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-8">
-              <span class="material-symbols-outlined text-3xl text-primary">web</span>
+        <!-- Projekt 2 -->
+        <div class="project-card reveal d2">
+          <div class="project-preview">
+            <div class="project-preview-content">
+              <span class="material-symbols-outlined" style="font-size:2.2rem;color:var(--nm-accent2);margin-bottom:4px">shopping_cart</span>
+              <div class="project-preview-grid">
+                <div class="project-preview-block" style="height:52px"></div>
+                <div class="project-preview-block" style="height:52px"></div>
+                <div class="project-preview-block" style="height:52px"></div>
+              </div>
+              <div class="project-preview-bar" style="width:55%"></div>
             </div>
-            <h3 id="s1-title" class="font-headline text-2xl font-bold mb-3">Website Erstellen</h3>
-            <p id="s1-copy" class="text-on-surface-variant font-body text-sm leading-relaxed mb-6">Professionelle Unternehmenswebsites, Landing Pages und Web-Apps – responsive, SEO-optimiert und blitzschnell. Modernes Design, das Besucher in Kunden verwandelt.</p>
-            <ul class="space-y-2 mb-8">
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f1">Individuelles Design</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f2">SEO & Performance</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f3">Mobile First</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s1-f4">SSL & Hosting-Setup</span></li>
-            </ul>
-            <a href="#contact" class="inline-flex items-center gap-2 text-primary font-space-grotesk font-bold text-sm uppercase tracking-widest hover:gap-3 transition-all">
-              <span id="s1-cta">Angebot anfragen</span> <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">WooCommerce-Shop</h3>
+            <p class="project-desc">Online-Shop mit Stripe-Integration, automatischem Lagerbestand und individuellem Checkout-Flow.</p>
+            <div class="project-tags">
+              <span class="nm-pill">WooCommerce</span>
+              <span class="nm-pill">Stripe</span>
+              <span class="nm-pill">PHP</span>
+            </div>
+            <a href="#contact" class="project-link">
+              Ähnliches Projekt
+              <span class="material-symbols-outlined" style="font-size:0.9rem">arrow_forward</span>
             </a>
           </div>
+        </div>
 
-          <!-- Service 2: WordPress / WooCommerce -->
-          <div class="service-card glass-panel p-10 rounded-[2rem] border border-primary/30 hover:border-primary/50 hover:shadow-[0_0_40px_-15px_rgba(129,236,255,0.5)] reveal relative overflow-hidden">
-            <!-- Popular badge -->
-            <div class="absolute top-6 right-6 bg-primary text-on-primary-fixed text-[9px] font-black font-space-grotesk uppercase tracking-widest px-3 py-1 rounded-full">
-              <span id="popular-badge">Beliebt</span>
+        <!-- Projekt 3 -->
+        <div class="project-card reveal d3">
+          <div class="project-preview">
+            <div class="project-preview-content">
+              <span class="material-symbols-outlined" style="font-size:2.2rem;color:var(--nm-accent);margin-bottom:4px">dashboard_customize</span>
+              <div class="project-preview-block" style="height:28px;width:100%;border-radius:var(--r-sm)"></div>
+              <div class="project-preview-grid" style="margin-top:0">
+                <div class="project-preview-block" style="height:28px"></div>
+                <div class="project-preview-block" style="height:28px"></div>
+                <div class="project-preview-block" style="height:28px"></div>
+              </div>
+              <div class="project-preview-bar" style="width:80%"></div>
             </div>
-            <div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mb-8">
-              <span class="material-symbols-outlined text-3xl text-primary">shopping_cart</span>
-            </div>
-            <h3 id="s2-title" class="font-headline text-2xl font-bold mb-3">WordPress &amp; WooCommerce</h3>
-            <p id="s2-copy" class="text-on-surface-variant font-body text-sm leading-relaxed mb-6">Maßgeschneiderte WordPress-Themes, Plugin-Entwicklung und vollständige WooCommerce-Shops. Einfach zu verwalten – auch ohne technische Kenntnisse.</p>
-            <ul class="space-y-2 mb-8">
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f1">Custom Theme-Entwicklung</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f2">WooCommerce-Shops</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f3">Plugin-Entwicklung</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s2-f4">Zahlungsintegration</span></li>
-            </ul>
-            <a href="#contact" class="inline-flex items-center gap-2 text-primary font-space-grotesk font-bold text-sm uppercase tracking-widest hover:gap-3 transition-all">
-              <span id="s2-cta">Angebot anfragen</span> <span class="material-symbols-outlined text-sm">arrow_forward</span>
-            </a>
           </div>
-
-          <!-- Service 3: Support & Wartung -->
-          <div class="service-card glass-panel p-10 rounded-[2rem] border border-primary/10 hover:border-primary/30 hover:shadow-[0_0_40px_-15px_rgba(129,236,255,0.4)] reveal">
-            <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-8">
-              <span class="material-symbols-outlined text-3xl text-primary">support_agent</span>
+          <div class="project-body">
+            <h3 class="project-title">Custom Web-App</h3>
+            <p class="project-desc">Maßgeschneiderte Buchungs-App mit React-Frontend, Laravel-Backend und REST-API-Integration.</p>
+            <div class="project-tags">
+              <span class="nm-pill">React</span>
+              <span class="nm-pill">Laravel</span>
+              <span class="nm-pill">API</span>
             </div>
-            <h3 id="s3-title" class="font-headline text-2xl font-bold mb-3">Support &amp; Wartung</h3>
-            <p id="s3-copy" class="text-on-surface-variant font-body text-sm leading-relaxed mb-6">Monatliche Wartungspakete: Updates, Backups, Sicherheits-Scans und direkter Ansprechpartner. Deine Website läuft – immer.</p>
-            <ul class="space-y-2 mb-8">
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f1">Regelmäßige Updates</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f2">Tägliche Backups</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f3">Sicherheits-Monitoring</span></li>
-              <li class="flex items-center gap-2 text-sm text-on-surface/80"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> <span id="s3-f4">Priority-Support</span></li>
-            </ul>
-            <a href="#contact" class="inline-flex items-center gap-2 text-primary font-space-grotesk font-bold text-sm uppercase tracking-widest hover:gap-3 transition-all">
-              <span id="s3-cta">Paket anfragen</span> <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <a href="#contact" class="project-link">
+              Ähnliches Projekt
+              <span class="material-symbols-outlined" style="font-size:0.9rem">arrow_forward</span>
             </a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ==================== PORTFOLIO ==================== -->
-    <section class="py-24 px-6" id="portfolio">
-      <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 reveal">
-          <div>
-            <span id="portfolio-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Referenzen</span>
-            <h2 id="portfolio-title" class="font-headline text-4xl font-bold tracking-tight">Ausgewählte Projekte</h2>
-          </div>
-          <div class="flex gap-4">
-            <button id="prev-btn" aria-label="Previous" class="w-12 h-12 rounded-full glass-panel border border-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary-fixed transition-all">
-              <span class="material-symbols-outlined">chevron_left</span>
-            </button>
-            <button id="next-btn" aria-label="Next" class="w-12 h-12 rounded-full glass-panel border border-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary-fixed transition-all">
-              <span class="material-symbols-outlined">chevron_right</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Project Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="projects-grid">
-
-          <!-- Project 1: Corporate Website -->
-          <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
-            <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-              <div class="text-center p-8">
-                <span class="material-symbols-outlined text-6xl text-primary mb-4 block">business</span>
-                <div class="space-y-2">
-                  <div class="h-3 bg-primary/20 rounded-full w-48 mx-auto"></div>
-                  <div class="h-2 bg-primary/10 rounded-full w-36 mx-auto"></div>
-                  <div class="h-2 bg-primary/10 rounded-full w-40 mx-auto"></div>
-                </div>
-                <div class="mt-6 grid grid-cols-3 gap-2">
-                  <div class="h-16 bg-primary/10 rounded-lg"></div>
-                  <div class="h-16 bg-primary/15 rounded-lg"></div>
-                  <div class="h-16 bg-primary/10 rounded-lg"></div>
-                </div>
-              </div>
-            </div>
-            <div class="absolute inset-0 project-overlay"></div>
-            <div class="absolute bottom-0 left-0 p-8 w-full">
-              <h3 class="font-headline text-2xl font-bold text-white mb-2">Unternehmenswebsite</h3>
-              <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
-                Vollständige Corporate Website für ein mittelständisches Unternehmen. WordPress mit Custom Theme, Mehrsprachigkeit und Performance-Optimierung.
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">WordPress</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">PHP</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">SEO</span>
-              </div>
-              <a href="#contact" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
-                Ähnliches Projekt <span class="material-symbols-outlined text-sm">arrow_forward</span>
-              </a>
-            </div>
-          </article>
-
-          <!-- Project 2: WooCommerce Shop -->
-          <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
-            <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-              <div class="text-center p-8 w-full">
-                <span class="material-symbols-outlined text-6xl text-primary mb-4 block">shopping_cart</span>
-                <div class="grid grid-cols-2 gap-3 mt-4">
-                  <div class="bg-primary/10 rounded-xl p-3">
-                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
-                    <div class="h-2 bg-primary/15 rounded w-full"></div>
-                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
-                  </div>
-                  <div class="bg-primary/10 rounded-xl p-3">
-                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
-                    <div class="h-2 bg-primary/15 rounded w-full"></div>
-                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
-                  </div>
-                  <div class="bg-primary/10 rounded-xl p-3">
-                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
-                    <div class="h-2 bg-primary/15 rounded w-full"></div>
-                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
-                  </div>
-                  <div class="bg-primary/10 rounded-xl p-3">
-                    <div class="h-12 bg-primary/20 rounded-lg mb-2"></div>
-                    <div class="h-2 bg-primary/15 rounded w-full"></div>
-                    <div class="h-2 bg-primary/10 rounded w-3/4 mt-1"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="absolute inset-0 project-overlay"></div>
-            <div class="absolute bottom-0 left-0 p-8 w-full">
-              <h3 class="font-headline text-2xl font-bold text-white mb-2">WooCommerce-Shop</h3>
-              <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
-                Vollständiger Online-Shop mit WooCommerce, Stripe-Integration, automatischem Lagerbestand und individuellem Checkout-Flow.
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">WooCommerce</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Stripe</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">PHP</span>
-              </div>
-              <a href="#contact" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
-                Ähnliches Projekt <span class="material-symbols-outlined text-sm">arrow_forward</span>
-              </a>
-            </div>
-          </article>
-
-          <!-- Project 3: Custom Web App -->
-          <article class="group relative bg-surface-container rounded-xl overflow-hidden shadow-2xl reveal">
-            <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-              <div class="text-center p-8 w-full">
-                <span class="material-symbols-outlined text-6xl text-primary mb-4 block">dashboard_customize</span>
-                <div class="bg-primary/10 rounded-xl p-4 mt-2">
-                  <div class="flex gap-2 mb-3">
-                    <div class="h-6 bg-primary/30 rounded w-1/3"></div>
-                    <div class="h-6 bg-primary/20 rounded w-1/4"></div>
-                    <div class="h-6 bg-primary/15 rounded w-1/4"></div>
-                  </div>
-                  <div class="h-24 bg-primary/10 rounded-lg mb-3"></div>
-                  <div class="grid grid-cols-3 gap-2">
-                    <div class="h-8 bg-primary/20 rounded"></div>
-                    <div class="h-8 bg-primary/15 rounded"></div>
-                    <div class="h-8 bg-primary/10 rounded"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="absolute inset-0 project-overlay"></div>
-            <div class="absolute bottom-0 left-0 p-8 w-full">
-              <h3 class="font-headline text-2xl font-bold text-white mb-2">Custom Web-App</h3>
-              <p class="text-sm text-slate-300 font-body mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
-                Maßgeschneiderte Web-Applikation mit React-Frontend, Laravel-Backend und REST-API für ein Buchungssystem.
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">React</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Laravel</span>
-                <span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">API</span>
-              </div>
-              <a href="#contact" class="mt-4 flex items-center gap-1 text-primary text-xs font-bold font-space-grotesk uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:gap-2">
-                Ähnliches Projekt <span class="material-symbols-outlined text-sm">arrow_forward</span>
-              </a>
-            </div>
-          </article>
-        </div>
-
-        <!-- See More -->
-        <div class="mt-12 text-center reveal">
-          <a href="#contact" class="inline-flex items-center gap-2 px-8 py-4 glass-panel border border-primary/10 text-primary font-space-grotesk font-bold rounded-full hover:scale-105 transition-all duration-300 uppercase tracking-wider text-sm">
-            <span id="portfolio-all">Projekt besprechen</span> <span class="material-symbols-outlined">send</span>
-          </a>
-        </div>
+  <!-- ============================================================ -->
+  <!-- KONTAKT -->
+  <!-- ============================================================ -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px" class="reveal">
+        <span class="section-label" id="contact-label">Projekt starten</span>
+        <h2 class="section-title" style="display:inline">
+          <span id="contact-title-pre">Lass uns </span><span id="contact-title-key" style="color:var(--nm-accent)">zusammenarbeiten</span>
+        </h2>
       </div>
-    </section>
 
-    <!-- ==================== CONTACT ==================== -->
-    <section class="py-24 px-6 bg-gradient-to-t from-black to-transparent" id="contact">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div class="contact-grid">
 
-          <!-- Left info -->
-          <div class="reveal">
-            <span id="contact-label" class="font-label text-primary tracking-[0.3em] uppercase text-xs mb-2 block">Projekt starten</span>
-            <h2 class="font-headline text-5xl md:text-6xl font-black tracking-tighter mb-8 leading-tight">
-              <span id="contact-title-pre">Lass uns </span><span id="contact-title-key" class="text-primary drop-shadow-[0_0_12px_rgba(129,236,255,0.5)]">zusammenarbeiten</span>
-            </h2>
-            <p id="contact-copy" class="font-body text-lg text-on-surface-variant mb-12 max-w-lg">
-              Du hast ein Projekt im Kopf oder brauchst Unterstützung für deine bestehende Website? Schreib uns – wir antworten innerhalb von 24 Stunden mit einem konkreten Angebot.
+        <!-- Info -->
+        <div class="contact-info-panel reveal from-left">
+          <p class="contact-subtitle" id="contact-copy">Du hast ein Projekt im Kopf oder brauchst Unterstützung für deine bestehende Website? Schreib uns – wir antworten innerhalb von 24 Stunden mit einem konkreten Angebot.</p>
+
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="nm-icon-box sm"><span class="material-symbols-outlined" style="font-size:1.1rem">mail</span></div>
+              <span class="contact-item-text">info@aa-webart.de</span>
+            </div>
+            <div class="contact-item">
+              <div class="nm-icon-box sm"><span class="material-symbols-outlined" style="font-size:1.1rem">location_on</span></div>
+              <span class="contact-item-text">Berlin, DE &mdash; Remote worldwide</span>
+            </div>
+            <div class="contact-item">
+              <div class="nm-icon-box sm"><span class="material-symbols-outlined" style="font-size:1.1rem">schedule</span></div>
+              <span class="contact-item-text">Antwort innerhalb von 24 Stunden</span>
+            </div>
+          </div>
+
+          <div class="social-row">
+            <a href="#" aria-label="GitHub" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="#" aria-label="Xing" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.097.471-.264.089-.173.089-.384-.009-.573l-4.917-8.99 7.717-13.703c.091-.189.091-.398 0-.571C21.988.097 21.823 0 21.612 0h-3.424zM3.648 4.74c-.211 0-.385.097-.473.263-.089.176-.084.39.009.568l2.621 3.576-3.689 6.512c-.091.186-.091.396 0 .569.09.173.264.265.474.265h3.427c.518 0 .741-.314.927-.66l3.002-5.295-2.52-3.576z"/></svg>
+            </a>
+            <a href="#" aria-label="WhatsApp" class="social-btn">
+              <span class="material-symbols-outlined" style="font-size:1rem">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Formular -->
+        <div class="contact-form-panel reveal from-right">
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="f-name">Dein Name</label>
+                <input class="nm-input" id="f-name" name="name" type="text" placeholder="Max Mustermann" required/>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-email">E-Mail</label>
+                <input class="nm-input" id="f-email" name="email" type="email" placeholder="max@example.de" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="f-service">Leistung</label>
+              <select class="nm-input" id="f-service" name="service">
+                <option value="">Bitte wählen…</option>
+                <option value="website">Website erstellen</option>
+                <option value="wordpress">WordPress / WooCommerce</option>
+                <option value="support">Support &amp; Wartung</option>
+                <option value="other">Sonstiges</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="f-message">Deine Nachricht</label>
+              <textarea class="nm-input" id="f-message" name="message" rows="5" placeholder="Beschreib dein Projekt kurz…" required style="resize:vertical;border-radius:var(--r-md)"></textarea>
+            </div>
+            <button type="submit" class="nm-btn nm-btn-accent" style="width:100%;padding:16px;font-size:0.85rem">
+              <span id="contact-send">Anfrage senden</span>
+              <span class="material-symbols-outlined" style="font-size:1.1rem">send</span>
+            </button>
+            <p class="form-success" id="form-success">
+              <span class="material-symbols-outlined" style="vertical-align:middle;font-size:1rem;margin-right:6px">check_circle</span>
+              <span id="form-ok-text">Danke! Wir melden uns innerhalb von 24 Stunden.</span>
             </p>
-            <div class="space-y-6">
-              <div class="flex items-center gap-4 text-on-surface">
-                <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
-                  <span class="material-symbols-outlined text-primary">mail</span>
-                </div>
-                <span class="font-space-grotesk text-lg">info@aa-webart.de</span>
-              </div>
-              <div class="flex items-center gap-4 text-on-surface">
-                <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
-                  <span class="material-symbols-outlined text-primary">location_on</span>
-                </div>
-                <span class="font-space-grotesk text-lg">Berlin, DE // Remote worldwide</span>
-              </div>
-              <div class="flex items-center gap-4 text-on-surface">
-                <div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/20 flex-shrink-0">
-                  <span class="material-symbols-outlined text-primary">schedule</span>
-                </div>
-                <span class="font-space-grotesk text-lg">Antwort innerhalb von 24 Stunden</span>
-              </div>
-            </div>
-
-            <!-- Social links -->
-            <div class="flex gap-4 mt-10">
-              <a href="#" aria-label="GitHub" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
-                <span class="material-symbols-outlined">code</span>
-              </a>
-              <a href="#" aria-label="LinkedIn" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
-                <span class="material-symbols-outlined">work</span>
-              </a>
-              <a href="#" aria-label="Xing" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
-                <span class="material-symbols-outlined">person_search</span>
-              </a>
-              <a href="#" aria-label="WhatsApp" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center border border-primary/10 text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all hover:scale-110">
-                <span class="material-symbols-outlined">chat</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Contact Form -->
-          <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] border border-primary/10 shadow-2xl relative reveal">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-primary/10 blur-3xl pointer-events-none"></div>
-
-            <form id="contact-form" class="space-y-6" novalidate>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Dein Name</label>
-                  <input
-                    id="f-name" name="name" type="text" required
-                    class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40"
-                    placeholder="Max Mustermann"
-                  />
-                </div>
-                <div class="space-y-2">
-                  <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">E-Mail</label>
-                  <input
-                    id="f-email" name="email" type="email" required
-                    class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40"
-                    placeholder="max@example.de"
-                  />
-                </div>
-              </div>
-              <div class="space-y-2">
-                <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Leistung</label>
-                <select
-                  id="f-service" name="service"
-                  class="w-full bg-surface-container-highest border border-transparent rounded-full px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface appearance-none"
-                >
-                  <option value="">Bitte wählen...</option>
-                  <option value="website">Website erstellen</option>
-                  <option value="wordpress">WordPress / WooCommerce</option>
-                  <option value="support">Support &amp; Wartung</option>
-                  <option value="other">Sonstiges</option>
-                </select>
-              </div>
-              <div class="space-y-2">
-                <label class="font-label text-[10px] text-primary uppercase tracking-widest pl-2">Deine Nachricht</label>
-                <textarea
-                  id="f-message" name="message" required rows="5"
-                  class="w-full bg-surface-container-highest border border-transparent rounded-[2rem] px-6 py-4 focus:outline-none focus:border-primary/50 transition-all font-body text-on-surface placeholder:text-on-surface-variant/40 resize-none"
-                  placeholder="Beschreib dein Projekt kurz..."
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                class="w-full py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary-fixed font-space-grotesk font-black uppercase tracking-widest rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_10px_30px_rgba(0,227,253,0.3)] flex items-center justify-center gap-3"
-              >
-                <span id="contact-send">Anfrage senden</span> <span class="material-symbols-outlined">send</span>
-              </button>
-
-              <!-- Success feedback (hidden by default) -->
-              <p id="form-success" class="hidden text-center text-primary font-space-grotesk text-sm tracking-wide">
-                <span class="material-symbols-outlined align-middle text-sm">check_circle</span>
-                <span id="form-ok-text">Danke! Ich melde mich innerhalb von 24 Stunden.</span>
-              </p>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
-    </section>
-
-  </main>
+    </div>
+  </section>
 
   <!-- ============================================================ -->
   <!-- FOOTER -->
   <!-- ============================================================ -->
-  <footer class="bg-black w-full py-12 px-8 border-t border-cyan-900/20">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-7xl mx-auto">
-      <div class="flex flex-col items-center md:items-start gap-0.5">
-        <div class="flex flex-col leading-none">
-          <span class="text-xl font-black tracking-tight text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] font-space-grotesk">A<span class="text-slate-400">&amp;</span>A&nbsp;WebArt</span>
-          <span class="text-[9px] font-bold tracking-[0.28em] text-slate-500 font-space-grotesk uppercase -mt-0.5">Let's&nbsp;build!</span>
+  <footer class="nm-footer">
+    <div class="nm-footer-inner">
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--nm-accent)">
+          A<span style="color:var(--nm-text-faint)">&amp;</span>A WebArt
         </div>
-        <span class="text-slate-600 font-space-grotesk text-[10px] tracking-widest uppercase mt-1">© 2026 A&amp;A WebArt</span>
+        <div class="nm-footer-copy" style="margin-top:4px" id="footer-built">Mit WordPress &amp; Leidenschaft gebaut</div>
       </div>
-      <div class="flex items-center gap-8 text-slate-500 font-space-grotesk text-[10px] tracking-widest uppercase">
-        <a href="#services" class="hover:text-cyan-400 transition-colors">Leistungen</a>
-        <a href="#portfolio" class="hover:text-cyan-400 transition-colors">Portfolio</a>
-        <a href="#contact" class="hover:text-cyan-400 transition-colors">Kontakt</a>
+      <div class="nm-footer-links">
+        <a href="#services"  class="nm-footer-link">Leistungen</a>
+        <a href="#portfolio" class="nm-footer-link">Portfolio</a>
+        <a href="#contact"   class="nm-footer-link">Kontakt</a>
       </div>
-      <div class="flex items-center gap-5">
-        <a href="#" aria-label="GitHub"
-           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-          </svg>
-          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">GitHub</span>
-        </a>
-        <a href="#" aria-label="LinkedIn"
-           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">LinkedIn</span>
-        </a>
-        <a href="#" aria-label="Xing"
-           class="group flex flex-col items-center gap-1 text-slate-600 hover:text-cyan-400 transition-all duration-300">
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.097.471-.264.089-.173.089-.384-.009-.573l-4.917-8.99c-.001 0 7.717-13.703 7.717-13.703.091-.189.091-.398 0-.571C21.988.097 21.823 0 21.612 0h-3.424zM3.648 4.74c-.211 0-.385.097-.473.263-.089.176-.084.39.009.568l2.621 3.576-3.689 6.512c-.091.186-.091.396 0 .569.09.173.264.265.474.265h3.427c.518 0 .741-.314.927-.66l3.002-5.295-2.52-3.576z"/>
-          </svg>
-          <span class="text-[9px] tracking-widest uppercase font-space-grotesk opacity-0 group-hover:opacity-100 transition-opacity">Xing</span>
-        </a>
-      </div>
-      <div class="text-slate-500 font-space-grotesk text-[10px] tracking-[0.3em] uppercase">
-        <span id="footer-built">Mit WordPress &amp; Leidenschaft gebaut</span>
-      </div>
+      <div class="nm-footer-copy">© 2026 A&amp;A WebArt</div>
     </div>
   </footer>
 
-  <!-- FAB (mobile only) -->
-  <a href="#contact" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-primary-container text-on-primary-fixed shadow-[0_0_30px_rgba(0,227,253,0.5)] flex items-center justify-center hover:scale-110 active:scale-90 transition-transform z-40 lg:hidden" aria-label="Kontakt">
-    <span class="material-symbols-outlined text-3xl">chat_bubble</span>
+  <!-- Mobile FAB -->
+  <a href="#contact" class="nm-fab" aria-label="Kontakt aufnehmen">
+    <span class="material-symbols-outlined" style="font-size:1.4rem">chat_bubble</span>
   </a>
 
   <!-- ============================================================ -->
   <!-- SCRIPTS -->
   <!-- ============================================================ -->
   <script>
-    /* ---- Language switcher ---- */
+    /* ──────────────────────────────────────────────
+       Responsive Nav-Elemente einblenden
+    ────────────────────────────────────────────── */
+    function initNavVisibility() {
+      const isMd = window.innerWidth >= 768;
+      const isLg = window.innerWidth >= 1024;
+      document.getElementById('desktop-nav').style.display = isMd ? 'flex' : 'none';
+      const ls = document.getElementById('lang-switcher-desktop');
+      if (ls) ls.style.display = isLg ? 'flex' : 'none';
+      const hb = document.getElementById('menu-btn');
+      if (hb) hb.style.display = isMd ? 'none' : 'flex';
+      const cta = document.getElementById('nav-cta');
+      if (cta) cta.style.display = isLg ? 'inline-flex' : 'none';
+    }
+    initNavVisibility();
+    window.addEventListener('resize', initNavVisibility, { passive: true });
+
+    /* ──────────────────────────────────────────────
+       Mobile Menu
+    ────────────────────────────────────────────── */
+    const menuBtn    = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeBtn   = document.getElementById('close-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    closeBtn.addEventListener('click', closeMobileMenu);
+    document.querySelectorAll('[data-mobile-nav]').forEach(l => l.addEventListener('click', closeMobileMenu));
+
+    /* ──────────────────────────────────────────────
+       Theme Toggle (Dark / Light Neumorphismus)
+    ────────────────────────────────────────────── */
+    const html       = document.documentElement;
+    const themeBtn   = document.getElementById('theme-toggle');
+    const themeIcon  = document.getElementById('theme-icon');
+
+    function applyTheme(isDark) {
+      html.classList.toggle('dark', isDark);
+      themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      localStorage.setItem('nm-theme', isDark ? 'dark' : 'light');
+    }
+    // Standard: Hell-Modus (Neumorphismus wirkt hier am besten)
+    const saved = localStorage.getItem('nm-theme');
+    applyTheme(saved === 'dark');
+
+    themeBtn.addEventListener('click', () => applyTheme(!html.classList.contains('dark')));
+
+    /* ──────────────────────────────────────────────
+       Übersetzungen (DE / EN / ES)
+    ────────────────────────────────────────────── */
     const translations = {
       de: {
-        navServices: "Leistungen", navPortfolio: "Portfolio", navContact: "Kontakt",
         hireMe: "Anfrage stellen",
         heroSub: "Fullstack Developer & WordPress-Experte",
         heroCopy: "Wir bauen schnelle, moderne Websites und Online-Shops – maßgeschneidert für dein Unternehmen. Von der Idee bis zum Launch, inklusive Support & Wartung.",
         heroProjects: "Leistungen ansehen", heroTalk: "Projekt anfragen",
         statsYears: "Jahre Erfahrung", statsProjects: "Websites gebaut", statsAwards: "Zufriedene Kunden", statsCoffee: "Support verfügbar",
-        servicesLabel: "Was ich anbiete", servicesTitle: "Meine Leistungen",
+        servicesLabel: "Was wir anbieten", servicesTitle: "Unsere Leistungen",
         servicesCopy: "Von der ersten Idee bis zum fertigen Produkt – wir begleiten dich durch den gesamten Prozess und sorgen dafür, dass deine Website genau das tut, was du brauchst.",
         s1Title: "Website Erstellen", s1Copy: "Professionelle Unternehmenswebsites, Landing Pages und Web-Apps – responsive, SEO-optimiert und blitzschnell.",
-        s1F1: "Individuelles Design", s1F2: "SEO & Performance", s1F3: "Mobile First", s1F4: "SSL & Hosting-Setup",
-        s1Cta: "Angebot anfragen",
+        s1F1:"Individuelles Design",s1F2:"SEO & Performance",s1F3:"Mobile First",s1F4:"SSL & Hosting-Setup",s1Cta:"Angebot anfragen",
         s2Title: "WordPress & WooCommerce", s2Copy: "Maßgeschneiderte WordPress-Themes, Plugin-Entwicklung und vollständige WooCommerce-Shops.",
-        s2F1: "Custom Theme-Entwicklung", s2F2: "WooCommerce-Shops", s2F3: "Plugin-Entwicklung", s2F4: "Zahlungsintegration",
-        s2Cta: "Angebot anfragen", popularBadge: "Beliebt",
+        s2F1:"Custom Theme-Entwicklung",s2F2:"WooCommerce-Shops",s2F3:"Plugin-Entwicklung",s2F4:"Zahlungsintegration",s2Cta:"Angebot anfragen",popularBadge:"Beliebt",
         s3Title: "Support & Wartung", s3Copy: "Monatliche Wartungspakete: Updates, Backups, Sicherheits-Scans und direkter Ansprechpartner.",
-        s3F1: "Regelmäßige Updates", s3F2: "Tägliche Backups", s3F3: "Sicherheits-Monitoring", s3F4: "Priority-Support",
-        s3Cta: "Paket anfragen",
-        skillsLabel: "Tech-Stack", skillsTitle: "Kernkompetenzen",
-        portfolioLabel: "Referenzen", portfolioTitle: "Ausgewählte Projekte", portfolioAll: "Projekt besprechen",
-        timelineLabel: "Werdegang", timelineTitle: "Erfahrung & Ausbildung",
-        langLabel: "Kommunikation", langTitle: "Sprachkenntnisse",
-        contactLabel: "Projekt starten", contactTitlePre: "Lass uns ", contactTitleKey: "zusammenarbeiten",
-        contactCopy: "Du hast ein Projekt im Kopf oder brauchst Unterstützung für deine bestehende Website? Schreib uns – wir antworten innerhalb von 24 Stunden mit einem konkreten Angebot.",
-        contactName: "Max Mustermann", contactEmail: "max@example.de", contactMsg: "Beschreib dein Projekt kurz...", contactSend: "Anfrage senden",
-        formOk: "Danke! Wir melden uns innerhalb von 24 Stunden.",
-        footerBuilt: "Mit WordPress &amp; Leidenschaft gebaut",
+        s3F1:"Regelmäßige Updates",s3F2:"Tägliche Backups",s3F3:"Sicherheits-Monitoring",s3F4:"Priority-Support",s3Cta:"Paket anfragen",
+        portfolioLabel:"Referenzen",portfolioTitle:"Ausgewählte Projekte",portfolioAll:"Projekt besprechen",
+        contactLabel:"Projekt starten",contactTitlePre:"Lass uns ",contactTitleKey:"zusammenarbeiten",
+        contactCopy:"Du hast ein Projekt im Kopf oder brauchst Unterstützung für deine bestehende Website? Schreib uns – wir antworten innerhalb von 24 Stunden mit einem konkreten Angebot.",
+        contactName:"Max Mustermann",contactEmail:"max@example.de",contactMsg:"Beschreib dein Projekt kurz…",contactSend:"Anfrage senden",
+        formOk:"Danke! Wir melden uns innerhalb von 24 Stunden.",
+        footerBuilt:"Mit WordPress & Leidenschaft gebaut",
       },
       en: {
-        navServices: "Services", navPortfolio: "Portfolio", navContact: "Contact",
         hireMe: "Get a Quote",
         heroSub: "Fullstack Developer & WordPress Expert",
         heroCopy: "We build fast, modern websites and online shops – tailored to your business. From idea to launch, including support & maintenance.",
         heroProjects: "View Services", heroTalk: "Start a Project",
-        statsYears: "Years Experience", statsProjects: "Websites Built", statsAwards: "Happy Clients", statsCoffee: "Support Available",
-        servicesLabel: "What I offer", servicesTitle: "My Services",
-        servicesCopy: "From the first idea to the finished product – we guide you through the entire process and make sure your website does exactly what you need.",
-        s1Title: "Website Development", s1Copy: "Professional business websites, landing pages and web apps – responsive, SEO-optimized and lightning-fast.",
-        s1F1: "Custom Design", s1F2: "SEO & Performance", s1F3: "Mobile First", s1F4: "SSL & Hosting Setup",
-        s1Cta: "Request a Quote",
-        s2Title: "WordPress & WooCommerce", s2Copy: "Custom WordPress themes, plugin development and complete WooCommerce shops. Easy to manage – even without technical knowledge.",
-        s2F1: "Custom Theme Development", s2F2: "WooCommerce Shops", s2F3: "Plugin Development", s2F4: "Payment Integration",
-        s2Cta: "Request a Quote", popularBadge: "Popular",
-        s3Title: "Support & Maintenance", s3Copy: "Monthly maintenance packages: updates, backups, security scans and a direct point of contact. Your website runs – always.",
-        s3F1: "Regular Updates", s3F2: "Daily Backups", s3F3: "Security Monitoring", s3F4: "Priority Support",
-        s3Cta: "Get a Package",
-        skillsLabel: "Tech Stack", skillsTitle: "Core Expertise",
-        portfolioLabel: "References", portfolioTitle: "Selected Projects", portfolioAll: "Discuss a Project",
-        timelineLabel: "Career", timelineTitle: "Experience & Education",
-        langLabel: "Communication", langTitle: "Languages",
-        contactLabel: "Start a Project", contactTitlePre: "Let's ", contactTitleKey: "work together",
-        contactCopy: "Got a project in mind or need support for your existing website? Write to us – we'll reply within 24 hours with a concrete proposal.",
-        contactName: "John Doe", contactEmail: "john@example.com", contactMsg: "Briefly describe your project...", contactSend: "Send Request",
-        formOk: "Thanks! We'll get back to you within 24 hours.",
-        footerBuilt: "Built with WordPress & Passion",
+        statsYears:"Years Experience",statsProjects:"Websites Built",statsAwards:"Happy Clients",statsCoffee:"Support Available",
+        servicesLabel:"What we offer",servicesTitle:"Our Services",
+        servicesCopy:"From the first idea to the finished product – we guide you through the entire process and make sure your website does exactly what you need.",
+        s1Title:"Website Development",s1Copy:"Professional business websites, landing pages and web apps – responsive, SEO-optimized and lightning-fast.",
+        s1F1:"Custom Design",s1F2:"SEO & Performance",s1F3:"Mobile First",s1F4:"SSL & Hosting Setup",s1Cta:"Request a Quote",
+        s2Title:"WordPress & WooCommerce",s2Copy:"Custom WordPress themes, plugin development and complete WooCommerce shops. Easy to manage.",
+        s2F1:"Custom Theme Development",s2F2:"WooCommerce Shops",s2F3:"Plugin Development",s2F4:"Payment Integration",s2Cta:"Request a Quote",popularBadge:"Popular",
+        s3Title:"Support & Maintenance",s3Copy:"Monthly maintenance packages: updates, backups, security scans and a direct point of contact.",
+        s3F1:"Regular Updates",s3F2:"Daily Backups",s3F3:"Security Monitoring",s3F4:"Priority Support",s3Cta:"Get a Package",
+        portfolioLabel:"References",portfolioTitle:"Selected Projects",portfolioAll:"Discuss a Project",
+        contactLabel:"Start a Project",contactTitlePre:"Let's ",contactTitleKey:"work together",
+        contactCopy:"Got a project in mind or need support for your existing website? Write to us – we'll reply within 24 hours with a concrete proposal.",
+        contactName:"John Doe",contactEmail:"john@example.com",contactMsg:"Briefly describe your project…",contactSend:"Send Request",
+        formOk:"Thanks! We'll get back to you within 24 hours.",
+        footerBuilt:"Built with WordPress & Passion",
       },
       es: {
-        navServices: "Servicios", navPortfolio: "Portafolio", navContact: "Contacto",
         hireMe: "Solicitar Presupuesto",
         heroSub: "Desarrollador Fullstack & Experto en WordPress",
         heroCopy: "Creamos sitios web modernos y tiendas online – a medida para tu empresa. Desde la idea hasta el lanzamiento, con soporte y mantenimiento incluido.",
-        heroProjects: "Ver Servicios", heroTalk: "Iniciar Proyecto",
-        statsYears: "Años de Experiencia", statsProjects: "Sitios Web Creados", statsAwards: "Clientes Satisfechos", statsCoffee: "Soporte Disponible",
-        servicesLabel: "Lo que ofrezco", servicesTitle: "Mis Servicios",
-        servicesCopy: "Desde la primera idea hasta el producto terminado – te acompañamos en todo el proceso y nos aseguramos de que tu sitio web haga exactamente lo que necesitas.",
-        s1Title: "Creación de Sitios Web", s1Copy: "Sitios web corporativos profesionales, landing pages y aplicaciones web – responsive, optimizadas para SEO y ultrarrápidas.",
-        s1F1: "Diseño Personalizado", s1F2: "SEO & Rendimiento", s1F3: "Mobile First", s1F4: "SSL & Configuración de Hosting",
-        s1Cta: "Solicitar Presupuesto",
-        s2Title: "WordPress & WooCommerce", s2Copy: "Temas WordPress a medida, desarrollo de plugins y tiendas WooCommerce completas. Fácil de gestionar.",
-        s2F1: "Desarrollo de Temas", s2F2: "Tiendas WooCommerce", s2F3: "Desarrollo de Plugins", s2F4: "Integración de Pagos",
-        s2Cta: "Solicitar Presupuesto", popularBadge: "Popular",
-        s3Title: "Soporte & Mantenimiento", s3Copy: "Paquetes mensuales de mantenimiento: actualizaciones, copias de seguridad, análisis de seguridad y contacto directo.",
-        s3F1: "Actualizaciones Regulares", s3F2: "Copias de Seguridad", s3F3: "Monitoreo de Seguridad", s3F4: "Soporte Prioritario",
-        s3Cta: "Contratar Paquete",
-        skillsLabel: "Stack Tecnológico", skillsTitle: "Competencias Principales",
-        portfolioLabel: "Referencias", portfolioTitle: "Proyectos Seleccionados", portfolioAll: "Hablar de un Proyecto",
-        timelineLabel: "Trayectoria", timelineTitle: "Experiencia y Formación",
-        langLabel: "Comunicación", langTitle: "Idiomas",
-        contactLabel: "Iniciar Proyecto", contactTitlePre: "Trabajemos ", contactTitleKey: "juntos",
-        contactCopy: "¿Tienes un proyecto en mente o necesitas apoyo para tu sitio web? Escríbenos – te respondemos en 24 horas con una propuesta concreta.",
-        contactName: "Juan García", contactEmail: "juan@ejemplo.es", contactMsg: "Describe brevemente tu proyecto...", contactSend: "Enviar Solicitud",
-        formOk: "¡Gracias! Nos pondremos en contacto contigo en menos de 24 horas.",
-        footerBuilt: "Construido con WordPress y Pasión",
+        heroProjects:"Ver Servicios",heroTalk:"Iniciar Proyecto",
+        statsYears:"Años de Experiencia",statsProjects:"Sitios Web Creados",statsAwards:"Clientes Satisfechos",statsCoffee:"Soporte Disponible",
+        servicesLabel:"Lo que ofrecemos",servicesTitle:"Nuestros Servicios",
+        servicesCopy:"Desde la primera idea hasta el producto terminado – te acompañamos en todo el proceso y nos aseguramos de que tu sitio web haga exactamente lo que necesitas.",
+        s1Title:"Creación de Sitios Web",s1Copy:"Sitios web corporativos profesionales, landing pages y aplicaciones web – responsive, optimizadas para SEO y ultrarrápidas.",
+        s1F1:"Diseño Personalizado",s1F2:"SEO & Rendimiento",s1F3:"Mobile First",s1F4:"SSL & Configuración de Hosting",s1Cta:"Solicitar Presupuesto",
+        s2Title:"WordPress & WooCommerce",s2Copy:"Temas WordPress a medida, desarrollo de plugins y tiendas WooCommerce completas.",
+        s2F1:"Desarrollo de Temas",s2F2:"Tiendas WooCommerce",s2F3:"Desarrollo de Plugins",s2F4:"Integración de Pagos",s2Cta:"Solicitar Presupuesto",popularBadge:"Popular",
+        s3Title:"Soporte & Mantenimiento",s3Copy:"Paquetes mensuales: actualizaciones, copias de seguridad, análisis de seguridad y contacto directo.",
+        s3F1:"Actualizaciones Regulares",s3F2:"Copias de Seguridad",s3F3:"Monitoreo de Seguridad",s3F4:"Soporte Prioritario",s3Cta:"Contratar Paquete",
+        portfolioLabel:"Referencias",portfolioTitle:"Proyectos Seleccionados",portfolioAll:"Hablar de un Proyecto",
+        contactLabel:"Iniciar Proyecto",contactTitlePre:"Trabajemos ",contactTitleKey:"juntos",
+        contactCopy:"¿Tienes un proyecto en mente o necesitas apoyo para tu sitio web? Escríbenos – te respondemos en 24 horas con una propuesta concreta.",
+        contactName:"Juan García",contactEmail:"juan@ejemplo.es",contactMsg:"Describe brevemente tu proyecto…",contactSend:"Enviar Solicitud",
+        formOk:"¡Gracias! Nos pondremos en contacto en menos de 24 horas.",
+        footerBuilt:"Construido con WordPress y Pasión",
       }
     };
 
     let currentLang = 'de';
 
+    function s(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+
     function applyLang(lang) {
-      const t = translations[lang];
-      document.documentElement.lang = lang;
+      const t = translations[lang]; if (!t) return;
       currentLang = lang;
+      document.documentElement.lang = lang;
 
-      // Nav links
-      const navLinkEls = document.querySelectorAll('.nav-link');
-      const keys = ['navServices','navPortfolio','navContact'];
-      navLinkEls.forEach((el, i) => { if (keys[i]) el.textContent = t[keys[i]]; });
+      document.querySelectorAll('[data-i18n="hireMe"]').forEach(el => el.textContent = t.hireMe);
+      s('hero-sub', t.heroSub); s('hero-copy', t.heroCopy);
+      s('hero-projects', t.heroProjects); s('hero-talk', t.heroTalk);
+      s('stat-years', t.statsYears); s('stat-projects', t.statsProjects);
+      s('stat-awards', t.statsAwards); s('stat-coffee', t.statsCoffee);
+      s('services-label', t.servicesLabel); s('services-title', t.servicesTitle); s('services-copy', t.servicesCopy);
+      s('s1-title',t.s1Title);s('s1-copy',t.s1Copy);s('s1-f1',t.s1F1);s('s1-f2',t.s1F2);s('s1-f3',t.s1F3);s('s1-f4',t.s1F4);s('s1-cta',t.s1Cta);
+      s('s2-title',t.s2Title);s('s2-copy',t.s2Copy);s('s2-f1',t.s2F1);s('s2-f2',t.s2F2);s('s2-f3',t.s2F3);s('s2-f4',t.s2F4);s('s2-cta',t.s2Cta);s('popular-badge',t.popularBadge);
+      s('s3-title',t.s3Title);s('s3-copy',t.s3Copy);s('s3-f1',t.s3F1);s('s3-f2',t.s3F2);s('s3-f3',t.s3F3);s('s3-f4',t.s3F4);s('s3-cta',t.s3Cta);
+      s('portfolio-label',t.portfolioLabel);s('portfolio-title',t.portfolioTitle);s('portfolio-all',t.portfolioAll);
+      s('contact-label',t.contactLabel);s('contact-title-pre',t.contactTitlePre);s('contact-title-key',t.contactTitleKey);
+      s('contact-copy',t.contactCopy);s('contact-send',t.contactSend);s('form-ok-text',t.formOk);s('footer-built',t.footerBuilt);
 
-      // Mobile nav
-      const mobileNavEls = document.querySelectorAll('.mobile-nav');
-      mobileNavEls.forEach((el, i) => { if (keys[i]) el.textContent = t[keys[i]]; });
+      const fn = document.getElementById('f-name');    if (fn) fn.placeholder = t.contactName;
+      const fe = document.getElementById('f-email');   if (fe) fe.placeholder = t.contactEmail;
+      const fm = document.getElementById('f-message'); if (fm) fm.placeholder = t.contactMsg;
 
-      // Hire Me button
-      const hireBtns = document.querySelectorAll('[data-i18n="hireMe"]');
-      hireBtns.forEach(el => el.textContent = t.hireMe);
-
-      // Hero
-      setI18n('hero-sub',     t.heroSub);
-      setI18n('hero-copy',    t.heroCopy);
-      setI18n('hero-projects',t.heroProjects);
-      setI18n('hero-talk',    t.heroTalk);
-
-      // Stats
-      setI18n('stat-years',   t.statsYears);
-      setI18n('stat-projects',t.statsProjects);
-      setI18n('stat-awards',  t.statsAwards);
-      setI18n('stat-coffee',  t.statsCoffee);
-
-      // Services
-      setI18n('services-label', t.servicesLabel);
-      setI18n('services-title', t.servicesTitle);
-      setI18n('services-copy',  t.servicesCopy);
-      setI18n('s1-title', t.s1Title); setI18n('s1-copy', t.s1Copy);
-      setI18n('s1-f1', t.s1F1); setI18n('s1-f2', t.s1F2); setI18n('s1-f3', t.s1F3); setI18n('s1-f4', t.s1F4);
-      setI18n('s1-cta', t.s1Cta);
-      setI18n('s2-title', t.s2Title); setI18n('s2-copy', t.s2Copy);
-      setI18n('s2-f1', t.s2F1); setI18n('s2-f2', t.s2F2); setI18n('s2-f3', t.s2F3); setI18n('s2-f4', t.s2F4);
-      setI18n('s2-cta', t.s2Cta); setI18n('popular-badge', t.popularBadge);
-      setI18n('s3-title', t.s3Title); setI18n('s3-copy', t.s3Copy);
-      setI18n('s3-f1', t.s3F1); setI18n('s3-f2', t.s3F2); setI18n('s3-f3', t.s3F3); setI18n('s3-f4', t.s3F4);
-      setI18n('s3-cta', t.s3Cta);
-
-      // Skills
-
-      // Portfolio
-      setI18n('portfolio-label', t.portfolioLabel);
-      setI18n('portfolio-title', t.portfolioTitle);
-      setI18n('portfolio-all',   t.portfolioAll);
-
-
-
-      // Contact
-      setI18n('contact-label',     t.contactLabel);
-      setI18n('contact-title-pre', t.contactTitlePre);
-      setI18n('contact-title-key', t.contactTitleKey);
-      setI18n('contact-copy',      t.contactCopy);
-      setI18n('contact-send',  t.contactSend);
-      setI18n('form-ok-text',  t.formOk);
-
-      // Placeholders
-      const fName = document.getElementById('f-name');
-      const fEmail = document.getElementById('f-email');
-      const fMsg  = document.getElementById('f-message');
-      if (fName)  fName.placeholder  = t.contactName;
-      if (fEmail) fEmail.placeholder = t.contactEmail;
-      if (fMsg)   fMsg.placeholder   = t.contactMsg;
-
-      // Footer
-      setI18n('footer-built', t.footerBuilt);
-
-      // Update button styles
       document.querySelectorAll('.lang-btn').forEach(btn => {
-        const isActive = btn.dataset.lang === lang;
-        btn.classList.toggle('text-primary', isActive);
-        btn.classList.toggle('text-slate-400', !isActive);
-        btn.classList.toggle('hover:text-white', !isActive);
+        const active = btn.dataset.lang === lang;
+        btn.classList.toggle('active', active);
       });
     }
 
-    function setI18n(id, text) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = text;
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
-    });
-
-    // Apply default language on load
+    document.querySelectorAll('.lang-btn').forEach(btn =>
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang))
+    );
     applyLang('de');
 
-    /* ---- Navbar scroll shrink ---- */
+    /* ──────────────────────────────────────────────
+       Navbar aktiver Link + Scroll-Shadow
+    ────────────────────────────────────────────── */
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        navbar.classList.add('py-2', 'shadow-lg');
-        navbar.classList.remove('border-b');
-        navbar.style.borderBottom = '1px solid rgba(129,236,255,0.08)';
-      } else {
-        navbar.classList.remove('py-2', 'shadow-lg');
-        navbar.classList.add('border-b');
-        navbar.style.borderBottom = '';
-      }
-    }, { passive: true });
+    const sections = document.querySelectorAll('section[id], div[id="stats"]');
+    const navLinks  = document.querySelectorAll('.nm-nav-link');
 
-    /* ---- Dark / Light mode toggle ---- */
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon   = document.getElementById('theme-icon');
-    const htmlEl      = document.documentElement;
-
-    function applyTheme(isDark) {
-      if (isDark) {
-        htmlEl.classList.add('dark');
-        themeIcon.textContent = 'light_mode';
-        themeToggle.setAttribute('aria-label', 'Zum Hellmodus wechseln');
-      } else {
-        htmlEl.classList.remove('dark');
-        themeIcon.textContent = 'dark_mode';
-        themeToggle.setAttribute('aria-label', 'Zum Dunkelmodus wechseln');
-      }
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-
-    // Init: respect saved preference, default = dark
-    const savedTheme = localStorage.getItem('theme');
-    applyTheme(savedTheme !== 'light');
-
-    themeToggle.addEventListener('click', () => {
-      applyTheme(!htmlEl.classList.contains('dark'));
-    });
-
-    /* ---- Mobile menu ---- */
-    const menuBtn    = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const closeBtn   = document.getElementById('close-menu');
-    const mobileLinks = document.querySelectorAll('.mobile-nav');
-
-    menuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
-    closeBtn.addEventListener('click', closeMobileMenu);
-    mobileLinks.forEach(l => l.addEventListener('click', closeMobileMenu));
-    function closeMobileMenu() { mobileMenu.classList.add('hidden'); }
-
-    /* ---- Scroll reveal ---- */
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => observer.observe(el));
-
-    /* ---- Active nav highlight ---- */
-    const sections  = document.querySelectorAll('section[id]');
-    const navLinks  = document.querySelectorAll('.nav-link');
-    const navObserver = new IntersectionObserver((entries) => {
+    const navObserver = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          navLinks.forEach(l => {
-            l.classList.toggle('text-primary', l.getAttribute('href') === '#' + e.target.id);
-            l.classList.toggle('text-slate-400', l.getAttribute('href') !== '#' + e.target.id);
-          });
+          navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
         }
       });
     }, { rootMargin: '-40% 0px -55% 0px' });
     sections.forEach(s => navObserver.observe(s));
 
-    /* ---- Portfolio prev/next ---- */
-    document.getElementById('prev-btn').addEventListener('click', () => {
-      document.getElementById('projects-grid').scrollBy({ left: -320, behavior: 'smooth' });
-    });
-    document.getElementById('next-btn').addEventListener('click', () => {
-      document.getElementById('projects-grid').scrollBy({ left: 320, behavior: 'smooth' });
-    });
+    /* ──────────────────────────────────────────────
+       Scroll Reveal
+    ────────────────────────────────────────────── */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.10, rootMargin: '0px 0px -36px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-    /* ---- Contact form feedback ---- */
+    /* ──────────────────────────────────────────────
+       Kontaktformular
+    ────────────────────────────────────────────── */
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      const success = document.getElementById('form-success');
-      success.classList.remove('hidden');
+      const ok = document.getElementById('form-success');
+      ok.classList.add('show');
       this.reset();
-      setTimeout(() => success.classList.add('hidden'), 5000);
+      setTimeout(() => ok.classList.remove('show'), 5000);
     });
   </script>
 </body>
